@@ -1,6 +1,7 @@
 #ifndef _LISTA_H
 #define _LISTA_H
 
+#include "dataTypes.h"
 #include <stdbool.h>
 
 /**
@@ -17,12 +18,11 @@ Este modulo prove diversos iteradores: 1 deles genérico e 3 comuns a linguagens
 de programacao funcionais (high-order functions).
 */
 
-typedef void *Lista;
-typedef void *Posic;
-typedef void *Item;
+typedef void * Lista;
+typedef void * Posic;
 
-typedef void *Iterador;
-typedef void *Clausura;
+typedef void * Iterador;
+typedef void * Clausura;
 
 #define NIL NULL;
 #define CAPAC_ILIMITADA -1

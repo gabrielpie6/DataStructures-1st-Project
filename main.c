@@ -14,6 +14,7 @@
 #define SIMPLE_PARAMETER_SIZE 100
 #define MEDIUM_PARAMETER_SIZE 250
 
+
 void WriteInSvg (char * svgFileName, Lista L, Style style);
 
 /*

@@ -67,7 +67,7 @@ Item popFila(Fila fila)
 }
 
 // Verificar se a fila está vazia
-int isFilaEmpty(Fila fila)
+bool isFilaEmpty(Fila fila)
 {
     struct FilaType *p = (struct FilaType *) fila;
 
@@ -78,7 +78,7 @@ int isFilaEmpty(Fila fila)
 }
 
 // Verificar se a fila está cheia
-int isFilaFull(Fila fila)
+bool isFilaFull(Fila fila)
 {
     struct FilaType *p = (struct FilaType *) fila;
 
@@ -126,18 +126,4 @@ int getFilaLength (Fila fila)
 {
     struct FilaType *p = (struct FilaType *) fila;
     return p->tamanho;
-}
-
-void main()
-{
-    Fila fila = createFila(5);
-    int i;
-    for (i = 0; i < 5; i++)
-    {
-        insertFila(fila, (Item) i);
-    }
-    for (i = 0; i < 5; i++)
-    {
-        //printf("item[%d] = %d\n", i, (int) popFila(fila));
-    }
 }
