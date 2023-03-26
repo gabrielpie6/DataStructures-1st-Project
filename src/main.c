@@ -2,7 +2,6 @@
 #include "drawSvg.h"
 #include "cmdsFiles.h"
 #include "lista.h"
-#include "fila.h"
 #include "entity.h"
 
 #include <stdio.h>
@@ -190,7 +189,7 @@ void main()
             }
             else
             {
-                printf("ERRO: comando '%s' não reconhecido em '%s'\n", parameter, geoFileName);
+                printf("ERRO: comando '%s' nao reconhecido em '%s'\n", parameter, geoFileName);
                 fechaArquivoCmd(GeoFile);
                 return;
             }
@@ -305,7 +304,7 @@ void main()
 
             } else
             {
-                printf("ERRO: comando '%s' não reconhecido em '%s'\n", parameter, qryFileName);
+                printf("ERRO: comando '%s' nao reconhecido em '%s'\n", parameter, qryFileName);
                 fechaArquivoCmd(QryFile);
                 return;
             }
