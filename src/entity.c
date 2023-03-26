@@ -278,11 +278,11 @@ bool isEntinPicture(Entity balloon, Entity ent)
     r = getEntRadius (balloon);
     d = getEntDepth  (balloon);
     h = getEntHeight (balloon);
-    switch (getGeoAnchor(eGeo))
+    switch (getGeoAnchor(ballonGeo))
     {
         case 'i':
         {
-            middleAnchor[0] = getGeoCords(ballonGeo)[0] + r;
+            middleAnchor[0] = getGeoCords(ballonGeo)[0]; // é preciso de uma constante para ajusat o centro do balão
             middleAnchor[1] = getGeoCords(ballonGeo)[1];
             break;
         }
@@ -294,7 +294,7 @@ bool isEntinPicture(Entity balloon, Entity ent)
         }
         case 'f':
         {
-            middleAnchor[0] = getGeoCords(ballonGeo)[0] - r;
+            middleAnchor[0] = getGeoCords(ballonGeo)[0]; // é preciso de uma constante para ajusat o centro do balão
             middleAnchor[1] = getGeoCords(ballonGeo)[1];
             break;
         }
@@ -319,15 +319,25 @@ bool isEntinPicture(Entity balloon, Entity ent)
             return isRectangleInsideRectangle(
                 getGeoCords(eGeo)[0], getGeoCords(eGeo)[1], 
                 getGeoCords(eGeo)[0] + getGeoWidth(eGeo), getGeoCords(eGeo)[1] + getGeoHeight(eGeo),
-                xi, yi, xf, yf);
+                xi, yi, xf, yf); // Coordenadas do retângulo da foto
             break;
         }
         case 'l':
         {
+            return isLineInsideRectangle(
+                getGeoAnchor_1(eGeo)[0], getGeoAnchor_1(eGeo)[1],
+                getGeoAnchor_2(eGeo)[0], getGeoAnchor_2(eGeo)[1],
+                xi, yi, xf, yf); // Coordenadas do retângulo da foto
             break;
         }
+        case 'b':
+        case 'd':
         case 't':
-        {
+        {   
+            if (getGeoCords(eGeo)[0] >= xi && getGeoCords(eGeo)[0] <= xf && getGeoCords(eGeo)[1] >= yi && getGeoCords(eGeo)[1] <= yf)
+                return true;
+            else
+                return false;
             break;
         }
     }

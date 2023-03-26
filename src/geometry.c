@@ -153,8 +153,9 @@ Geometry createLine (int id, double x1, double y1, double x2, double y2, char * 
 {
     object * obj = malloc(sizeof(object));
     //obj->id = id;
-    obj->cords[0] = x1;
-    obj->cords[1] = y1;
+    // Cords armazena o ponto médio da linha
+    obj->cords[0] = (x1 + x2)/(2.0);
+    obj->cords[1] = (y1 + y2)/(2.0);
     obj->angle = 0;
     
     obj->colors[1] = NULL;
@@ -164,6 +165,7 @@ Geometry createLine (int id, double x1, double y1, double x2, double y2, char * 
     obj->class = 'l';
     obj->attributes.line = malloc(sizeof(struct Line));
 
+    // anchor_1 e anchor_2 armazenam os pontos de ancoragem da linha
     struct Line * linha = (struct Line *) obj->attributes.line;
     linha->anchor_1[0] = x1;
     linha->anchor_1[1] = y1;

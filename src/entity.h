@@ -39,4 +39,5 @@ Picture   popEntPicture         (Entity ent, int index);
 void      incrementEntShots     (Entity ent);
 void      addEntTargetID        (Entity ent, int targetID);
 int       popEntTargetID        (Entity ent);
+bool      isEntinPicture        (Entity balloon, Entity ent);
 #endif
