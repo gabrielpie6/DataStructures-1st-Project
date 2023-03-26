@@ -14,6 +14,7 @@ Entity    createWarplane        (Geometry geo, int id);
 
 // PROCESSING FUNCTIONS
 void      removeEntity          (Entity ent);
+Entity    searchEntbyIDinLst    (Lista L, int id);
 Geometry  searchGeobyIDinLst    (Lista L, int id);
 
 // GENERAL FUNCTIONS
@@ -30,8 +31,8 @@ double    getEntHeight          (Entity ent);
 void      setEntRadius          (Entity ent, double radius);
 double    getEntRadius          (Entity ent);
 // Balloon's pictures
-void      addEntPicture         (Entity ent, Picture pic);
-Picture   popEntPicture         (Entity ent);
+void      addEntPicture         (Entity ent, Picture pic, int index);
+Picture   popEntPicture         (Entity ent, int index);
 
 // WARPLANE FUNCTIONS
 // Warplane's actions

@@ -59,4 +59,9 @@ int getFilaFim(Fila fila);
 */
 int getFilaLength(Fila fila);
 
+/*
+
+*/
+void removeFila(Fila fila);
+
 #endif

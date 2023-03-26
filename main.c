@@ -31,35 +31,43 @@ void WriteInSvg (char * svgFileName, Lista L, Style style);
 */
 void main()
 {
+    /////////////////////////////////////////////
+    //            VARIÁVEIS ÚTEIS              //
+    /////////////////////////////////////////////
+    //
     char buffer[DEFAULT_BUFFER_SIZE];
     char parameter[SIMPLE_PARAMETER_SIZE];
     char attributes[SIMPLE_PARAMETER_SIZE];
-
+    //
     Lista BD_Lst = createLst(-1);
+    Entity entity;
+    Geometry element;
     Geometry circle;
     Geometry rectangle;
     Geometry line;
     Geometry text;
-    Entity entity;
-    
+    Picture pic;
+    //
+    int id, index;
+    double x, x2;
+    double y, y2;
+    double radius;
+    double width;
+    double height;
+    double depth;
+    char anchor;
+    char border_color[SIMPLE_PARAMETER_SIZE];
+    char fill_color[SIMPLE_PARAMETER_SIZE];
+    char text_buffer[DEFAULT_BUFFER_SIZE];
+    //
     /* Convenção de valores-padrão e inicialização
         Como o estilo dos textos é único e aplicado a todos os textos, então pode ser armazenado como uma variável "global"
         sendo ele sempre o primeiro elemento da lista Banco de Dados (BD_Lst).
      */
     Style style = createTextStyle("serif", "normal", 16);
-    //insertLst(BD_Lst, (Item) style);
+    /////////////////////////////////////////////
 
-    // Variáveis auxiliares
-    int id;
-    double x, x2;
-    double y, y2;
-    double radius;
-    char border_color[SIMPLE_PARAMETER_SIZE];
-    char fill_color[SIMPLE_PARAMETER_SIZE];
-    double width;
-    double height;
-    char anchor;
-    char text_buffer[DEFAULT_BUFFER_SIZE];
+    
 
 
     /////////////////////////////////////////////
@@ -221,7 +229,6 @@ void main()
         return;
     } else
     {
-        Geometry element;
         while (leLinha(QryFile, buffer, DEFAULT_BUFFER_SIZE))
         {
             getParametroI(QryFile, buffer, 0, parameter, SIMPLE_PARAMETER_SIZE);
@@ -258,16 +265,28 @@ void main()
                 getParametroI(QryFile, buffer, 2, parameter, SIMPLE_PARAMETER_SIZE);
                 radius = atof(parameter);
                 getParametroI(QryFile, buffer, 3, parameter, SIMPLE_PARAMETER_SIZE);
+                depth = atof(parameter);
+                getParametroI(QryFile, buffer, 4, parameter, SIMPLE_PARAMETER_SIZE);
                 height = atof(parameter);
 
-                element = searchGeobyIDinLst(BD_Lst, id);
-                setEntRadius(element, radius);
-                setEntDepth(element, height);
-                setEntHeight(element, height);
+                entity = searchEntbyIDinLst(BD_Lst, id);
+                setEntRadius(entity, radius);
+                setEntDepth(entity, depth);
+                setEntHeight(entity, height);
             } else
             if (strcmp(parameter, "tf") == 0)
             {
-                
+                getParametroI(QryFile, buffer, 1, parameter, SIMPLE_PARAMETER_SIZE);
+                id = atoi(parameter);
+                getParametroI(QryFile, buffer, 1, parameter, SIMPLE_PARAMETER_SIZE);
+                index = atoi(parameter);
+
+
+
+
+
+                //entity = searchEntbyIDinLst(BD_Lst, id);
+                //addEntPicture(entity, pic, index);                
             } else
             if (strcmp(parameter, "df") == 0)
             {
@@ -355,3 +374,4 @@ void WriteInSvg(char * svgFilePath, Lista L, Style style)
     fold(L, writeGeoInSVG, SVG);
     fechaSvg(SVG);
 }
+

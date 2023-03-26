@@ -127,3 +127,10 @@ int getFilaLength (Fila fila)
     struct FilaType *p = (struct FilaType *) fila;
     return p->tamanho;
 }
+
+void removeFila(Fila fila)
+{
+    struct FilaType *p = (struct FilaType *) fila;
+    free(p->stack);
+    free(p);
+}

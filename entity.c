@@ -1,6 +1,11 @@
 #include "entity.h"
+#include "fila.h"
+#include "analyticGeometry.h"
 
 #include <stdlib.h>
+
+#define FILAS_AMOUNT 10
+#define PICTURES_AMOUNT 15
 
 struct Common {
     Geometry geo;
@@ -12,7 +17,7 @@ struct Balloon {
     double radius;
     double depth;
     double height;
-    Lista picsList;
+    Fila picsFila[FILAS_AMOUNT];
 };
 
 struct Warplane {
@@ -71,7 +76,8 @@ Entity createBalloon(Geometry geo, int id)
     e->attributes.balloon->radius = 0;
     e->attributes.balloon->depth = 0;
     e->attributes.balloon->height = 0;
-    e->attributes.balloon->picsList = createLst(10);
+    for (int i = 0; i < FILAS_AMOUNT; i++)
+        e->attributes.balloon->picsFila[i] = createFila(PICTURES_AMOUNT);
     return (Entity) e;
 }
 //
@@ -95,6 +101,7 @@ Entity createWarplane(Geometry geo, int id)
 void removeEntity(Entity ent)
 {
     object * e = (object *) ent;
+    int i;
     switch (e->class) 
     {
         case 'c':
@@ -106,7 +113,8 @@ void removeEntity(Entity ent)
             break;
         case 'b':
             removeGeo(e->attributes.balloon->geo);
-            killLst(e->attributes.balloon->picsList);
+            for (i = 0; i < 10; i++)
+                removeFila(e->attributes.balloon->picsFila[i]);
             free(e->attributes.balloon);
             break;
         case 'd':
@@ -118,18 +126,24 @@ void removeEntity(Entity ent)
     free(e);
 }
 //
-/*
-    Busca por uma forma geométrica armazenada como item dentro de uma lista L, dado um id válido.
-    DEVE haver alguma forma com este id buscado. A função retorna a geometria com o ID desejado.
-*/
-Geometry searchGeobyIDinLst (Lista L, int id)
+Entity searchEntbyIDinLst(Lista L, int id)
 {
     Iterador it = createIterador(L, false);
     for (setIteratorPosition(L, it, getFirstLst(L)); getEntID(getIteratorItem(L, it)) != id; getIteratorNext(L, it))
     {} // Ao sair do for, it aponta para o elemento com o id desejado.
-    Geometry element = getEntGeo((Geometry) getIteratorItem(L, it));
+    Entity element = getIteratorItem(L, it);
     killIterator(L, it);
     return element;
+}
+//
+/*
+    Busca por uma forma geométrica armazenada como Entity dentro de uma lista L, dado um id válido.
+    DEVE haver alguma forma com este id buscado. A função retorna a geometria com o ID desejado.
+*/
+Geometry searchGeobyIDinLst (Lista L, int id)
+{
+    Entity element = searchEntbyIDinLst(L, id);
+    return getEntGeo(element);
 };
 /////////////////////////////////////////////
 
@@ -207,13 +221,16 @@ double getEntRadius (Entity ent)
 //
 // Balloon's pictures
 //
-void addEntPicture (Entity ent, Picture pic)
+void addEntPicture (Entity ent, Picture pic, int index)
 {
-    //printf("funcao a implementar: addEntPicture\n");
+    object * e = (object *) ent;
+    insertFila(e->attributes.balloon->picsFila[index], (Item) pic);
 }
-Picture popEntPicture (Entity ent)
+Picture popEntPicture (Entity ent, int index)
 {
-    //printf("funcao a implementar: popEntPicture\n");
+    object * e = (object *) ent;
+    Picture pic = (Picture) popFila(e->attributes.balloon->picsFila[index]);
+    return pic;
 }
 /////////////////////////////////////////////
 
@@ -246,5 +263,73 @@ int popEntTargetID (Entity ent)
     free(id);
     removeLst(lst, getFirstLst(lst));
     return targetID;
+}
+//
+bool isEntinPicture(Entity balloon, Entity ent)
+{
+    object * bal = (object *) balloon;
+    Geometry ballonGeo = bal->attributes.balloon->geo;
+    object * e   = (object *) ent;
+    Geometry eGeo = e->attributes.common->geo;
+    double middleAnchor[2];
+    double xi, yi, xf, yf;
+    double r, d, h;
+
+    r = getEntRadius (balloon);
+    d = getEntDepth  (balloon);
+    h = getEntHeight (balloon);
+    switch (getGeoAnchor(eGeo))
+    {
+        case 'i':
+        {
+            middleAnchor[0] = getGeoCords(ballonGeo)[0] + r;
+            middleAnchor[1] = getGeoCords(ballonGeo)[1];
+            break;
+        }
+        case 'm':
+        {
+            middleAnchor[0] = getGeoCords(ballonGeo)[0];
+            middleAnchor[1] = getGeoCords(ballonGeo)[1];
+            break;
+        }
+        case 'f':
+        {
+            middleAnchor[0] = getGeoCords(ballonGeo)[0] - r;
+            middleAnchor[1] = getGeoCords(ballonGeo)[1];
+            break;
+        }
+    }
+    
+    xi = middleAnchor[0] - r;
+    yi = middleAnchor[1] + d;
+
+    xf = middleAnchor[0] + r;
+    yf = middleAnchor[1] + d + h;
+    
+    // Analisar se geometria está dentro do quadro da foto
+    switch (getEntType(ent))
+    {
+        case 'c':
+        {
+            return isCircleInsideRectangle(getGeoCords(eGeo)[0], getGeoCords(eGeo)[1], getGeoRadius(eGeo), xi, yi, xf, yf);
+            break;
+        }
+        case 'r':
+        {
+            return isRectangleInsideRectangle(
+                getGeoCords(eGeo)[0], getGeoCords(eGeo)[1], 
+                getGeoCords(eGeo)[0] + getGeoWidth(eGeo), getGeoCords(eGeo)[1] + getGeoHeight(eGeo),
+                xi, yi, xf, yf);
+            break;
+        }
+        case 'l':
+        {
+            break;
+        }
+        case 't':
+        {
+            break;
+        }
+    }
 }
 /////////////////////////////////////////////
