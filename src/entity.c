@@ -265,7 +265,7 @@ int popEntTargetID (Entity ent)
     return targetID;
 }
 //
-bool isEntinPicture(Entity balloon, Entity ent)
+bool isEntinPicture(Entity ent, Entity balloon)
 {
     object * bal = (object *) balloon;
     Geometry ballonGeo = bal->attributes.balloon->geo;

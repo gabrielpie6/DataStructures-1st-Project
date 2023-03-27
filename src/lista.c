@@ -321,3 +321,14 @@ void fold(Lista L, ApplyClosure f, Clausura c)
     for (Node * node = lst->prim; node != NULL; node = node->prox)
         f(node->info, c);
 }
+
+Lista filterClausure(Lista L, CheckClausure f, Clausura c)
+{
+    ListaImpl *lst = (ListaImpl *) L;
+    ListaImpl *newLst = (ListaImpl *) createLst(lst->capac);
+
+    for (Node * node = lst->prim; node != NULL; node = node->prox)
+        if (f(node->info, c))
+            insertLst(newLst, node->info);
+    return newLst;
+}

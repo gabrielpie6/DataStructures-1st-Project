@@ -31,6 +31,7 @@ double    getEntHeight          (Entity ent);
 void      setEntRadius          (Entity ent, double radius);
 double    getEntRadius          (Entity ent);
 // Balloon's pictures
+bool      isEntinPicture        (Entity ent, Entity balloon);
 void      addEntPicture         (Entity ent, Picture pic, int index);
 Picture   popEntPicture         (Entity ent, int index);
 
@@ -39,5 +40,4 @@ Picture   popEntPicture         (Entity ent, int index);
 void      incrementEntShots     (Entity ent);
 void      addEntTargetID        (Entity ent, int targetID);
 int       popEntTargetID        (Entity ent);
-bool      isEntinPicture        (Entity balloon, Entity ent);
 #endif

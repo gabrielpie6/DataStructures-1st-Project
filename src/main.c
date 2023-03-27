@@ -39,7 +39,8 @@ void main()
     char attributes[SIMPLE_PARAMETER_SIZE];
     //
     Lista BD_Lst = createLst(-1);
-    Entity entity;
+    Lista AuxliarLst;
+    Entity entity, balloon, warplane;
     Geometry element;
     Geometry circle;
     Geometry rectangle;
@@ -277,14 +278,32 @@ void main()
             {
                 getParametroI(QryFile, buffer, 1, parameter, SIMPLE_PARAMETER_SIZE);
                 id = atoi(parameter);
-                getParametroI(QryFile, buffer, 1, parameter, SIMPLE_PARAMETER_SIZE);
+                getParametroI(QryFile, buffer, 2, parameter, SIMPLE_PARAMETER_SIZE);
                 index = atoi(parameter);
 
+                balloon = searchEntbyIDinLst(BD_Lst, id);
+
+                /*
+                element = getEntGeo(balloon);
+                radius = getEntRadius(balloon);
+                x = getGeoCords(element)[0];
+                y = getGeoCords(element)[1];
+                width = radius * 2;
+                depth = getEntDepth(balloon);
+                height = getEntHeight(balloon);
+                // vizualização da area da foto
+                rectangle = createRectangle(500, x - radius, y + depth, width, height, "gray", "cyan");
+                entity = createCommon(rectangle, 500);
+                insertLst(BD_Lst, (Item) entity); 
+                */
+
+                AuxliarLst = filterClausure(BD_Lst, isEntinPicture, (Clausura) balloon);
+                //printf("oi\n");
+                //WriteInSvg("teste.svg", AuxliarLst, style);
 
 
 
 
-                //entity = searchEntbyIDinLst(BD_Lst, id);
                 //addEntPicture(entity, pic, index);                
             } else
             if (strcmp(parameter, "df") == 0)

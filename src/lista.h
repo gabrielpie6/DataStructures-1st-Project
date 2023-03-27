@@ -140,6 +140,7 @@ void killIterator(Lista L, Iterador it);
 
 typedef Item (*Apply)(Item item);
 typedef bool (*Check)(Item item);
+typedef bool (*CheckClausure)(Item item, Clausura c);
 typedef void (*ApplyClosure)(Item item, Clausura c);
 
 /** Cria uma nova lista. Aplica a funcao f a cada item de L
@@ -158,5 +159,11 @@ Lista filter(Lista L, Check f);
    o conteudo de c.
  */
 void fold(Lista L, ApplyClosure f, Clausura c);
+
+/**
+   Cria uma nova lista contendo os itens de L para os quais a
+   invocacao da funcao f retornar verdeira.
+ */
+Lista filterClausure(Lista L, CheckClausure f, Clausura c);
 
 #endif
