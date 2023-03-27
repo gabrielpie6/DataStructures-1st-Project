@@ -1,0 +1,30 @@
+#ifndef ANALYTIC_GEOMETRY_H
+#define ANALYTIC_GEOMETRY_H
+
+#include <stdbool.h>
+
+double distance                 (double x1,  double y1,  double x2,  double y2);
+double slope                    (double x1, double y1, double x2, double y2);
+double LineFunction             (double m,  double b,  double x);
+
+
+
+
+// Validations functions
+bool doSegmentsIntersect        (double Lx1, double Ly1, double Lx2, double Ly2, 
+                                 double Sx1, double Sy1, double Sx2, double Sy2);
+bool isLineInsideRectangle      (double Lx1, double Ly1, double Lx2, double Ly2,
+                                 double Rxi, double Ryi, double Rxf, double Ryf);
+
+bool isCircleInsideRectangle    (double Cx,  double Cy,  double r, 
+                                 double Rxi, double Ryi, double Rxf, double Ryf);
+
+bool isRectangleInsideRectangle (double Axi, double Ayi, double Axf, double Ayf,
+                                 double Bxi, double Byi, double Bxf, double Byf);
+
+bool isLineInsideRectangle      (double x1,  double y1,  double x2,  double y2, 
+                                 double Rxi, double Ryi, double Rxf, double Ryf);
+bool isPointInsideRectangle     (double x1, double y1, 
+                                 double Rxi, double Ryi, double Rxf, double Ryf);
+
+#endif
