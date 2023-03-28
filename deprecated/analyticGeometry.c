@@ -30,59 +30,35 @@ double * Translocation(double xi, double yi, double distance, double theta)
 
 // Validations functions
 
-// Helper function to check if point q lies on line segment 'pr'
-bool onSegment(double px, double py, double qx, double qy, double rx, double ry)
+// Problema em caso específico quando L é vertical
+bool doSegmentsIntersect(double Lx1, double Ly1, double Lx2, double Ly2, double Sx1, double Sy1, double Sx2, double Sy2) 
 {
-    if (qx <= fmax(px, rx) && qx >= fmin(px, rx) &&
-        qy <= fmax(py, ry) && qy >= fmin(py, ry))
-       return true;
-
-    return false;
-}
-
-// To find orientation of ordered triplet (p, q, r).
-// The function returns following values
-// 0 --> p, q and r are collinear
-// 1 --> Clockwise
-// 2 --> Counterclockwise
-int orientation(double px, double py, double qx, double qy, double rx, double ry)
-{
-    double val = (qy - py) * (rx - qx) -
-              (qx - px) * (ry - qy);
-
-    if (val == 0) return 0;  // collinear
-
-    return (val > 0)? 1: 2; // clockwise or counterclockwise
-}
-
-// The main function that returns true if line segment 'p1q1'
-// and 'p2q2' intersect.
-bool doSegmentsIntersect(double Lx1, double Ly1, double Lx2, double Ly2, double Sx1, double Sy1, double Sx2, double Sy2)
-{
-    // Find the four orientations needed for general and special cases
-    int o1 = orientation(Lx1, Ly1, Lx2, Ly2, Sx1, Sy1);
-    int o2 = orientation(Lx1, Ly1, Lx2, Ly2, Sx2, Sy2);
-    int o3 = orientation(Sx1, Sy1, Sx2, Sy2, Lx1, Ly1);
-    int o4 = orientation(Sx1, Sy1, Sx2, Sy2, Lx2, Ly2);
-
-    // General case
-    if (o1 != o2 && o3 != o4)
+    double den = (Sy2 - Sy1) * (Lx2 - Lx1) - (Sx2 - Sx1) * (Ly2 - Ly1);
+    
+    // Verificar se os segmentos são paralelos
+    if (den == 0) {
+        if (Lx1 == Lx2) {
+            if ((Sy1 <= Ly1 && Ly1 <= Sy2) || (Sy1 <= Ly2 && Ly2 <= Sy2) ||
+                (Ly1 <= Sy1 && Sy1 <= Ly2) || (Ly1 <= Sy2 && Sy2 <= Ly2)) {
+                return true;
+            }
+        } else {
+            if ((Sx1 <= Lx1 && Lx1 <= Sx2) || (Sx1 <= Lx2 && Lx2 <= Sx2) ||
+                (Lx1 <= Sx1 && Sx1 <= Lx2) || (Lx1 <= Sx2 && Sx2 <= Lx2)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    double ua = ((Sx2 - Sx1) * (Ly1 - Sy1) - (Sy2 - Sy1) * (Lx1 - Sx1)) / den;
+    double ub = ((Lx2 - Lx1) * (Ly1 - Sy1) - (Ly2 - Ly1) * (Lx1 - Sx1)) / den;
+    
+    if (ua >= 0 && ua <= 1 && ub >= 0 && ub <= 1) {
         return true;
-
-    // Special Cases
-    // L1, L2 and S1 are collinear and S1 lies on segment L1L2
-    if (o1 == 0 && onSegment(Lx1, Ly1, Sx1, Sy1, Lx2, Ly2)) return true;
-
-    // L1, L2 and S2 are collinear and S2 lies on segment L1L2
-    if (o2 == 0 && onSegment(Lx1, Ly1, Sx2, Sy2, Lx2, Ly2)) return true;
-
-    // S1, S2 and L1 are collinear and L1 lies on segment S1S2
-    if (o3 == 0 && onSegment(Sx1, Sy1, Lx1, Ly1, Sx2, Sy2)) return true;
-
-    // S1, S2 and L2 are collinear and L2 lies on segment S1S2
-    if (o4 == 0 && onSegment(Sx1, Sy1, Lx2, Ly2, Sx2, Sy2)) return true;
-
-    return false; // Doesn't fall in any of the above cases
+    } else {
+        return false;
+    }
 }
 
 bool isPointInsideCircle(double Cx, double Cy, double r, double Px, double Py)

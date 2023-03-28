@@ -192,7 +192,8 @@ Geometry createText (int id, double x, double y, char * colorBorder, char * colo
 
     struct Text * texto = (struct Text *) obj->attributes.text;
     texto->anchor = anchor;
-    texto->text = text;
+    texto->text = malloc(sizeof(char) * (strlen(text) + 1));
+    strcpy(texto->text, text);
     texto->style = NULL;
 
     return (Geometry) obj;

@@ -127,6 +127,7 @@ bool isIteratorEmpty(Lista L, Iterador it);
 Iterador getIteratorNext(Lista L, Iterador it);
 
 Item getIteratorItem(Lista L, Iterador it);
+Posic getIteratorPosic(Lista L, Iterador it);
 
 /**
    Libera os recursos usados pelo iterador.

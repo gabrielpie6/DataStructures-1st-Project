@@ -39,7 +39,8 @@ void main()
     char attributes[SIMPLE_PARAMETER_SIZE];
     //
     Lista BD_Lst = createLst(-1);
-    Lista AuxliarLst;
+    Lista AuxiliarLst;
+    Iterador it;
     Entity entity, balloon, warplane;
     Geometry element;
     Geometry circle;
@@ -47,15 +48,20 @@ void main()
     Geometry line;
     Geometry text;
     Picture pic;
+    Bomb bomb;
     //
     int id, index;
-    double x, x2;
-    double y, y2;
+    double x, x2, dx;
+    double y, y2, dy;
     double radius;
+    double theta;
+    double distance;
     double width;
     double height;
     double depth;
+    double * cords;
     char anchor;
+    char capacityType;
     char border_color[SIMPLE_PARAMETER_SIZE];
     char fill_color[SIMPLE_PARAMETER_SIZE];
     char text_buffer[DEFAULT_BUFFER_SIZE];
@@ -253,10 +259,10 @@ void main()
                 getParametroI(QryFile, buffer, 1, parameter, SIMPLE_PARAMETER_SIZE);
                 id = atoi(parameter);
                 getParametroI(QryFile, buffer, 2, parameter, SIMPLE_PARAMETER_SIZE);
-                radius = atof(parameter);
+                theta = atof(parameter);
 
                 element = searchGeobyIDinLst(BD_Lst, id);
-                Rotate_Geo(element, radius);
+                Rotate_Geo(element, theta);
             } else
             if (strcmp(parameter, "ff") == 0)
             {
@@ -283,7 +289,12 @@ void main()
 
                 balloon = searchEntbyIDinLst(BD_Lst, id);
 
+                AuxiliarLst = filterClausure(BD_Lst, isEntinPicture, (Clausura) balloon);
+                addEntPicture(balloon, (Picture) AuxiliarLst, index);
+                
+                WriteInSvg("picture.svg", (Lista) popEntPicture(balloon, index), style);
                 /*
+                */
                 element = getEntGeo(balloon);
                 radius = getEntRadius(balloon);
                 x = getGeoCords(element)[0];
@@ -292,14 +303,11 @@ void main()
                 depth = getEntDepth(balloon);
                 height = getEntHeight(balloon);
                 // vizualização da area da foto
-                rectangle = createRectangle(500, x - radius, y + depth, width, height, "gray", "cyan");
+                rectangle = createRectangle(500, x - radius, y + depth, width, height, "black", "none");
                 entity = createCommon(rectangle, 500);
-                insertLst(BD_Lst, (Item) entity); 
-                */
+                insertBeforeLst(BD_Lst, getFirstLst(BD_Lst) ,(Item) entity); 
 
-                AuxliarLst = filterClausure(BD_Lst, isEntinPicture, (Clausura) balloon);
                 //printf("oi\n");
-                //WriteInSvg("teste.svg", AuxliarLst, style);
 
 
 
@@ -312,6 +320,43 @@ void main()
             } else
             if (strcmp(parameter, "d") == 0)
             {
+                getParametroI(QryFile, buffer, 1, parameter, SIMPLE_PARAMETER_SIZE);
+                id = atoi(parameter);
+                getParametroI(QryFile, buffer, 2, parameter, SIMPLE_PARAMETER_SIZE);
+                capacityType = parameter[0];
+                getParametroI(QryFile, buffer, 3, parameter, SIMPLE_PARAMETER_SIZE);
+                distance = atof(parameter);
+                getParametroI(QryFile, buffer, 4, parameter, SIMPLE_PARAMETER_SIZE);
+                index = atoi(parameter);
+                getParametroI(QryFile, buffer, 5, parameter, SIMPLE_PARAMETER_SIZE);
+                dx = atof(parameter);
+
+                warplane = searchEntbyIDinLst(BD_Lst, id);
+                x = getGeoCords(getEntGeo(warplane))[0];
+                y = getGeoCords(getEntGeo(warplane))[1];
+                theta = getGeoAngle(getEntGeo(warplane));
+
+                // Define como a bomba será lançada
+                bomb = defineBomb(capacityType, x, y, distance, theta);
+                /*
+                */
+                // Verifica sob toda a lista quais são as entidades que foram atingidas pela bomba
+                // e as insere em uma lista auxiliar
+                AuxiliarLst = filterClausure(BD_Lst, throwBomb, (Clausura) bomb);
+                
+                
+                // Insere os IDs dos elementos em AuxiliarLst na lista de alvos da bomba
+                fold(AuxiliarLst, addEntTargetID, (Clausura) warplane);
+                // Remove os elementos de Auxiliar presentes no Banco de Dados
+                fold(AuxiliarLst, removeEntbyIDinLst, (Clausura) BD_Lst);
+                //removeEntbyIDinLst(searchEntbyIDinLst(BD_Lst, 4), BD_Lst);
+                killLst(AuxiliarLst);
+
+                /* Comandos para gerar figura da área de alcance da bomba
+                */
+                circle = createCircle(501, getBombTargetCords(bomb)[0], getBombTargetCords(bomb)[1], getBombRadius(bomb), "black", "none");
+                entity = createCommon(circle, 501);
+                insertLst(BD_Lst, (Item) entity);
 
             } else
             if (strcmp(parameter, "b?") == 0)
@@ -332,6 +377,7 @@ void main()
     fechaArquivoCmd(QryFile);
     
     WriteInSvg("teste.svg", BD_Lst, style);
+    printf("Executado com sucesso\n");
 }
 
 void writeGeoInSVG(Entity ent, Clausura c)

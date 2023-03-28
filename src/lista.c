@@ -112,6 +112,7 @@ void removeLst(Lista L, Posic p)
             node->ant->prox = node->prox;
         else
             lst->prim = node->prox;
+
         if (node->prox != NULL)
             node->prox->ant = node->ant;
         else
@@ -275,6 +276,13 @@ Item getIteratorItem(Lista L, Iterador it)
     ListaImpl *lst = (ListaImpl *) L;
     IteratorImpl *iter = (IteratorImpl *) it;
     return iter->curr->info;
+}
+
+Posic getIteratorPosic(Lista L, Iterador it)
+{
+    ListaImpl *lst = (ListaImpl *) L;
+    IteratorImpl *iter = (IteratorImpl *) it;
+    return iter->curr;
 }
 
 void killIterator(Lista L, Iterador it)

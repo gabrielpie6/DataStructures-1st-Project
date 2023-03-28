@@ -6,6 +6,11 @@
 
 typedef void * Entity;
 typedef void * Picture;
+typedef void * Bomb;
+
+#define BOMB_CAPACITY_A 10
+#define BOMB_CAPACITY_B 15
+#define BOMB_CAPACITY_C 30
 
 // CREATION FUNCTIONS
 Entity    createCommon          (Geometry geo, int id);
@@ -37,7 +42,25 @@ Picture   popEntPicture         (Entity ent, int index);
 
 // WARPLANE FUNCTIONS
 // Warplane's actions
+Bomb      defineBomb            (char capacityType, double Ox, double Oy, double distance, double theta);
+void      removeBomb            (Bomb bomb);
+bool      throwBomb             (Entity ent, Bomb bomb);
 void      incrementEntShots     (Entity ent);
-void      addEntTargetID        (Entity ent, int targetID);
+void      addEntTargetID        (Entity ent, Entity warplane);
 int       popEntTargetID        (Entity ent);
+void      removeEntbyIDinLst    (Entity ent, Lista L);
+
+
+// BOMB FUNCTIONS
+// Getters and Setters
+/*
+char capacityType;
+    double radius;
+    double originCord[2];
+    double targetCords[2];
+*/
+double   getBombRadius         (Bomb bomb);
+double * getBombOriginCord     (Bomb bomb);
+double * getBombTargetCords    (Bomb bomb);
+
 #endif

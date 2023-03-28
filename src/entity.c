@@ -3,6 +3,7 @@
 #include "analyticGeometry.h"
 
 #include <stdlib.h>
+#include <stdio.h>
 
 #define FILAS_AMOUNT 10
 #define PICTURES_AMOUNT 15
@@ -25,6 +26,13 @@ struct Warplane {
     int shots;
     Lista targets;
 };
+
+typedef struct Explosive {
+    char capacityType;
+    double radius;
+    double originCords[2];
+    double targetCords[2];
+} explosive;
 
 // CONVENÇÃO DE TIPOS
 /*
@@ -239,18 +247,88 @@ Picture popEntPicture (Entity ent, int index)
 /////////////////////////////////////////////
 // WARPLANE FUNCTIONS
 // Warplane's actions
+Bomb defineBomb (char capacityType, double Ox, double Oy, double distance, double theta)
+{
+    explosive * bomb = malloc(sizeof(explosive));
+    bomb->capacityType = capacityType;
+    bomb->originCords[0] = Ox;
+    bomb->originCords[1] = Oy;
+    switch (capacityType)
+    {
+        case 'a':
+        case 'A':
+            bomb->radius = BOMB_CAPACITY_A;
+            break;
+        case 'b':
+        case 'B':
+            bomb->radius = BOMB_CAPACITY_B;
+            break;
+        case 'c':
+        case 'C':
+            bomb->radius = BOMB_CAPACITY_C;
+            break;
+    }
+    double * final = Translocation(Ox, Oy, distance, theta);
+    bomb->targetCords[0] = final[0];
+    bomb->targetCords[1] = final[1];
+    return (Bomb) bomb;
+}
+void removeBomb (Bomb bomb)
+{
+    free((explosive *) bomb);
+}
+bool throwBomb (Entity ent, Bomb bomb)
+{
+    object * e = (object *) ent;
+    Lista lst = e->attributes.warplane->targets;
+    explosive * bb = (explosive *) bomb;
+    Geometry geo = getEntGeo(ent);
+    double Cx = bb->targetCords[0];
+    double Cy = bb->targetCords[1];
+    double radius = bb->radius;
+
+    // Verificar se a entidade será atingida pela bomba
+    switch (e->class)
+    {
+        case 'c':
+        {
+            // âncora do círculo está dentro da área da bomba -> destruir
+            return isPointInsideCircle(Cx, Cy, radius, getGeoCords(geo)[0], getGeoCords(geo)[1]);
+            break;
+        }
+        case 'r':
+        {
+            return isPointInsideCircle(Cx, Cy, radius, getGeoCords(geo)[0], getGeoCords(geo)[1]);
+            break;
+        }
+        case 'l':
+        {
+            return (isPointInsideCircle(Cx, Cy, radius, getGeoAnchor_1(geo)[0], getGeoAnchor_1(geo)[1]) ||
+                    isPointInsideCircle(Cx, Cy, radius, getGeoAnchor_2(geo)[0], getGeoAnchor_2(geo)[1]));
+            break;
+        }
+
+        case 'b':
+        case 'd':
+        case 't':
+        {
+            return isPointInsideCircle(Cx, Cy, radius, getGeoCords(geo)[0], getGeoCords(geo)[1]);
+            break;
+        }
+    }
+}
 void incrementEntShots (Entity ent)
 {
     object * e = (object *) ent;
     e->attributes.warplane->shots++;
 }
 //
-void addEntTargetID (Entity ent, int targetID)
+void addEntTargetID (Entity ent, Entity warplane)
 {
-    object * e = (object *) ent;
+    object * e = (object *) warplane;
     Lista lst = e->attributes.warplane->targets;
     int * id = (int *) malloc(sizeof(int));
-    *id = targetID;
+    *id = getEntID(ent);
     insertLst(lst, (Item) id);
 }
 int popEntTargetID (Entity ent)
@@ -341,5 +419,38 @@ bool isEntinPicture(Entity ent, Entity balloon)
             break;
         }
     }
+}
+
+void removeEntbyIDinLst (Entity ent, Lista L)
+{
+    int id = getEntID(ent);
+
+    Iterador it = createIterador(L, false);
+    for (setIteratorPosition(L, it, getFirstLst(L)); getEntID(getIteratorItem(L, it)) != id; getIteratorNext(L, it))
+    {} // Ao sair do for, it aponta para o elemento com o id desejado.
+    Posic pos = getIteratorPosic(L, it);
+    killIterator(L, it);
+    removeLst(L, pos);
+}
+/////////////////////////////////////////////
+
+
+
+/////////////////////////////////////////////
+// BOMB FUNCTIONS
+double   getBombRadius         (Bomb bomb)
+{
+    explosive * bb = (explosive *) bomb;
+    return bb->radius;
+}
+double * getBombOriginCord     (Bomb bomb)
+{
+    explosive * bb = (explosive *) bomb;
+    return &bb->originCords[0];
+}
+double * getBombTargetCords    (Bomb bomb)
+{
+    explosive * bb = (explosive *) bomb;
+    return &bb->targetCords[0];
 }
 /////////////////////////////////////////////
