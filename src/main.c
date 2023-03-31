@@ -292,9 +292,10 @@ void main()
                 AuxiliarLst = filterClausure(BD_Lst, isEntinPicture, (Clausura) balloon);
                 addEntPicture(balloon, (Picture) AuxiliarLst, index);
                 
-                WriteInSvg("picture.svg", (Lista) popEntPicture(balloon, index), style);
+                //WriteInSvg("picture.svg", (Lista) popEntPicture(balloon, index), style);
+
                 /*
-                */
+                // Vizualização da area da foto
                 element = getEntGeo(balloon);
                 radius = getEntRadius(balloon);
                 x = getGeoCords(element)[0];
@@ -302,17 +303,11 @@ void main()
                 width = radius * 2;
                 depth = getEntDepth(balloon);
                 height = getEntHeight(balloon);
-                // vizualização da area da foto
+
                 rectangle = createRectangle(500, x - radius, y + depth, width, height, "black", "none");
                 entity = createCommon(rectangle, 500);
                 insertBeforeLst(BD_Lst, getFirstLst(BD_Lst) ,(Item) entity); 
-
-                //printf("oi\n");
-
-
-
-
-                //addEntPicture(entity, pic, index);                
+                */             
             } else
             if (strcmp(parameter, "df") == 0)
             {
@@ -344,13 +339,20 @@ void main()
                 // e as insere em uma lista auxiliar
                 AuxiliarLst = filterClausure(BD_Lst, throwBomb, (Clausura) bomb);
                 
-                
                 // Insere os IDs dos elementos em AuxiliarLst na lista de alvos da bomba
                 fold(AuxiliarLst, addEntTargetID, (Clausura) warplane);
+                /* Vizualização dos IDs dos alvos
+                for (int * test = popEntTargetID(warplane); test != NULL; test = popEntTargetID(warplane))
+                    printf("ID: %d\n", *test);
+                */
+
+
                 // Remove os elementos de Auxiliar presentes no Banco de Dados
                 fold(AuxiliarLst, removeEntbyIDinLst, (Clausura) BD_Lst);
-                //removeEntbyIDinLst(searchEntbyIDinLst(BD_Lst, 4), BD_Lst);
-                killLst(AuxiliarLst);
+
+
+                // Libera a lista auxiliar
+                //killLst(AuxiliarLst);
 
                 /* Comandos para gerar figura da área de alcance da bomba
                 */
@@ -358,6 +360,7 @@ void main()
                 entity = createCommon(circle, 501);
                 insertLst(BD_Lst, (Item) entity);
 
+                removeBomb(bomb);
             } else
             if (strcmp(parameter, "b?") == 0)
             {

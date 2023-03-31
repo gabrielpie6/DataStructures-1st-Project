@@ -47,7 +47,7 @@ void      removeBomb            (Bomb bomb);
 bool      throwBomb             (Entity ent, Bomb bomb);
 void      incrementEntShots     (Entity ent);
 void      addEntTargetID        (Entity ent, Entity warplane);
-int       popEntTargetID        (Entity ent);
+int     * popEntTargetID        (Entity ent);
 void      removeEntbyIDinLst    (Entity ent, Lista L);
 
 

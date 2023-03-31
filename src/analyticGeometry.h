@@ -28,5 +28,9 @@ bool isLineInsideRectangle      (double x1,  double y1,  double x2,  double y2,
                                  double Rxi, double Ryi, double Rxf, double Ryf);
 bool isPointInsideRectangle     (double x1, double y1, 
                                  double Rxi, double Ryi, double Rxf, double Ryf);
+bool isCircleInsideCircle       (double Cx1, double Cy1, double r1, 
+                                 double Cx2, double Cy2, double r2);
+bool isLineInsideCircle         (double Lx1, double Ly1, double Lx2, double Ly2, 
+                                 double Cx,  double Cy,  double r);
 
 #endif

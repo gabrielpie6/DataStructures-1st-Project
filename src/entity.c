@@ -293,18 +293,23 @@ bool throwBomb (Entity ent, Bomb bomb)
         case 'c':
         {
             // âncora do círculo está dentro da área da bomba -> destruir
-            return isPointInsideCircle(Cx, Cy, radius, getGeoCords(geo)[0], getGeoCords(geo)[1]);
+            //return isPointInsideCircle(Cx, Cy, radius, getGeoCords(geo)[0], getGeoCords(geo)[1]);
+            return isCircleInsideCircle(Cx, Cy, radius, getGeoCords(geo)[0], getGeoCords(geo)[1], getGeoRadius(geo));
             break;
         }
         case 'r':
         {
-            return isPointInsideCircle(Cx, Cy, radius, getGeoCords(geo)[0], getGeoCords(geo)[1]);
+            return isCircleInsideRectangle(Cx, Cy, radius, 
+                                           getGeoCords(geo)[0], getGeoCords(geo)[1],
+                                           getGeoCords(geo)[0] + getGeoWidth(geo), getGeoCords(geo)[1] + getGeoHeight(geo)
+                                           );
             break;
         }
         case 'l':
         {
-            return (isPointInsideCircle(Cx, Cy, radius, getGeoAnchor_1(geo)[0], getGeoAnchor_1(geo)[1]) ||
-                    isPointInsideCircle(Cx, Cy, radius, getGeoAnchor_2(geo)[0], getGeoAnchor_2(geo)[1]));
+            return isLineInsideCircle(getGeoAnchor_1(geo)[0], getGeoAnchor_1(geo)[1],
+                                      getGeoAnchor_2(geo)[0], getGeoAnchor_2(geo)[1],
+                                      Cx, Cy, radius);
             break;
         }
 
@@ -331,16 +336,20 @@ void addEntTargetID (Entity ent, Entity warplane)
     *id = getEntID(ent);
     insertLst(lst, (Item) id);
 }
-int popEntTargetID (Entity ent)
+int * popEntTargetID (Entity ent)
 {
     object * e = (object *) ent;
     Lista lst = e->attributes.warplane->targets;
-    int * id = (int *) getLst(lst, getFirstLst(lst));
-    int targetID = *id;
+    if (isEmptyLst(lst))
+        return NULL;
+    else
+    {
+        static int targetID;
+        targetID = *((int *) getLst(lst, getFirstLst(lst)));
 
-    free(id);
-    removeLst(lst, getFirstLst(lst));
-    return targetID;
+        removeLst(lst, getFirstLst(lst));
+        return &targetID;
+    }
 }
 //
 bool isEntinPicture(Entity ent, Entity balloon)

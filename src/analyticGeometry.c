@@ -1,6 +1,7 @@
 #include "analyticGeometry.h"
 
 #include <math.h>
+#include <stdio.h>
 
 double distance(double x1, double y1, double x2, double y2)
 {
@@ -33,11 +34,8 @@ double * Translocation(double xi, double yi, double distance, double theta)
 // Helper function to check if point q lies on line segment 'pr'
 bool onSegment(double px, double py, double qx, double qy, double rx, double ry)
 {
-    if (qx <= fmax(px, rx) && qx >= fmin(px, rx) &&
-        qy <= fmax(py, ry) && qy >= fmin(py, ry))
-       return true;
-
-    return false;
+    return (qx <= fmax(px, rx) && qx >= fmin(px, rx) &&
+            qy <= fmax(py, ry) && qy >= fmin(py, ry));
 }
 
 // To find orientation of ordered triplet (p, q, r).
@@ -47,8 +45,7 @@ bool onSegment(double px, double py, double qx, double qy, double rx, double ry)
 // 2 --> Counterclockwise
 int orientation(double px, double py, double qx, double qy, double rx, double ry)
 {
-    double val = (qy - py) * (rx - qx) -
-              (qx - px) * (ry - qy);
+    double val = (qy - py) * (rx - qx) - (qx - px) * (ry - qy);
 
     if (val == 0) return 0;  // collinear
 
@@ -97,13 +94,10 @@ bool isCircleInsideRectangle(double Cx, double Cy, double r, double Rxi, double 
         return true;
     else
         // Avaliar vértices
-        if ((pow(Cx - Rxi, 2) + pow(Cy - Ryi, 2) <= pow(r, 2)) || // Vértice superior esquerdo
-            (pow(Cx - Rxf, 2) + pow(Cy - Ryi, 2) <= pow(r, 2)) || // Vértice superior direito
-            (pow(Cx - Rxi, 2) + pow(Cy - Ryf, 2) <= pow(r, 2)) || // Vértice inferior esquerdo
-            (pow(Cx - Rxf, 2) + pow(Cy - Ryf, 2) <= pow(r, 2)))   // Vértice inferior direito
-            return true;
-        else
-            return false;
+        return ((pow(Cx - Rxi, 2) + pow(Cy - Ryi, 2) <= pow(r, 2)) || // Vértice superior esquerdo
+                (pow(Cx - Rxf, 2) + pow(Cy - Ryi, 2) <= pow(r, 2)) || // Vértice superior direito
+                (pow(Cx - Rxi, 2) + pow(Cy - Ryf, 2) <= pow(r, 2)) || // Vértice inferior esquerdo
+                (pow(Cx - Rxf, 2) + pow(Cy - Ryf, 2) <= pow(r, 2)));  // Vértice inferior direito
 }
 
 bool isRectangleInsideRectangle(double Axi, double Ayi, double Axf, double Ayf, double Bxi, double Byi, double Bxf, double Byf)
@@ -127,19 +121,13 @@ bool isRectangleInsideRectangle(double Axi, double Ayi, double Axf, double Ayf, 
 
 bool isPointInsideRectangle(double x1, double y1, double Rxi, double Ryi, double Rxf, double Ryf)
 {
-    if ((x1 >= Rxi && x1 <= Rxf) && (y1 >= Ryi && y1 <= Ryf))
-        return true;
-    else
-        return false;
+    return ((x1 >= Rxi && x1 <= Rxf) && (y1 >= Ryi && y1 <= Ryf));
 }
 
 bool isLineInsideRectangle(double x1, double y1, double x2, double y2, double Rxi, double Ryi, double Rxf, double Ryf)
 {
     if (isPointInsideRectangle(x1, y1, Rxi, Ryi, Rxf, Ryf) || isPointInsideRectangle(x2, y2, Rxi, Ryi, Rxf, Ryf))
-    {
-        //printf("oi\n");
         return true;
-    }
     else
         if (doSegmentsIntersect(x1,y1,x2,y2,  Rxi, Ryi, Rxf, Ryi) || // Aresta superior
             doSegmentsIntersect(x1,y1,x2,y2,  Rxf, Ryi, Rxf, Ryf) || // Aresta direita
@@ -150,17 +138,35 @@ bool isLineInsideRectangle(double x1, double y1, double x2, double y2, double Rx
             return false;
 }
 
-
-
-/*
-void main()
+bool isCircleInsideCircle(double Cx1, double Cy1, double r1, double Cx2, double Cy2, double r2)
 {
-    //Ambiente de testes
-    bool teste;
-   for (int i = -5; i <= 15; i++)
-   {
-    teste = isLineInsideRectangle(i,1.5,  i+0.02,2.5,  1,1,3,1);
-    printf("Teste i=[%d]: %d\n",i, teste);
-   }
+    //return (pow(Cx1 - Cx2, 2) + pow(Cy1 - Cy2, 2) <= pow(r2 - r1, 2));
+    return (pow(Cx1 - Cx2, 2) + pow(Cy1 - Cy2, 2) <= pow(r1 + r2, 2));
 }
-*/
+
+bool isLineInsideCircle (double Lx1, double Ly1, double Lx2, double Ly2, double Cx,  double Cy,  double r)
+{
+    // 1. Verificar se as ancoras estao dentro
+    if (isPointInsideCircle(Cx, Cy, r, Lx1, Ly1) || isPointInsideCircle(Cx, Cy, r, Lx2, Ly2))
+        return true;
+    else
+    {
+        // 2. Verificar se a equação da reta que contém o segmento intersecta o circulo
+        // Trabalhando com a equação geral da reta ax + by + c = 0
+        double a = Ly2 - Ly1;
+        double b = Lx1 - Lx2;
+        double c = (Lx2 * Ly1) - (Lx1 * Ly2);
+        // distância do centro até a reta
+        double dist = (fabs(a * Cx + b * Cy + c)) / sqrt(a * a + b * b);
+
+        if (dist <= r)
+        {
+            // 3. Verificar se o ponto de interseção está dentro do segmento
+            double InterX = ((b*b * Cx - a*b*Cy - a*c)/(a*a + b*b));
+            double InterY = ((a*a*Cy - c*b - a*b*Cx)/(a*a + b*b));
+            return (distance(Lx1, Ly1, Lx2, Ly2) == distance(Lx1, Ly1, InterX, InterY) + distance(Lx2, Ly2, InterX, InterY));
+        }
+        else
+            return false;
+    }
+}
