@@ -18,14 +18,24 @@ double LineFunction(double m, double b, double x)
 }
 double * Translocation(double xi, double yi, double distance, double theta)
 {
-    double PI = 3.14159265358979323846;
     double rad = (PI * theta)/180;
     static double cords[2];
     cords[0] = xi - distance * sin(rad);
     cords[1] = yi + distance * cos(rad);
     return &cords[0];
 }
-
+double circleArea (double r)
+{
+    return PI * (r * r);
+}
+double circunference (double r)
+{
+    return 2 * PI * r;
+}
+double rectangleArea (double width, double height)
+{
+    return width * height;
+}
 
 
 

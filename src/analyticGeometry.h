@@ -3,10 +3,15 @@
 
 #include <stdbool.h>
 
+#define PI 3.14159265358979323846
+
 double   distance               (double x1,  double y1,  double x2,  double y2);
 double   slope                  (double x1, double y1, double x2, double y2);
 double   LineFunction           (double m,  double b,  double x);
 double * Translocation          (double xi, double yi, double distance, double theta);
+double   circleArea             (double r);
+double   circunference          (double r);
+double   rectangleArea          (double width, double height);
 
 
 

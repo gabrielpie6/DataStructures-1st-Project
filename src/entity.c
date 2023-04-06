@@ -1,5 +1,4 @@
 #include "entity.h"
-#include "fila.h"
 #include "analyticGeometry.h"
 
 #include <stdlib.h>
@@ -239,6 +238,11 @@ Picture popEntPicture (Entity ent, int index)
     object * e = (object *) ent;
     Picture pic = (Picture) popFila(e->attributes.balloon->picsFila[index]);
     return pic;
+}
+Fila getFilaOfPictures (Entity ent, int index)
+{
+    object * e = (object *) ent;
+    return e->attributes.balloon->picsFila[index];
 }
 /////////////////////////////////////////////
 

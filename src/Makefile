@@ -1,8 +1,8 @@
 PROJ_NAME=ted
 
 ALUNO=gabrielpietsiaki
-LIBS=drawSvg.h geometry.h cmdsFiles.h lista.h entity.h fila.h analyticGeometry.h actions.h
-OBJETOS=main.o drawSvg.o geometry.o cmdsFiles.o lista.o entity.o fila.o analyticGeometry.o actions.o
+LIBS=drawSvg.h geometry.h cmdsFiles.h lista.h entity.h fila.h analyticGeometry.h actions.h path.h
+OBJETOS=main.o drawSvg.o geometry.o cmdsFiles.o lista.o entity.o fila.o analyticGeometry.o actions.o path.o
 
 # compilador
 CC=gcc

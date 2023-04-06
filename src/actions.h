@@ -5,6 +5,8 @@
 #include "entity.h"
 #include "geometry.h"
 #include "cmdsFiles.h"
+#include "analyticGeometry.h"
+#include "drawSvg.h"
 
 
 #define DEFAULT_BUFFER_SIZE 500
@@ -46,7 +48,8 @@ void   moveEntity           (ArqCmds QryFile, Lista L, char * lineBuffer);
 void   rotateEntity         (ArqCmds QryFile, Lista L, char * lineBuffer);
 void   setPictureFocus      (ArqCmds QryFile, Lista L, char * lineBuffer);
 void   takePicture          (ArqCmds QryFile, Lista L, char * lineBuffer);
-void   downloadPictures     (ArqCmds QryFile, Lista L, char * lineBuffer);
+double scoreEnt             (Entity ent);
+void   downloadPictures     (ArqCmds QryFile, Lista L, char * lineBuffer, char * geoName, char * qryName);
 void   detonateBomb         (ArqCmds QryFile, Lista L, char * lineBuffer);
 
 
@@ -58,7 +61,7 @@ void   detonateBomb         (ArqCmds QryFile, Lista L, char * lineBuffer);
 // OUTPUT ACTIONS
 //
 void writeGeoInSVG(Entity ent, Clausura c);
-void WriteInSvg(char * svgFilePath, Lista L, Style style);
+void WriteEntListInSvg(ArqSvg SVG, Lista L, Style style, double dx, double dy);
 ///////////////////////////////
 
 #endif

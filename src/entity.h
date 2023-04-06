@@ -3,6 +3,7 @@
 
 #include "geometry.h"
 #include "lista.h"
+#include "fila.h"
 
 typedef void * Entity;
 typedef void * Picture;
@@ -39,6 +40,7 @@ double    getEntRadius          (Entity ent);
 bool      isEntinPicture        (Entity ent, Entity balloon);
 void      addEntPicture         (Entity ent, Picture pic, int index);
 Picture   popEntPicture         (Entity ent, int index);
+Fila      getFilaOfPictures     (Entity ent, int index);
 
 // WARPLANE FUNCTIONS
 // Warplane's actions

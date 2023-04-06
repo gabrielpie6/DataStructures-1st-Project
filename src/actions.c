@@ -1,6 +1,5 @@
 #include "actions.h"
 
-#include "drawSvg.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -217,38 +216,14 @@ bool ReadQryFile(Lista L, char * qryPath)
         {
             getParametroI(QryFile, buffer, 0, parameter, SIMPLE_PARAMETER_SIZE);
 
-            if (strcmp(parameter, "mv") == 0)
-            {
-                moveEntity(QryFile, L, buffer);
-            } else
-            if (strcmp(parameter, "g") == 0)
-            {
-                rotateEntity(QryFile, L, buffer);
-            } else
-            if (strcmp(parameter, "ff") == 0)
-            {
-                setPictureFocus(QryFile, L, buffer);
-            } else
-            if (strcmp(parameter, "tf") == 0)
-            {
-                takePicture(QryFile, L, buffer);
-            } else
-            if (strcmp(parameter, "df") == 0)
-            {
-
-            } else
-            if (strcmp(parameter, "d") == 0)
-            {
-                detonateBomb(QryFile, L, buffer);
-            } else
-            if (strcmp(parameter, "b?") == 0)
-            {
-
-            } else
-            if (strcmp(parameter, "c?") == 0)
-            {
-
-            } else
+            if (strcmp(parameter, "mv") == 0) moveEntity(QryFile, L, buffer); else
+            if (strcmp(parameter, "g" ) == 0) rotateEntity(QryFile, L, buffer); else
+            if (strcmp(parameter, "ff") == 0) setPictureFocus(QryFile, L, buffer); else
+            if (strcmp(parameter, "tf") == 0) takePicture(QryFile, L, buffer); else
+            if (strcmp(parameter, "df") == 0) {} else
+            if (strcmp(parameter, "d" ) == 0) detonateBomb(QryFile, L, buffer); else
+            if (strcmp(parameter, "b?") == 0) {} else
+            if (strcmp(parameter, "c?") == 0) {} else
             {
                 printf("ERRO: comando '%s' nao reconhecido em '%s'\n", parameter, qryPath);
                 fechaArquivoCmd(QryFile);
@@ -324,20 +299,142 @@ void takePicture(ArqCmds QryFile, Lista L, char * lineBuffer)
 
     /*
     // Vizualização da area da foto
-    element = getEntGeo(balloon);
-    radius = getEntRadius(balloon);
-    x = getGeoCords(element)[0];
-    y = getGeoCords(element)[1];
-    width = radius * 2;
-    depth = getEntDepth(balloon);
-    height = getEntHeight(balloon);
+    Geometry element = getEntGeo(balloon);
+    double radius = getEntRadius(balloon);
+    double x = getGeoCords(element)[0];
+    double y = getGeoCords(element)[1];
+    double width = radius * 2;
+    double depth = getEntDepth(balloon);
+    double height = getEntHeight(balloon);
 
-    rectangle = createRectangle(500, x - radius, y + depth, width, height, "black", "none");
-    entity = createCommon(rectangle, 500);
-    insertBeforeLst(BD_Lst, getFirstLst(BD_Lst) ,(Item) entity); 
+    Geometry rectangle = createRectangle(500, x - radius, y + depth, width, height, "black", "none");
+    Entity entity = createCommon(rectangle, 500);
+    insertBeforeLst(L, getFirstLst(L) ,(Item) entity); 
     */
 }
-void downloadPictures(ArqCmds QryFile, Lista L, char * lineBuffer);
+double scoreEnt(Entity ent)
+{
+    Geometry geo;
+
+    int charLenght;
+    double area, length, x1, y1, x2, y2, pontuação = 0;
+    char * borderColor;
+    char * fillColor;
+    switch(getEntType(ent))
+    {
+        case 'c':
+        {
+            geo = getEntGeo(ent);
+            area = circleArea(getGeoRadius(geo));
+            borderColor = getGeoBorder_color(geo);
+            fillColor = getGeoFill_color(geo);
+            if (strcmp(borderColor, "FFFFFF") == 0 && strcmp(fillColor, "FFFF00") == 0)
+                pontuação += (area/2) * 8;
+            else
+            if (strcmp(borderColor, "D45500") == 0 && strcmp(fillColor, "FF7F2A") == 0)
+                pontuação += (area/2) * 2;
+            else
+            if (strcmp(borderColor, "AA0000") == 0 && strcmp(fillColor, "DE8787") == 0)
+                pontuação += (area/2) * 4;
+            else
+            if (strcmp(borderColor, "AA0000") == 0 && strcmp(fillColor, "DE8787") == 0)
+                pontuação += (area/2) * 0;
+            else
+                pontuação += (area/2);
+            break;
+        }
+        case 'r':
+        {
+            geo = getEntGeo(ent);
+            area = rectangleArea(getGeoWidth(geo), getGeoHeight(geo));
+            borderColor = getGeoBorder_color(geo);
+            fillColor = getGeoFill_color(geo);
+
+            // Falta um dígito em 80080?
+            pontuação += area / 4;
+            if (strcmp(borderColor, "80080") == 0) pontuação += 10; else
+            if (strcmp(borderColor, "AA0088") == 0) pontuação += 15; else
+            if (strcmp(fillColor,   "008033") == 0) pontuação += 20; else
+            if (strcmp(fillColor,   "FFCC00") == 0) pontuação += 30;
+            break;
+        }
+        case 'l':
+        {
+            geo = getEntGeo(ent);
+            
+            x1 = getGeoAnchor_1(geo)[0];
+            y1 = getGeoAnchor_1(geo)[1];
+            x2 = getGeoAnchor_2(geo)[0];
+            y2 = getGeoAnchor_2(geo)[1];
+            length = distance(x1, y1, x2, y2);
+            borderColor = getGeoBorder_color(geo);
+
+            if (strcmp(borderColor, "FFFF00") == 0) pontuação += length * 3; else
+            if (strcmp(borderColor, "DDFF55") == 0) pontuação += length * 2; else
+            if (strcmp(borderColor, "0000FF") == 0) pontuação += length * 4; else
+            pontuação += length;
+            
+            break;
+        }
+        case 't':
+        {
+            geo = getEntGeo(ent);
+            charLenght = strlen(getGeoText(geo));
+            pontuação += charLenght;
+            break;
+        }
+        case 'd':
+        {
+            pontuação += 100;
+            break;
+        }
+    }
+    return pontuação;
+}
+void downloadPictures(ArqCmds QryFile, Lista L, char * lineBuffer, char * geoName, char * qryName)
+{
+    char parameter[SIMPLE_PARAMETER_SIZE];
+    char suffix[SIMPLE_PARAMETER_SIZE];
+
+    getParametroI(QryFile, lineBuffer, 1, parameter, SIMPLE_PARAMETER_SIZE);
+    int id = atoi(parameter);
+    getParametroI(QryFile, lineBuffer, 2, parameter, SIMPLE_PARAMETER_SIZE);
+    int index = atoi(parameter);
+    getParametroI(QryFile, lineBuffer, 3, parameter, SIMPLE_PARAMETER_SIZE);
+    strcpy(suffix, parameter);
+
+    Entity balloon = searchEntbyIDinLst(L, id);
+    Fila   F       = getFilaOfPictures(balloon, index);
+    double radius  = getEntRadius(balloon);
+    double height  = getEntHeight(balloon);
+    double depth   = getEntDepth (balloon);
+    
+    // pontuar cada foto
+    double pontuação;
+    char svgFileName[MEDIUM_PARAMETER_SIZE];
+    sprintf(svgFileName, "%s-%s-%s.svg", geoName, qryName, suffix);
+    ArqSvg PicturesSVG = abreEscritaSvg(svgFileName);
+    Picture pic;
+    Entity entity;
+
+    while (countFila(F) > 0)
+    {
+        pontuação = 0;
+        pic = popEntPicture(balloon, index);
+        while (isEmptyLst((Lista) pic) == false)
+        {
+            // pontuar cada entidade
+            entity = (Entity) popLst((Lista) pic);
+            pontuação += scoreEnt(entity);
+        }
+
+        // Escrever foto no svg
+        // ...
+        //
+
+    }
+    fechaSvg(PicturesSVG);
+}
 void detonateBomb(ArqCmds QryFile, Lista L, char * lineBuffer)
 {
     char parameter[SIMPLE_PARAMETER_SIZE];
@@ -401,9 +498,17 @@ void detonateBomb(ArqCmds QryFile, Lista L, char * lineBuffer)
 
 void writeGeoInSVG(Entity ent, Clausura c)
 {
+    // clausure[0] = (void *) SVG;
+    // clausure[1] = (void *) style;
+    // clausure[2] = (void *) &dx;
+    // clausure[3] = (void *) &dy;
+    void ** clausure = (void **) c;
+    ArqSvg SVG  = (ArqSvg) clausure[0];
+    Style style = (Style) clausure[1];
+    double dx   = *((double *) clausure[2]);
+    double dy   = *((double *) clausure[3]);
+
     Geometry element = getEntGeo(ent);
-    ArqSvg SVG = (ArqSvg) c;
-    Style style;
     char deco[DEFAULT_BUFFER_SIZE];
     char font_size[SHORT_PARAMETER_SIZE];
     char text_anchor[20];
@@ -451,9 +556,12 @@ void writeGeoInSVG(Entity ent, Clausura c)
     }
 }
 
-void WriteInSvg(char * svgFilePath, Lista L, Style style)
+void WriteEntListInSvg(ArqSvg SVG, Lista L, Style style, double dx, double dy)
 {
-    ArqSvg SVG = abreEscritaSvg(svgFilePath);
-    fold(L, writeGeoInSVG, SVG);
-    fechaSvg(SVG);
+    void * clausure[4];
+    clausure[0] = (void *) SVG;
+    clausure[1] = (void *) style;
+    clausure[2] = (void *) &dx;
+    clausure[3] = (void *) &dy;
+    fold(L, writeGeoInSVG, clausure);
 }
