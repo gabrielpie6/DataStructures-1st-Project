@@ -19,6 +19,12 @@ struct Balloon {
     double height;
     Fila picsFila[FILAS_AMOUNT];
 };
+typedef struct Photo {
+    double radius;
+    double height;
+    double depth;
+    Lista elements;
+} photo;
 
 struct Warplane {
     Geometry geo;
@@ -228,20 +234,190 @@ double getEntRadius (Entity ent)
 //
 // Balloon's pictures
 //
-void addEntPicture (Entity ent, Picture pic, int index)
+void defineFrame (Entity balloon, double * xi, double * yi, double * xf, double * yf)
 {
-    object * e = (object *) ent;
-    insertFila(e->attributes.balloon->picsFila[index], (Item) pic);
+    object * bal = (object *) balloon;
+    Geometry ballonGeo = bal->attributes.balloon->geo;
+    double middleAnchor[2];
+    double r, d, h;
+
+    r = getEntRadius (balloon);
+    d = getEntDepth  (balloon);
+    h = getEntHeight (balloon);
+    switch (getGeoAnchor(ballonGeo))
+    {
+        case 'i':
+        {
+            middleAnchor[0] = getGeoCords(ballonGeo)[0]; // é preciso de uma constante para ajusat o centro do balão
+            middleAnchor[1] = getGeoCords(ballonGeo)[1];
+            break;
+        }
+        case 'm':
+        {
+            middleAnchor[0] = getGeoCords(ballonGeo)[0];
+            middleAnchor[1] = getGeoCords(ballonGeo)[1];
+            break;
+        }
+        case 'f':
+        {
+            middleAnchor[0] = getGeoCords(ballonGeo)[0]; // é preciso de uma constante para ajusat o centro do balão
+            middleAnchor[1] = getGeoCords(ballonGeo)[1];
+            break;
+        }
+    }
+    
+    *xi = middleAnchor[0] - r;
+    *yi = middleAnchor[1] + d;
+
+    *xf = middleAnchor[0] + r;
+    *yf = middleAnchor[1] + d + h;
 }
-Picture popEntPicture (Entity ent, int index)
+bool isEntinFrame(Entity ent, Entity balloon)
 {
-    object * e = (object *) ent;
-    Picture pic = (Picture) popFila(e->attributes.balloon->picsFila[index]);
-    return pic;
+    object * e   = (object *) ent;
+    Geometry eGeo = e->attributes.common->geo;
+    double xi, yi, xf, yf;
+    defineFrame(balloon, &xi, &yi, &xf, &yf);
+    
+    // Analisar se geometria está dentro do quadro da foto
+    switch (getEntType(ent))
+    {
+        case 'c':
+        {
+            if (isCircleInsideRectangle(getGeoCords(eGeo)[0], getGeoCords(eGeo)[1], getGeoRadius(eGeo), xi, yi, xf, yf))
+            {
+                // Ajustar as coordenadas da forma geométrica para posição relativa da foto
+                return true;
+            }
+            else
+                return false;
+            break;
+        }
+        case 'r':
+        {
+            if (isRectangleInsideRectangle(
+                getGeoCords(eGeo)[0], getGeoCords(eGeo)[1], 
+                getGeoCords(eGeo)[0] + getGeoWidth(eGeo), getGeoCords(eGeo)[1] + getGeoHeight(eGeo),
+                xi, yi, xf, yf)) // Coordenadas do retângulo da foto
+            {
+                return true;
+            } 
+            else
+                return false;
+            break;
+        }
+        case 'l':
+        {
+            if (isLineInsideRectangle(
+                getGeoAnchor_1(eGeo)[0], getGeoAnchor_1(eGeo)[1],
+                getGeoAnchor_2(eGeo)[0], getGeoAnchor_2(eGeo)[1],
+                xi, yi, xf, yf)) // Coordenadas do retângulo da foto
+            {
+                // Ajustar as coordenadas da forma geométrica para posição relativa da foto
+                return true;
+            }
+            else
+                return false;
+            break;
+        }
+        case 'b':
+        case 'd':
+        case 't':
+        {   
+            if (getGeoCords(eGeo)[0] >= xi && getGeoCords(eGeo)[0] <= xf && getGeoCords(eGeo)[1] >= yi && getGeoCords(eGeo)[1] <= yf)
+            {
+                // Ajustar as coordenadas da forma geométrica para posição relativa da foto
+                return true;
+            }    
+            else
+                return false;
+            break;
+        }
+    }
 }
-Fila getFilaOfPictures (Entity ent, int index)
+//
+Picture createPicture (double radius, double height, double depth, void * optional_list_of_elements)
+{
+    photo * pic = malloc(sizeof(photo));
+    if (optional_list_of_elements != NULL)
+    {
+        // Atribui à nova lista os elementos da lista opcional
+        Lista opc = (Lista) optional_list_of_elements;
+        pic->elements = opc;
+    }
+    else
+        pic->elements = createLst(-1);
+    pic->radius = radius;
+    pic->height = height;
+    pic->depth  = depth;
+
+    return (Picture) pic;
+}
+void removePicture (Picture pic)
+{
+    photo * p = (photo *) pic;
+    killLst(p->elements);
+    free(p);
+}
+double getPictureRadius (Picture pic)
+{
+    photo * p = (photo *) pic;
+    return p->radius;
+}
+double getPictureHeight (Picture pic)
+{
+    photo * p = (photo *) pic;
+    return p->height;
+}
+double getPictureDepth (Picture pic)
+{
+    photo * p = (photo *) pic;
+    return p->depth;
+}
+
+void addEntPicture (Entity ent, Picture pic)
 {
     object * e = (object *) ent;
+    photo  * p = (photo  *) pic;
+    insertLst(p->elements, e);
+}
+
+Entity popEntPicture (Picture pic)
+{
+    photo * p = (photo *) pic;
+    if (isEmptyLst((Lista) p->elements))
+        return NULL;
+    else
+        return (Entity) popLst((Lista) p->elements);
+}
+
+void addPictureInFila (Entity balloon, Picture pic, int index)
+{
+    object * e = (object *) balloon;
+    if (isFilaFull(e->attributes.balloon->picsFila[index]))
+        printf("ERRO: [in addPictureInFila]: Tentou inserir foto em uma fila de fotos que ja esta cheia. [index = %d]\n", index);
+    else
+        insertFila(e->attributes.balloon->picsFila[index], (Item) pic);
+}
+
+Picture popPictureInFila (Entity balloon, int index)
+{
+    object * e = (object *) balloon;
+    if (isFilaEmpty(e->attributes.balloon->picsFila[index]))
+    {
+        printf("ERRO: [in popPictureInFila]: Tentou retirar foto de uma fila de fotos que ja esta vazia. [index = %d]\n", index);
+        return NULL;
+    }
+    else
+    {
+        Picture pic = (Picture) popFila(e->attributes.balloon->picsFila[index]);
+        return pic;
+    }
+}
+
+Fila getFilaOfPictures (Entity balloon, int index)
+{
+    object * e = (object *) balloon;
     return e->attributes.balloon->picsFila[index];
 }
 /////////////////////////////////////////////
@@ -356,84 +532,6 @@ int * popEntTargetID (Entity ent)
     }
 }
 //
-bool isEntinPicture(Entity ent, Entity balloon)
-{
-    object * bal = (object *) balloon;
-    Geometry ballonGeo = bal->attributes.balloon->geo;
-    object * e   = (object *) ent;
-    Geometry eGeo = e->attributes.common->geo;
-    double middleAnchor[2];
-    double xi, yi, xf, yf;
-    double r, d, h;
-
-    r = getEntRadius (balloon);
-    d = getEntDepth  (balloon);
-    h = getEntHeight (balloon);
-    switch (getGeoAnchor(ballonGeo))
-    {
-        case 'i':
-        {
-            middleAnchor[0] = getGeoCords(ballonGeo)[0]; // é preciso de uma constante para ajusat o centro do balão
-            middleAnchor[1] = getGeoCords(ballonGeo)[1];
-            break;
-        }
-        case 'm':
-        {
-            middleAnchor[0] = getGeoCords(ballonGeo)[0];
-            middleAnchor[1] = getGeoCords(ballonGeo)[1];
-            break;
-        }
-        case 'f':
-        {
-            middleAnchor[0] = getGeoCords(ballonGeo)[0]; // é preciso de uma constante para ajusat o centro do balão
-            middleAnchor[1] = getGeoCords(ballonGeo)[1];
-            break;
-        }
-    }
-    
-    xi = middleAnchor[0] - r;
-    yi = middleAnchor[1] + d;
-
-    xf = middleAnchor[0] + r;
-    yf = middleAnchor[1] + d + h;
-    
-    // Analisar se geometria está dentro do quadro da foto
-    switch (getEntType(ent))
-    {
-        case 'c':
-        {
-            return isCircleInsideRectangle(getGeoCords(eGeo)[0], getGeoCords(eGeo)[1], getGeoRadius(eGeo), xi, yi, xf, yf);
-            break;
-        }
-        case 'r':
-        {
-            return isRectangleInsideRectangle(
-                getGeoCords(eGeo)[0], getGeoCords(eGeo)[1], 
-                getGeoCords(eGeo)[0] + getGeoWidth(eGeo), getGeoCords(eGeo)[1] + getGeoHeight(eGeo),
-                xi, yi, xf, yf); // Coordenadas do retângulo da foto
-            break;
-        }
-        case 'l':
-        {
-            return isLineInsideRectangle(
-                getGeoAnchor_1(eGeo)[0], getGeoAnchor_1(eGeo)[1],
-                getGeoAnchor_2(eGeo)[0], getGeoAnchor_2(eGeo)[1],
-                xi, yi, xf, yf); // Coordenadas do retângulo da foto
-            break;
-        }
-        case 'b':
-        case 'd':
-        case 't':
-        {   
-            if (getGeoCords(eGeo)[0] >= xi && getGeoCords(eGeo)[0] <= xf && getGeoCords(eGeo)[1] >= yi && getGeoCords(eGeo)[1] <= yf)
-                return true;
-            else
-                return false;
-            break;
-        }
-    }
-}
-
 void removeEntbyIDinLst (Entity ent, Lista L)
 {
     int id = getEntID(ent);

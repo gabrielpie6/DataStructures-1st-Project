@@ -42,14 +42,15 @@ void   readActTextStyle     (ArqCmds GeoFile, char * lineBuffer, Style createdSt
     Lê um arquivo .qry e executa todas as ações contidas no arquivo, então retorna true.
     Se não for possível ler o arquivo, ou haver comandos desconhecidos no arquivo, retorna false.
 */
-bool   ReadQryFile          (Lista L, char * qryPath);
+bool   ReadQryFile          (Lista L, char * qryPath, char * outputPath, char * geo_qryCombination, Style style);
 
 void   moveEntity           (ArqCmds QryFile, Lista L, char * lineBuffer);
 void   rotateEntity         (ArqCmds QryFile, Lista L, char * lineBuffer);
 void   setPictureFocus      (ArqCmds QryFile, Lista L, char * lineBuffer);
 void   takePicture          (ArqCmds QryFile, Lista L, char * lineBuffer);
 double scoreEnt             (Entity ent);
-void   downloadPictures     (ArqCmds QryFile, Lista L, char * lineBuffer, char * geoName, char * qryName);
+double scorePicture         (Picture pic);
+void   downloadPictures     (ArqCmds QryFile, Lista L, char * lineBuffer, char * outputPath, char * geo_qryCombination, Style style);
 void   detonateBomb         (ArqCmds QryFile, Lista L, char * lineBuffer);
 
 
@@ -62,6 +63,7 @@ void   detonateBomb         (ArqCmds QryFile, Lista L, char * lineBuffer);
 //
 void writeGeoInSVG(Entity ent, Clausura c);
 void WriteEntListInSvg(ArqSvg SVG, Lista L, Style style, double dx, double dy);
+Entity copyEntity (Entity ent);
 ///////////////////////////////
 
 #endif

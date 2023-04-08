@@ -200,7 +200,7 @@ void readActTextStyle (ArqCmds GeoFile, char * lineBuffer, Style created_already
 
 ///////////////////////////////////////////
 // .QRY FUNCTIONS
-bool ReadQryFile(Lista L, char * qryPath)
+bool ReadQryFile(Lista L, char * qryPath, char * outputPath, char * geo_qryCombination, Style style)
 {
     ArqCmds QryFile = abreArquivoCmd(qryPath);
     if (QryFile == NULL)
@@ -220,7 +220,7 @@ bool ReadQryFile(Lista L, char * qryPath)
             if (strcmp(parameter, "g" ) == 0) rotateEntity(QryFile, L, buffer); else
             if (strcmp(parameter, "ff") == 0) setPictureFocus(QryFile, L, buffer); else
             if (strcmp(parameter, "tf") == 0) takePicture(QryFile, L, buffer); else
-            if (strcmp(parameter, "df") == 0) {} else
+            if (strcmp(parameter, "df") == 0) downloadPictures(QryFile, L, buffer, outputPath, geo_qryCombination, style); else
             if (strcmp(parameter, "d" ) == 0) detonateBomb(QryFile, L, buffer); else
             if (strcmp(parameter, "b?") == 0) {} else
             if (strcmp(parameter, "c?") == 0) {} else
@@ -234,7 +234,7 @@ bool ReadQryFile(Lista L, char * qryPath)
     fechaArquivoCmd(QryFile);
     return true;
 }
-
+//
 void moveEntity(ArqCmds QryFile, Lista L, char * lineBuffer)
 {
     char parameter[SIMPLE_PARAMETER_SIZE];
@@ -251,6 +251,7 @@ void moveEntity(ArqCmds QryFile, Lista L, char * lineBuffer)
 
     Dislocate_Geo(element, x, y);
 }
+//
 void rotateEntity(ArqCmds QryFile, Lista L, char * lineBuffer)
 {
     char parameter[SIMPLE_PARAMETER_SIZE];
@@ -263,6 +264,7 @@ void rotateEntity(ArqCmds QryFile, Lista L, char * lineBuffer)
     Geometry element = searchGeobyIDinLst(L, id);
     Rotate_Geo(element, theta);
 }
+//
 void setPictureFocus(ArqCmds QryFile, Lista L, char * lineBuffer)
 {
     char parameter[SIMPLE_PARAMETER_SIZE];
@@ -281,6 +283,48 @@ void setPictureFocus(ArqCmds QryFile, Lista L, char * lineBuffer)
     setEntRadius (entity, radius);
     setEntHeight (entity, height);
 }
+//
+void ajustEntInFrame(Entity ent, Clausura c)
+{
+    void ** clausures =  (void **  ) c;
+    Entity  balloon   =  (Entity   ) clausures[0];
+    double  xi        = *((double *) clausures[1]);
+    double  yi        = *((double *) clausures[2]);
+    double  xf        = *((double *) clausures[3]);
+    double  yf        = *((double *) clausures[4]);
+    
+    Geometry eGeo = getEntGeo(ent);
+    switch(getGeoClass(eGeo))
+    {
+        case 'c':
+        {
+            getGeoCords(eGeo)[0] -= xi;
+            getGeoCords(eGeo)[1] -= yi;
+            break;
+        }
+        case 'r':
+        {
+            getGeoCords(eGeo)[0] -= xi;
+            getGeoCords(eGeo)[1] -= yi;
+            break;
+        }
+        case 'l':
+        {
+            getGeoAnchor_1(eGeo)[0] -= xi;
+            getGeoAnchor_1(eGeo)[1] -= yi;
+            getGeoAnchor_2(eGeo)[0] -= xi;
+            getGeoAnchor_2(eGeo)[1] -= yi;
+            break;
+        }
+        case 't':
+        {
+            getGeoCords(eGeo)[0] -= xi;
+            getGeoCords(eGeo)[1] -= yi;
+            break;
+        }
+    }
+    
+}
 void takePicture(ArqCmds QryFile, Lista L, char * lineBuffer)
 {
     char parameter[SIMPLE_PARAMETER_SIZE];
@@ -292,9 +336,33 @@ void takePicture(ArqCmds QryFile, Lista L, char * lineBuffer)
 
     Entity balloon = searchEntbyIDinLst(L, id);
 
-    Lista AuxiliarLst = filterClausure(L, isEntinPicture, (Clausura) balloon);
-    addEntPicture(balloon, (Picture) AuxiliarLst, index);
+    // Lista de elementos que estão dentro do frame da foto do balão
+    Lista AuxiliarLst = filterClausure(L, isEntinFrame, (Clausura) balloon);
+
+    // É preciso fazer uma cópia da lista obtida, pois esta NÃO POSSUI NOVOS ELEMENTOS alocados na memória
+    // (são apenas ponteiros para os elementos da lista original)
+    Lista AuxiliarLst2 = map(AuxiliarLst, copyEntity);
     
+    // Ajuste das coordenadas das entidades para posição relativa ao frame da foto
+    double xi, yi, xf, yf;
+    defineFrame(balloon, &xi, &yi, &xf, &yf);
+    void * clausures[5];
+    clausures[0] = (void *) balloon;
+    clausures[1] = (void *) &xi;
+    clausures[2] = (void *) &yi;
+    clausures[3] = (void *) &xf;
+    clausures[4] = (void *) &yf;
+    fold (AuxiliarLst2, ajustEntInFrame, (Clausura) clausures);
+
+
+
+
+    Picture pic = createPicture(getEntRadius(balloon), getEntDepth(balloon), getEntHeight(balloon), AuxiliarLst2);
+    addPictureInFila(balloon, pic, index);
+    
+    // killLst(AuxiliarLst);
+    // killLst(AuxiliarLst2);
+
     //WriteInSvg("picture.svg", (Lista) popEntPicture(balloon, index), style);
 
     /*
@@ -376,6 +444,7 @@ double scoreEnt(Entity ent)
             
             break;
         }
+        case 'b':
         case 't':
         {
             geo = getEntGeo(ent);
@@ -391,7 +460,18 @@ double scoreEnt(Entity ent)
     }
     return pontuação;
 }
-void downloadPictures(ArqCmds QryFile, Lista L, char * lineBuffer, char * geoName, char * qryName)
+double scorePicture(Picture pic)
+{
+    double pontuação = 0;
+    Entity ent = popEntPicture(pic);
+    while (ent != NULL)
+    {
+        pontuação += scoreEnt(ent);
+        ent = popEntPicture(pic);
+    }
+    return pontuação;
+}
+void downloadPictures(ArqCmds QryFile, Lista L, char * lineBuffer, char * outputPath, char * geo_qryCombination, Style style)
 {
     char parameter[SIMPLE_PARAMETER_SIZE];
     char suffix[SIMPLE_PARAMETER_SIZE];
@@ -410,26 +490,23 @@ void downloadPictures(ArqCmds QryFile, Lista L, char * lineBuffer, char * geoNam
     double depth   = getEntDepth (balloon);
     
     // pontuar cada foto
-    double pontuação;
-    char svgFileName[MEDIUM_PARAMETER_SIZE];
-    sprintf(svgFileName, "%s-%s-%s.svg", geoName, qryName, suffix);
+    double pontuação, dx = 0, dy = 0;
+    char * svgFileName = (char *) malloc(sizeof(char) * (strlen(outputPath) + 1 + strlen(geo_qryCombination) + 1 + strlen(suffix) + strlen(".svg") + 1));
+    sprintf(svgFileName, "%s/%s-%s.svg", outputPath, geo_qryCombination, suffix);
     ArqSvg PicturesSVG = abreEscritaSvg(svgFileName);
     Picture pic;
     Entity entity;
 
-    while (countFila(F) > 0)
+    // Percorrer cada foto da fila de fotos F e processar uma pontuação para cada foto
+    while (isFilaEmpty(F) == false)
     {
-        pontuação = 0;
-        pic = popEntPicture(balloon, index);
-        while (isEmptyLst((Lista) pic) == false)
-        {
-            // pontuar cada entidade
-            entity = (Entity) popLst((Lista) pic);
-            pontuação += scoreEnt(entity);
-        }
+        pic = popPictureInFila(balloon, index);
+        pontuação = scorePicture(pic);
+
 
         // Escrever foto no svg
-        // ...
+        dx += getPictureRadius(pic); //// PRECISA AJUSTAR O EXTRAPOLAMENTO DE FORMAS!!!!!!!
+        WriteEntListInSvg(PicturesSVG, (Lista) pic, style, dx, dy);
         //
 
     }
@@ -479,10 +556,10 @@ void detonateBomb(ArqCmds QryFile, Lista L, char * lineBuffer)
     //killLst(AuxiliarLst);
 
     /* Comandos para gerar figura da área de alcance da bomba
-    */
     Geometry circle = createCircle(501, getBombTargetCords(bomb)[0], getBombTargetCords(bomb)[1], getBombRadius(bomb), "black", "none");
     Entity entity = createCommon(circle, 501);
     insertLst(L, (Item) entity);
+    */
 
     removeBomb(bomb);
 }
@@ -498,15 +575,11 @@ void detonateBomb(ArqCmds QryFile, Lista L, char * lineBuffer)
 
 void writeGeoInSVG(Entity ent, Clausura c)
 {
-    // clausure[0] = (void *) SVG;
-    // clausure[1] = (void *) style;
-    // clausure[2] = (void *) &dx;
-    // clausure[3] = (void *) &dy;
-    void ** clausure = (void **) c;
-    ArqSvg SVG  = (ArqSvg) clausure[0];
-    Style style = (Style) clausure[1];
-    double dx   = *((double *) clausure[2]);
-    double dy   = *((double *) clausure[3]);
+    void ** clausure =  (void   **) c;
+    ArqSvg  SVG      =  (ArqSvg   ) clausure[0];
+    Style   style    =  (Style    ) clausure[1];
+    double  dx       = *((double *) clausure[2]);
+    double  dy       = *((double *) clausure[3]);
 
     Geometry element = getEntGeo(ent);
     char deco[DEFAULT_BUFFER_SIZE];
@@ -516,24 +589,34 @@ void writeGeoInSVG(Entity ent, Clausura c)
     {
         case 'c':
         {
+            getGeoCords(element)[0] += dx;
+            getGeoCords(element)[1] += dy;
             preparaDecoracao(SVG, deco, DEFAULT_BUFFER_SIZE, getGeoBorder_color(element), getGeoFill_color(element), "1", 1, 1, 1);
             escreveCirculoSvg(SVG, getGeoCords(element)[0], getGeoCords(element)[1], getGeoRadius(element), deco);
             break;
         };
         case 'r':
         {
+            getGeoCords(element)[0] += dx;
+            getGeoCords(element)[1] += dy;
             preparaDecoracao(SVG, deco, DEFAULT_BUFFER_SIZE, getGeoBorder_color(element), getGeoFill_color(element), "1", 1, 1, 1);
             escreveRetanguloSvg(SVG, getGeoCords(element)[0], getGeoCords(element)[1], getGeoWidth(element), getGeoHeight(element), deco);
             break;
         };
         case 'l':
         {
+            getGeoAnchor_1(element)[0] += dx;
+            getGeoAnchor_1(element)[1] += dy;
+            getGeoAnchor_2(element)[0] += dx;
+            getGeoAnchor_2(element)[1] += dy;
             preparaDecoracao(SVG, deco, DEFAULT_BUFFER_SIZE, getGeoBorder_color(element), getGeoFill_color(element), "1", 1, 1, 1);
             escreveLinhaSvg(SVG, getGeoAnchor_1(element)[0], getGeoAnchor_1(element)[1], getGeoAnchor_2(element)[0], getGeoAnchor_2(element)[1], deco);
             break;
         };
         case 't':
         {
+            getGeoCords(element)[0] += dx;
+            getGeoCords(element)[1] += dy;
             switch(getGeoAnchor(element))
             {
                 case 'i':
@@ -564,4 +647,54 @@ void WriteEntListInSvg(ArqSvg SVG, Lista L, Style style, double dx, double dy)
     clausure[2] = (void *) &dx;
     clausure[3] = (void *) &dy;
     fold(L, writeGeoInSVG, clausure);
+}
+
+Entity copyEntity (Entity ent)
+{
+    Entity newEnt;
+    Geometry eGeo;
+    switch (getEntType(ent))
+    {
+        case 'c':
+        {
+            eGeo = getEntGeo(ent);
+            eGeo = createCircle(getEntID(ent), getGeoCords(eGeo)[0], getGeoCords(eGeo)[1], getGeoRadius(eGeo), getGeoBorder_color(eGeo), getGeoFill_color(eGeo));
+            newEnt = createCommon(eGeo, getEntID(ent));
+            break;
+        }
+        case 'r':
+        {
+            eGeo = getEntGeo(ent);
+            eGeo = createRectangle(getEntID(ent), getGeoCords(eGeo)[0], getGeoCords(eGeo)[1], getGeoWidth(eGeo), getGeoHeight(eGeo), getGeoBorder_color(eGeo), getGeoFill_color(eGeo));
+            newEnt = createCommon(eGeo, getEntID(ent));
+            break;
+        }
+        case 'l':
+        {
+            eGeo = getEntGeo(ent);
+            eGeo = createLine(getEntID(ent), getGeoAnchor_1(eGeo)[0], getGeoAnchor_1(eGeo)[1], getGeoAnchor_2(eGeo)[0], getGeoAnchor_2(eGeo)[1], getGeoBorder_color(eGeo));
+            newEnt = createCommon(eGeo, getEntID(ent));
+            break;
+        }
+        case 't':
+        {
+            eGeo = getEntGeo(ent);
+            eGeo = createText(getEntID(ent), getGeoCords(eGeo)[0], getGeoCords(eGeo)[1], getGeoBorder_color(eGeo), getGeoFill_color(eGeo), getGeoAnchor(eGeo), getGeoText(eGeo));
+            newEnt = createCommon(eGeo, getEntID(ent));
+            break;
+        }
+        case 'b':
+        {
+            eGeo = getEntGeo(ent);
+            eGeo = createText(getEntID(ent), getGeoCords(eGeo)[0], getGeoCords(eGeo)[1], getGeoBorder_color(eGeo), getGeoFill_color(eGeo), getGeoAnchor(eGeo), getGeoText(eGeo));
+            newEnt = createBalloon(eGeo, getEntID(ent));
+        }
+        case 'd':
+        {
+            eGeo = getEntGeo(ent);
+            eGeo = createText(getEntID(ent), getGeoCords(eGeo)[0], getGeoCords(eGeo)[1], getGeoBorder_color(eGeo), getGeoFill_color(eGeo), getGeoAnchor(eGeo), getGeoText(eGeo));
+            newEnt = createWarplane(eGeo, getEntID(ent));
+        }
+    }
+    return newEnt;
 }

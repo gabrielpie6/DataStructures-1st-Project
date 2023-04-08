@@ -37,10 +37,18 @@ double    getEntHeight          (Entity ent);
 void      setEntRadius          (Entity ent, double radius);
 double    getEntRadius          (Entity ent);
 // Balloon's pictures
-bool      isEntinPicture        (Entity ent, Entity balloon);
-void      addEntPicture         (Entity ent, Picture pic, int index);
-Picture   popEntPicture         (Entity ent, int index);
-Fila      getFilaOfPictures     (Entity ent, int index);
+void      defineFrame           (Entity balloon, double * xi, double * yi, double * xf, double * yf);
+bool      isEntinFrame          (Entity ent, Entity balloon);
+Picture   createPicture         (double radius, double height, double depth, void * optional_list_of_elements);
+void      removePicture         (Picture pic);
+double    getPictureRadius      (Picture pic);
+double    getPictureHeight      (Picture pic);
+double    getPictureDepth       (Picture pic);
+void      addEntPicture         (Entity ent, Picture pic);
+Entity    popEntPicture         (Picture pic);
+void      addPictureInFila      (Entity balloon, Picture pic, int index);
+Picture   popPictureInFila      (Entity balloon, int index);
+Fila      getFilaOfPictures     (Entity balloon, int index);
 
 // WARPLANE FUNCTIONS
 // Warplane's actions
@@ -55,12 +63,6 @@ void      removeEntbyIDinLst    (Entity ent, Lista L);
 
 // BOMB FUNCTIONS
 // Getters and Setters
-/*
-char capacityType;
-    double radius;
-    double originCord[2];
-    double targetCords[2];
-*/
 double   getBombRadius         (Bomb bomb);
 double * getBombOriginCord     (Bomb bomb);
 double * getBombTargetCords    (Bomb bomb);

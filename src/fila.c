@@ -82,12 +82,7 @@ bool isFilaFull(Fila fila)
 {
     struct FilaType *p = (struct FilaType *) fila;
 
-    // SE índice de fim for imeditamente anterior ao índice ínicio quando analisados
-    // em formato polar (relógio).
-    int valor = p->inicio - 1;
-    if (valor < 0)
-       valor += p->tamanho; 
-    if (p->fim == (p->inicio - 1) % (p->tamanho) && p->fim >= 0)
+    if (countFila(fila) == (p->tamanho))
         return 1;
     else
         return 0;
