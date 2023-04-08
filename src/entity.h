@@ -17,6 +17,8 @@ typedef void * Bomb;
 Entity    createCommon          (Geometry geo, int id);
 Entity    createBalloon         (Geometry geo, int id);
 Entity    createWarplane        (Geometry geo, int id);
+Picture   createPicture         (double radius, double height, double depth, void * optional_list_of_elements);
+Bomb      defineBomb            (char capacityType, double Ox, double Oy, double distance, double theta);
 
 // PROCESSING FUNCTIONS
 void      removeEntity          (Entity ent);
@@ -39,11 +41,11 @@ double    getEntRadius          (Entity ent);
 // Balloon's pictures
 void      defineFrame           (Entity balloon, double * xi, double * yi, double * xf, double * yf);
 bool      isEntinFrame          (Entity ent, Entity balloon);
-Picture   createPicture         (double radius, double height, double depth, void * optional_list_of_elements);
 void      removePicture         (Picture pic);
 double    getPictureRadius      (Picture pic);
 double    getPictureHeight      (Picture pic);
 double    getPictureDepth       (Picture pic);
+Lista     getPictureElements    (Picture pic);
 void      addEntPicture         (Entity ent, Picture pic);
 Entity    popEntPicture         (Picture pic);
 void      addPictureInFila      (Entity balloon, Picture pic, int index);
@@ -52,7 +54,6 @@ Fila      getFilaOfPictures     (Entity balloon, int index);
 
 // WARPLANE FUNCTIONS
 // Warplane's actions
-Bomb      defineBomb            (char capacityType, double Ox, double Oy, double distance, double theta);
 void      removeBomb            (Bomb bomb);
 bool      throwBomb             (Entity ent, Bomb bomb);
 void      incrementEntShots     (Entity ent);

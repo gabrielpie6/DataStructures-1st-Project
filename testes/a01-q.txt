@@ -1,0 +1,39 @@
+[*] mv 6 100 0
+retangulo
+ancora originalmente     em (121.000000, 46.000000)
+ancora apos deslocamento em (221.000000, 46.000000)
+largura: 100.000000
+altura: 30.000000
+preenchimento: yellow
+borda: cyan
+
+[*] g 7 00
+texto
+ancora em (250.000000, 0.000000)
+rotacao original: 0.000000
+rotacao final:    0.000000
+tipo de ancora: m
+texto: v_O_v
+preenchimento: black
+borda: black
+
+[*] mv 7 250 0
+texto
+ancora originalmente     em (250.000000, 0.000000)
+ancora apos deslocamento em (500.000000, 0.000000)
+rotacao: 0.000000
+tipo de ancora: m
+texto: v_O_v
+preenchimento: black
+borda: black
+
+[*] g 11 125
+texto
+ancora em (250.000000, 200.000000)
+rotacao original: 0.000000
+rotacao final:    125.000000
+tipo de ancora: m
+texto: |-T-|
+preenchimento: black
+borda: black
+

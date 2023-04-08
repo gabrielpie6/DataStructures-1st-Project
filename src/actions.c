@@ -198,8 +198,18 @@ void readActTextStyle (ArqCmds GeoFile, char * lineBuffer, Style created_already
 
 
 
+
+
+
+
+
+
+
+
+
 ///////////////////////////////////////////
 // .QRY FUNCTIONS
+//
 bool ReadQryFile(Lista L, char * qryPath, char * outputPath, char * geo_qryCombination, Style style)
 {
     ArqCmds QryFile = abreArquivoCmd(qryPath);
@@ -211,31 +221,61 @@ bool ReadQryFile(Lista L, char * qryPath, char * outputPath, char * geo_qryCombi
     {
         char buffer[DEFAULT_BUFFER_SIZE];
         char parameter[SIMPLE_PARAMETER_SIZE];
+        char * txtFile = malloc(sizeof(char) * (strlen(outputPath) + 1 + strlen(geo_qryCombination) + strlen(".txt") + 1));
+        sprintf(txtFile, "%s/%s.txt", outputPath, geo_qryCombination);
+        FILE * TXTFile = fopen(txtFile, "w");
 
         while (leLinha(QryFile, buffer, DEFAULT_BUFFER_SIZE))
         {
             getParametroI(QryFile, buffer, 0, parameter, SIMPLE_PARAMETER_SIZE);
 
-            if (strcmp(parameter, "mv") == 0) moveEntity(QryFile, L, buffer); else
-            if (strcmp(parameter, "g" ) == 0) rotateEntity(QryFile, L, buffer); else
-            if (strcmp(parameter, "ff") == 0) setPictureFocus(QryFile, L, buffer); else
-            if (strcmp(parameter, "tf") == 0) takePicture(QryFile, L, buffer); else
-            if (strcmp(parameter, "df") == 0) downloadPictures(QryFile, L, buffer, outputPath, geo_qryCombination, style); else
-            if (strcmp(parameter, "d" ) == 0) detonateBomb(QryFile, L, buffer); else
+            if (strcmp(parameter, "mv") == 0) moveEntity       (QryFile, L, buffer, TXTFile); else
+            if (strcmp(parameter, "g" ) == 0) rotateEntity     (QryFile, L, buffer, TXTFile); else
+            if (strcmp(parameter, "ff") == 0) setPictureFocus  (QryFile, L, buffer); else
+            if (strcmp(parameter, "tf") == 0) {takePicture      (QryFile, L, buffer, TXTFile);
+                Entity balloon = searchEntbyIDinLst(L, 7);
+                Entity b2 = copyEntity(balloon);
+                Picture pic = popPictureInFila(balloon, 0);
+                Lista elements = getPictureElements(pic);
+                
+                
+                
+                char * teste = malloc(sizeof(char) * (strlen(outputPath) + 1 + strlen("foto.svg") + 1));
+                sprintf(teste, "%s/foto.svg", outputPath);
+                ArqSvg Test = abreEscritaSvg(teste);
+                free(teste);
+                //WriteEntListInSvg(Test, elements, style, 0, 0);
+                printf("oi\n");
+                printf("len: %d\n", lengthLst(elements));
+                /*
+                for (Entity ent; lengthLst(elements) > 0;)
+                {
+                    ent = popLst(elements);
+                    printf("id: %d\n", getEntID(ent));
+                }
+                */
+                WriteEntListInSvg(Test, elements, style, 0, 0);
+                fechaSvg(Test);
+            
+            } else
+            if (strcmp(parameter, "df") == 0) downloadPictures (QryFile, L, buffer, outputPath, geo_qryCombination, style, TXTFile); else
+            if (strcmp(parameter, "d" ) == 0) detonateBomb     (QryFile, L, buffer, TXTFile); else
             if (strcmp(parameter, "b?") == 0) {} else
             if (strcmp(parameter, "c?") == 0) {} else
             {
                 printf("ERRO: comando '%s' nao reconhecido em '%s'\n", parameter, qryPath);
                 fechaArquivoCmd(QryFile);
+                fclose(TXTFile);
                 return false;
             }
         }
+        fclose(TXTFile);
     }
     fechaArquivoCmd(QryFile);
     return true;
 }
 //
-void moveEntity(ArqCmds QryFile, Lista L, char * lineBuffer)
+void moveEntity(ArqCmds QryFile, Lista L, char * lineBuffer, FILE * TXTFile)
 {
     char parameter[SIMPLE_PARAMETER_SIZE];
 
@@ -245,14 +285,129 @@ void moveEntity(ArqCmds QryFile, Lista L, char * lineBuffer)
     Geometry element = searchGeobyIDinLst(L, id);
 
     getParametroI(QryFile, lineBuffer, 2, parameter, SIMPLE_PARAMETER_SIZE);
-    double x = atof(parameter);
+    double dx = atof(parameter);
     getParametroI(QryFile, lineBuffer, 3, parameter, SIMPLE_PARAMETER_SIZE);
-    double y = atof(parameter);
+    double dy = atof(parameter);
 
-    Dislocate_Geo(element, x, y);
+
+    double x0, y0, x0A, y0A, x0B, y0B;
+    if (getGeoClass(element) == 'l')
+    {
+        x0A = getGeoAnchor_1(element)[0];
+        y0A = getGeoAnchor_1(element)[1];
+        x0B = getGeoAnchor_2(element)[0];
+        y0B = getGeoAnchor_2(element)[1];
+    }
+    else
+    {
+        x0 = getGeoCords(element)[0];
+        y0 = getGeoCords(element)[1];
+    }
+
+    Dislocate_Geo(element, dx, dy);
+    
+
+    // ESCRITA NO ARQUIVO TXT
+    // reportar os atributos da figura do dado id, a posição original e a posição final
+    fprintf(TXTFile, "[*] %s\n", lineBuffer);
+    switch(getGeoClass(element))
+    {
+        /*
+            circulo
+            ancora originalmente     em (x, y)
+            ancora apos deslocamento em (x, y)
+            raio: r
+            preenchimento: cor_do_preenchimento
+            borda: cor_da_borda
+        */
+        case 'c':
+        {
+            double xf = getGeoCords(element)[0];
+            double yf = getGeoCords(element)[1];
+            fprintf(TXTFile, "circulo\n");
+            fprintf(TXTFile, "ancora originalmente     em (%lf, %lf)\n", x0, y0);
+            fprintf(TXTFile, "ancora apos deslocamento em (%lf, %lf)\n", xf, yf);
+            fprintf(TXTFile, "raio: %lf\n", getGeoRadius(element));
+            fprintf(TXTFile, "preenchimento: %s\n", getGeoFill_color(element));
+            fprintf(TXTFile, "borda: %s\n", getGeoBorder_color(element));
+            fprintf(TXTFile, "\n");
+            break;
+        }
+        /*
+            retangulo
+            ancora originalmente     em (x, y)
+            ancora apos deslocamento em (x, y)
+            largura: w
+            altura: h
+            preenchimento: cor_do_preenchimento
+            borda: cor_da_borda
+        */
+        case 'r':
+        {
+            double xf = getGeoCords(element)[0];
+            double yf = getGeoCords(element)[1];
+            fprintf(TXTFile, "retangulo\n");
+            fprintf(TXTFile, "ancora originalmente     em (%lf, %lf)\n", x0, y0);
+            fprintf(TXTFile, "ancora apos deslocamento em (%lf, %lf)\n", xf, yf);
+            fprintf(TXTFile, "largura: %lf\n", getGeoWidth(element));
+            fprintf(TXTFile, "altura: %lf\n", getGeoHeight(element));
+            fprintf(TXTFile, "preenchimento: %s\n", getGeoFill_color(element));
+            fprintf(TXTFile, "borda: %s\n", getGeoBorder_color(element));
+            fprintf(TXTFile, "\n");
+            break;
+        }
+        /*
+            linha
+            ancora 1 originalmente     em (x, y)
+            ancora 1 apos deslocamento em (x, y)
+            ancora 2 originalmente     em (x, y)
+            ancora 2 apos deslocamento em (x, y)
+            cor: cor_da_linha
+        */
+        case 'l':
+        {
+            double xfA = getGeoAnchor_1(element)[0];
+            double yfA = getGeoAnchor_1(element)[1];
+            double xfB = getGeoAnchor_2(element)[0];
+            double yfB = getGeoAnchor_2(element)[1];
+            fprintf(TXTFile, "linha\n");
+            fprintf(TXTFile, "ancora 1 originalmente     em (%lf, %lf)\n", x0A, y0A);
+            fprintf(TXTFile, "ancora 1 apos deslocamento em (%lf, %lf)\n", xfA, yfA);
+            fprintf(TXTFile, "ancora 2 originalmente     em (%lf, %lf)\n", x0B, y0B);
+            fprintf(TXTFile, "ancora 2 apos deslocamento em (%lf, %lf)\n", xfB, yfB);
+            fprintf(TXTFile, "cor: %s\n", getGeoBorder_color(element));
+            fprintf(TXTFile, "\n");
+            break;
+        }
+        /*
+            texto
+            ancora originalmente     em (x, y)
+            ancora apos deslocamento em (x, y)
+            rotacao: theta
+            tipo de ancora: tipo
+            texto: t
+            preenchimento: cor_do_preenchimento
+            borda: cor_da_borda
+        */
+        case 't':
+        {
+            double xf = getGeoCords(element)[0];
+            double yf = getGeoCords(element)[1];
+            fprintf(TXTFile, "texto\n");
+            fprintf(TXTFile, "ancora originalmente     em (%lf, %lf)\n", x0, y0);
+            fprintf(TXTFile, "ancora apos deslocamento em (%lf, %lf)\n", xf, yf);
+            fprintf(TXTFile, "rotacao: %lf\n", getGeoAngle(element));
+            fprintf(TXTFile, "tipo de ancora: %c\n", getGeoAnchor(element));
+            fprintf(TXTFile, "texto: %s\n", getGeoText(element));
+            fprintf(TXTFile, "preenchimento: %s\n", getGeoFill_color(element));
+            fprintf(TXTFile, "borda: %s\n", getGeoBorder_color(element));
+            fprintf(TXTFile, "\n");
+            break;
+        }
+    }
 }
 //
-void rotateEntity(ArqCmds QryFile, Lista L, char * lineBuffer)
+void rotateEntity(ArqCmds QryFile, Lista L, char * lineBuffer, FILE * TXTFile)
 {
     char parameter[SIMPLE_PARAMETER_SIZE];
 
@@ -262,7 +417,34 @@ void rotateEntity(ArqCmds QryFile, Lista L, char * lineBuffer)
     double theta = atof(parameter);
 
     Geometry element = searchGeobyIDinLst(L, id);
+    double theta0 = getGeoAngle(element);
+
     Rotate_Geo(element, theta);
+    double thetaf = getGeoAngle(element);
+
+    // ESCRITA NO ARQUIVO TXT
+    // reportar os atributos da figura do dado id, reportar a inclinação (graus) antes e depois da operação.
+    // PELO QUE APARENTE, SOMENTE SERÁ ROTACIONADO TEXTOS!!!!
+    /*
+        texto
+        ancora em (x, y)
+        rotacao original: theta0
+        rotacao final:    thetaf
+        tipo de ancora: tipo
+        texto: t
+        preenchimento: cor_do_preenchimento
+        borda: cor_da_borda
+    */
+    fprintf(TXTFile, "[*] %s\n", lineBuffer);
+    fprintf(TXTFile, "texto\n");
+    fprintf(TXTFile, "ancora em (%lf, %lf)\n", getGeoCords(element)[0], getGeoCords(element)[1]);
+    fprintf(TXTFile, "rotacao original: %lf\n", theta0);
+    fprintf(TXTFile, "rotacao final:    %lf\n", thetaf);
+    fprintf(TXTFile, "tipo de ancora: %c\n", getGeoAnchor(element));
+    fprintf(TXTFile, "texto: %s\n", getGeoText(element));
+    fprintf(TXTFile, "preenchimento: %s\n", getGeoFill_color(element));
+    fprintf(TXTFile, "borda: %s\n", getGeoBorder_color(element));
+    fprintf(TXTFile, "\n");
 }
 //
 void setPictureFocus(ArqCmds QryFile, Lista L, char * lineBuffer)
@@ -325,7 +507,8 @@ void ajustEntInFrame(Entity ent, Clausura c)
     }
     
 }
-void takePicture(ArqCmds QryFile, Lista L, char * lineBuffer)
+//
+void takePicture(ArqCmds QryFile, Lista L, char * lineBuffer, FILE * TXTFile)
 {
     char parameter[SIMPLE_PARAMETER_SIZE];
 
@@ -341,7 +524,7 @@ void takePicture(ArqCmds QryFile, Lista L, char * lineBuffer)
 
     // É preciso fazer uma cópia da lista obtida, pois esta NÃO POSSUI NOVOS ELEMENTOS alocados na memória
     // (são apenas ponteiros para os elementos da lista original)
-    Lista AuxiliarLst2 = map(AuxiliarLst, copyEntity);
+    Lista AuxiliarLst2 = AuxiliarLst;//map(AuxiliarLst, copyEntity);
     
     // Ajuste das coordenadas das entidades para posição relativa ao frame da foto
     double xi, yi, xf, yf;
@@ -355,15 +538,20 @@ void takePicture(ArqCmds QryFile, Lista L, char * lineBuffer)
     fold (AuxiliarLst2, ajustEntInFrame, (Clausura) clausures);
 
 
-
-
-    Picture pic = createPicture(getEntRadius(balloon), getEntDepth(balloon), getEntHeight(balloon), AuxiliarLst2);
+    Picture pic = createPicture(getEntRadius(balloon), getEntHeight(balloon), getEntDepth(balloon), AuxiliarLst2);
     addPictureInFila(balloon, pic, index);
     
-    // killLst(AuxiliarLst);
-    // killLst(AuxiliarLst2);
+    //killLst(AuxiliarLst);
 
     //WriteInSvg("picture.svg", (Lista) popEntPicture(balloon, index), style);
+
+    /*
+    Style style = createTextStyle("arial", "normal", 16);
+    ArqSvg arq = abreEscritaSvg("picture.svg");
+    printf("lenAuxiliar = %d\n", lengthLst(AuxiliarLst2));
+    WriteEntListInSvg(arq, AuxiliarLst2, style, 0, 0);
+    fechaSvg(arq);
+    */
 
     /*
     // Vizualização da area da foto
@@ -380,12 +568,13 @@ void takePicture(ArqCmds QryFile, Lista L, char * lineBuffer)
     insertBeforeLst(L, getFirstLst(L) ,(Item) entity); 
     */
 }
+//
 double scoreEnt(Entity ent)
 {
     Geometry geo;
 
     int charLenght;
-    double area, length, x1, y1, x2, y2, pontuação = 0;
+    double area, length, x1, y1, x2, y2, pontuacao = 0;
     char * borderColor;
     char * fillColor;
     switch(getEntType(ent))
@@ -397,18 +586,18 @@ double scoreEnt(Entity ent)
             borderColor = getGeoBorder_color(geo);
             fillColor = getGeoFill_color(geo);
             if (strcmp(borderColor, "FFFFFF") == 0 && strcmp(fillColor, "FFFF00") == 0)
-                pontuação += (area/2) * 8;
+                pontuacao += (area/2) * 8;
             else
             if (strcmp(borderColor, "D45500") == 0 && strcmp(fillColor, "FF7F2A") == 0)
-                pontuação += (area/2) * 2;
+                pontuacao += (area/2) * 2;
             else
             if (strcmp(borderColor, "AA0000") == 0 && strcmp(fillColor, "DE8787") == 0)
-                pontuação += (area/2) * 4;
+                pontuacao += (area/2) * 4;
             else
             if (strcmp(borderColor, "AA0000") == 0 && strcmp(fillColor, "DE8787") == 0)
-                pontuação += (area/2) * 0;
+                pontuacao += (area/2) * 0;
             else
-                pontuação += (area/2);
+                pontuacao += (area/2);
             break;
         }
         case 'r':
@@ -419,11 +608,11 @@ double scoreEnt(Entity ent)
             fillColor = getGeoFill_color(geo);
 
             // Falta um dígito em 80080?
-            pontuação += area / 4;
-            if (strcmp(borderColor, "80080") == 0) pontuação += 10; else
-            if (strcmp(borderColor, "AA0088") == 0) pontuação += 15; else
-            if (strcmp(fillColor,   "008033") == 0) pontuação += 20; else
-            if (strcmp(fillColor,   "FFCC00") == 0) pontuação += 30;
+            pontuacao += area / 4;
+            if (strcmp(borderColor, "80080") == 0) pontuacao += 10; else
+            if (strcmp(borderColor, "AA0088") == 0) pontuacao += 15; else
+            if (strcmp(fillColor,   "008033") == 0) pontuacao += 20; else
+            if (strcmp(fillColor,   "FFCC00") == 0) pontuacao += 30;
             break;
         }
         case 'l':
@@ -437,10 +626,10 @@ double scoreEnt(Entity ent)
             length = distance(x1, y1, x2, y2);
             borderColor = getGeoBorder_color(geo);
 
-            if (strcmp(borderColor, "FFFF00") == 0) pontuação += length * 3; else
-            if (strcmp(borderColor, "DDFF55") == 0) pontuação += length * 2; else
-            if (strcmp(borderColor, "0000FF") == 0) pontuação += length * 4; else
-            pontuação += length;
+            if (strcmp(borderColor, "FFFF00") == 0) pontuacao += length * 3; else
+            if (strcmp(borderColor, "DDFF55") == 0) pontuacao += length * 2; else
+            if (strcmp(borderColor, "0000FF") == 0) pontuacao += length * 4; else
+            pontuacao += length;
             
             break;
         }
@@ -449,29 +638,29 @@ double scoreEnt(Entity ent)
         {
             geo = getEntGeo(ent);
             charLenght = strlen(getGeoText(geo));
-            pontuação += charLenght;
+            pontuacao += charLenght;
             break;
         }
         case 'd':
         {
-            pontuação += 100;
+            pontuacao += 100;
             break;
         }
     }
-    return pontuação;
+    return pontuacao;
 }
 double scorePicture(Picture pic)
 {
-    double pontuação = 0;
+    double pontuacao = 0;
     Entity ent = popEntPicture(pic);
     while (ent != NULL)
     {
-        pontuação += scoreEnt(ent);
+        pontuacao += scoreEnt(ent);
         ent = popEntPicture(pic);
     }
-    return pontuação;
+    return pontuacao;
 }
-void downloadPictures(ArqCmds QryFile, Lista L, char * lineBuffer, char * outputPath, char * geo_qryCombination, Style style)
+void downloadPictures(ArqCmds QryFile, Lista L, char * lineBuffer, char * outputPath, char * geo_qryCombination, Style style, FILE * TXTFile)
 {
     char parameter[SIMPLE_PARAMETER_SIZE];
     char suffix[SIMPLE_PARAMETER_SIZE];
@@ -497,7 +686,12 @@ void downloadPictures(ArqCmds QryFile, Lista L, char * lineBuffer, char * output
     Picture pic;
     Entity entity;
 
-    // Percorrer cada foto da fila de fotos F e processar uma pontuação para cada foto
+    Lista Decorations = createLst(-1);
+    Geometry frame, baloonID, pont, raio, altura, prof;
+    char deco[DEFAULT_BUFFER_SIZE];
+
+
+    // Percorrer cada foto da fila de fotos F e processa uma pontuação para cada foto
     while (isFilaEmpty(F) == false)
     {
         pic = popPictureInFila(balloon, index);
@@ -505,14 +699,18 @@ void downloadPictures(ArqCmds QryFile, Lista L, char * lineBuffer, char * output
 
 
         // Escrever foto no svg
-        dx += getPictureRadius(pic); //// PRECISA AJUSTAR O EXTRAPOLAMENTO DE FORMAS!!!!!!!
-        WriteEntListInSvg(PicturesSVG, (Lista) pic, style, dx, dy);
-        //
+        WriteEntListInSvg(PicturesSVG, L, style, dx, dy);
 
+        // Escrever rodapé de cada foto
+        //frame = createRectangle(0, dx, dy, getPictureRadius(pic) * 2, getPictureHeight(pic), "black", "none");
+        preparaDecoracao(PicturesSVG, deco, DEFAULT_BUFFER_SIZE, "black", "none", "1", 1, 1, 1);
+        escreveRetanguloSvg(PicturesSVG, dx, dy, getPictureRadius(pic) * 2, getPictureHeight(pic), deco);
+        //
+        dx += getPictureRadius(pic) * 2; //// PRECISA AJUSTAR O EXTRAPOLAMENTO DE FORMAS!!!!!!!
     }
     fechaSvg(PicturesSVG);
 }
-void detonateBomb(ArqCmds QryFile, Lista L, char * lineBuffer)
+void detonateBomb(ArqCmds QryFile, Lista L, char * lineBuffer, FILE * TXTFile)
 {
     char parameter[SIMPLE_PARAMETER_SIZE];
 

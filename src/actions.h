@@ -8,6 +8,8 @@
 #include "analyticGeometry.h"
 #include "drawSvg.h"
 
+#include <stdio.h>
+
 
 #define DEFAULT_BUFFER_SIZE 500
 #define SHORT_PARAMETER_SIZE 50
@@ -44,14 +46,14 @@ void   readActTextStyle     (ArqCmds GeoFile, char * lineBuffer, Style createdSt
 */
 bool   ReadQryFile          (Lista L, char * qryPath, char * outputPath, char * geo_qryCombination, Style style);
 
-void   moveEntity           (ArqCmds QryFile, Lista L, char * lineBuffer);
-void   rotateEntity         (ArqCmds QryFile, Lista L, char * lineBuffer);
+void   moveEntity           (ArqCmds QryFile, Lista L, char * lineBuffer, FILE * TXTFile);
+void   rotateEntity         (ArqCmds QryFile, Lista L, char * lineBuffer, FILE * TXTFile);
 void   setPictureFocus      (ArqCmds QryFile, Lista L, char * lineBuffer);
-void   takePicture          (ArqCmds QryFile, Lista L, char * lineBuffer);
+void   takePicture          (ArqCmds QryFile, Lista L, char * lineBuffer, FILE * TXTFile);
 double scoreEnt             (Entity ent);
 double scorePicture         (Picture pic);
-void   downloadPictures     (ArqCmds QryFile, Lista L, char * lineBuffer, char * outputPath, char * geo_qryCombination, Style style);
-void   detonateBomb         (ArqCmds QryFile, Lista L, char * lineBuffer);
+void   downloadPictures     (ArqCmds QryFile, Lista L, char * lineBuffer, char * outputPath, char * geo_qryCombination, Style style, FILE * TXTFile);
+void   detonateBomb         (ArqCmds QryFile, Lista L, char * lineBuffer, FILE * TXTFile);
 
 
 ///////////////////////////////

@@ -375,6 +375,11 @@ double getPictureDepth (Picture pic)
     return p->depth;
 }
 
+Lista getPictureElements (Picture pic)
+{
+    photo * p = (photo *) pic;
+    return p->elements;
+}
 void addEntPicture (Entity ent, Picture pic)
 {
     object * e = (object *) ent;
