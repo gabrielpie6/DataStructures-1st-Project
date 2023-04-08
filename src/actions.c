@@ -524,7 +524,7 @@ void takePicture(ArqCmds QryFile, Lista L, char * lineBuffer, FILE * TXTFile)
 
     // É preciso fazer uma cópia da lista obtida, pois esta NÃO POSSUI NOVOS ELEMENTOS alocados na memória
     // (são apenas ponteiros para os elementos da lista original)
-    Lista AuxiliarLst2 = AuxiliarLst;//map(AuxiliarLst, copyEntity);
+    Lista AuxiliarLst2 = map(AuxiliarLst, copyEntity);
     
     // Ajuste das coordenadas das entidades para posição relativa ao frame da foto
     double xi, yi, xf, yf;
@@ -877,20 +877,26 @@ Entity copyEntity (Entity ent)
         case 't':
         {
             eGeo = getEntGeo(ent);
+            Style style = getGeoStyle(eGeo);
             eGeo = createText(getEntID(ent), getGeoCords(eGeo)[0], getGeoCords(eGeo)[1], getGeoBorder_color(eGeo), getGeoFill_color(eGeo), getGeoAnchor(eGeo), getGeoText(eGeo));
+            setGeoStyle(eGeo, style);
             newEnt = createCommon(eGeo, getEntID(ent));
             break;
         }
         case 'b':
         {
             eGeo = getEntGeo(ent);
+            Style style = getGeoStyle(eGeo);
             eGeo = createText(getEntID(ent), getGeoCords(eGeo)[0], getGeoCords(eGeo)[1], getGeoBorder_color(eGeo), getGeoFill_color(eGeo), getGeoAnchor(eGeo), getGeoText(eGeo));
+            setGeoStyle(eGeo, style);
             newEnt = createBalloon(eGeo, getEntID(ent));
         }
         case 'd':
         {
             eGeo = getEntGeo(ent);
+            Style style = getGeoStyle(eGeo);
             eGeo = createText(getEntID(ent), getGeoCords(eGeo)[0], getGeoCords(eGeo)[1], getGeoBorder_color(eGeo), getGeoFill_color(eGeo), getGeoAnchor(eGeo), getGeoText(eGeo));
+            setGeoStyle(eGeo, style);
             newEnt = createWarplane(eGeo, getEntID(ent));
         }
     }
