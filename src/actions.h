@@ -8,55 +8,11 @@
 #include "analyticGeometry.h"
 #include "drawSvg.h"
 
-#include <stdio.h>
-
 
 #define DEFAULT_BUFFER_SIZE 500
 #define SHORT_PARAMETER_SIZE 50
 #define SIMPLE_PARAMETER_SIZE 100
 #define MEDIUM_PARAMETER_SIZE 250
-
-
-///////////////////////////////
-// .geo ACTIONS
-//
-/*
-    Lê um arquivo .geo e retorna uma lista conténdo todas as entidades lidas pelo arquivo.
-    Se não for possível ler o arquivo, ou haver comandos desconhecidos no arquivo, retorna NULL.
-*/
-Lista  ReadGeoFile          (char * geoPath, Style defaultStyle);
-
-Entity readActCircle        (ArqCmds GeoFile, char * lineBuffer);
-Entity readActRectangle     (ArqCmds GeoFile, char * lineBuffer);
-Entity readActLine          (ArqCmds GeoFile, char * lineBuffer);
-Entity readActText          (ArqCmds GeoFile, char * lineBuffer, Style style);
-void   readActTextStyle     (ArqCmds GeoFile, char * lineBuffer, Style createdStyle);
-
-
-///////////////////////////////
-
-
-
-///////////////////////////////
-// .qry ACTIONS
-//
-/*
-    Lê um arquivo .qry e executa todas as ações contidas no arquivo, então retorna true.
-    Se não for possível ler o arquivo, ou haver comandos desconhecidos no arquivo, retorna false.
-*/
-bool   ReadQryFile          (Lista L, char * qryPath, char * outputPath, char * geo_qryCombination, Style style);
-
-void   moveEntity           (ArqCmds QryFile, Lista L, char * lineBuffer, FILE * TXTFile);
-void   rotateEntity         (ArqCmds QryFile, Lista L, char * lineBuffer, FILE * TXTFile);
-void   setPictureFocus      (ArqCmds QryFile, Lista L, char * lineBuffer);
-void   takePicture          (ArqCmds QryFile, Lista L, char * lineBuffer, FILE * TXTFile);
-double scoreEnt             (Entity ent);
-double scorePicture         (Picture pic);
-void   downloadPictures     (ArqCmds QryFile, Lista L, char * lineBuffer, char * outputPath, char * geo_qryCombination, Style style, FILE * TXTFile);
-void   detonateBomb         (ArqCmds QryFile, Lista L, char * lineBuffer, FILE * TXTFile);
-
-
-///////////////////////////////
 
 
 
@@ -65,7 +21,14 @@ void   detonateBomb         (ArqCmds QryFile, Lista L, char * lineBuffer, FILE *
 //
 void writeGeoInSVG(Entity ent, Clausura c);
 void WriteEntListInSvg(ArqSvg SVG, Lista L, Style style, double dx, double dy);
+///////////////////////////////
+
+///////////////////////////////
+// UTILS ACTIONS
+//
 Entity copyEntity (Entity ent);
+double scoreEnt             (Entity ent);
+double scorePicture         (Picture pic);
 ///////////////////////////////
 
 #endif
