@@ -100,21 +100,27 @@ Entity copyEntity (Entity ent)
         case 'c':
         {
             eGeo = getEntGeo(ent);
+            double theta = getGeoAngle(eGeo);
             eGeo = createCircle(getEntID(ent), getGeoCords(eGeo)[0], getGeoCords(eGeo)[1], getGeoRadius(eGeo), getGeoBorder_color(eGeo), getGeoFill_color(eGeo));
+            setGeoAngle(eGeo, theta);
             newEnt = createCommon(eGeo, getEntID(ent));
             break;
         }
         case 'r':
         {
             eGeo = getEntGeo(ent);
+            double theta = getGeoAngle(eGeo);
             eGeo = createRectangle(getEntID(ent), getGeoCords(eGeo)[0], getGeoCords(eGeo)[1], getGeoWidth(eGeo), getGeoHeight(eGeo), getGeoBorder_color(eGeo), getGeoFill_color(eGeo));
+            setGeoAngle(eGeo, theta);
             newEnt = createCommon(eGeo, getEntID(ent));
             break;
         }
         case 'l':
         {
             eGeo = getEntGeo(ent);
+            double theta = getGeoAngle(eGeo);
             eGeo = createLine(getEntID(ent), getGeoAnchor_1(eGeo)[0], getGeoAnchor_1(eGeo)[1], getGeoAnchor_2(eGeo)[0], getGeoAnchor_2(eGeo)[1], getGeoBorder_color(eGeo));
+            setGeoAngle(eGeo, theta);
             newEnt = createCommon(eGeo, getEntID(ent));
             break;
         }
@@ -122,8 +128,10 @@ Entity copyEntity (Entity ent)
         {
             eGeo = getEntGeo(ent);
             Style style = getGeoStyle(eGeo);
+            double theta = getGeoAngle(eGeo);
             eGeo = createText(getEntID(ent), getGeoCords(eGeo)[0], getGeoCords(eGeo)[1], getGeoBorder_color(eGeo), getGeoFill_color(eGeo), getGeoAnchor(eGeo), getGeoText(eGeo));
             setGeoStyle(eGeo, style);
+            setGeoAngle(eGeo, theta);
             newEnt = createCommon(eGeo, getEntID(ent));
             break;
         }
@@ -131,16 +139,20 @@ Entity copyEntity (Entity ent)
         {
             eGeo = getEntGeo(ent);
             Style style = getGeoStyle(eGeo);
+            double theta = getGeoAngle(eGeo);
             eGeo = createText(getEntID(ent), getGeoCords(eGeo)[0], getGeoCords(eGeo)[1], getGeoBorder_color(eGeo), getGeoFill_color(eGeo), getGeoAnchor(eGeo), getGeoText(eGeo));
             setGeoStyle(eGeo, style);
+            setGeoAngle(eGeo, theta);
             newEnt = createBalloon(eGeo, getEntID(ent));
         }
         case 'd':
         {
             eGeo = getEntGeo(ent);
             Style style = getGeoStyle(eGeo);
+            double theta = getGeoAngle(eGeo);
             eGeo = createText(getEntID(ent), getGeoCords(eGeo)[0], getGeoCords(eGeo)[1], getGeoBorder_color(eGeo), getGeoFill_color(eGeo), getGeoAnchor(eGeo), getGeoText(eGeo));
             setGeoStyle(eGeo, style);
+            setGeoAngle(eGeo, theta);
             newEnt = createWarplane(eGeo, getEntID(ent));
         }
     }

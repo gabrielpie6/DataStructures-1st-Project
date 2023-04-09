@@ -37,3 +37,13 @@ texto: |-T-|
 preenchimento: black
 borda: black
 
+[*] mv 7 -270 120
+texto
+ancora originalmente     em (500.000000, 0.000000)
+ancora apos deslocamento em (230.000000, 120.000000)
+rotacao: 0.000000
+tipo de ancora: m
+texto: v_O_v
+preenchimento: black
+borda: black
+

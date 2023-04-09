@@ -394,23 +394,32 @@ void downloadPictures(ArqCmds QryFile, Lista L, char * lineBuffer, char * output
     Entity entity;
 
     Lista Decorations = createLst(-1);
+    Lista elements;
     Geometry frame, baloonID, pont, raio, altura, prof;
     char deco[DEFAULT_BUFFER_SIZE];
 
 
     // Percorrer cada foto da fila de fotos F e processa uma pontuação para cada foto
-    while (isFilaEmpty(F) == false)
+    //printf("len fila: %d\n", countFila(F));
+    //printf("len elements: %d\n", lengthLst(elements));
+
+    while (countFila(F) > 0)
     {
-        pic = popPictureInFila(balloon, index);
-        pontuação = scorePicture(pic);
+        pic      = (Picture) popFila(F);
+        elements = getPictureElements(pic);
+        // pic = (Picture) popPictureInFila(balloon, index);
+        // elements = getPictureElements(pic);
+        // pontuação = scorePicture(pic);
+        WriteEntListInSvg(PicturesSVG, elements, style, dx, dy);
 
 
         // Escrever foto no svg
-        WriteEntListInSvg(PicturesSVG, L, style, dx, dy);
+        
+        
 
         // Escrever rodapé de cada foto
         //frame = createRectangle(0, dx, dy, getPictureRadius(pic) * 2, getPictureHeight(pic), "black", "none");
-        preparaDecoracao(PicturesSVG, deco, DEFAULT_BUFFER_SIZE, "black", "none", "1", 1, 1, 1);
+        preparaDecoracao(PicturesSVG, deco, DEFAULT_BUFFER_SIZE, "black", "none", "4", 1, 1, 1);
         escreveRetanguloSvg(PicturesSVG, dx, dy, getPictureRadius(pic) * 2, getPictureHeight(pic), deco);
         //
         dx += getPictureRadius(pic) * 2; //// PRECISA AJUSTAR O EXTRAPOLAMENTO DE FORMAS!!!!!!!
