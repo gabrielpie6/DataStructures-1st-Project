@@ -4,8 +4,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#define FILAS_AMOUNT 10
-#define PICTURES_AMOUNT 15
 
 struct Common {
     Geometry geo;
@@ -193,6 +191,38 @@ Geometry getEntGeo(Entity ent)
             return e->attributes.warplane->geo;
     }
 }
+//
+void setEntID (Entity ent, int id)
+{
+    object * e = (object *) ent;
+    e->id = id;
+}
+//
+void setEntType (Entity ent, char type)
+{
+    object * e = (object *) ent;
+    e->class = type;
+}
+//
+void setEntGeo (Entity ent, Geometry geo)
+{
+    object * e = (object *) ent;
+    switch (e->class) 
+    {
+        case 'c':
+        case 'r':
+        case 'l':
+        case 't':
+            e->attributes.common->geo = geo;
+            break;
+        case 'b':
+            e->attributes.balloon->geo = geo;
+            break;
+        case 'd':
+            e->attributes.warplane->geo = geo;
+            break;
+    }
+}
 /////////////////////////////////////////////
 
 
@@ -233,108 +263,6 @@ double getEntRadius (Entity ent)
 }
 //
 // Balloon's pictures
-//
-void defineFrame (Entity balloon, double * xi, double * yi, double * xf, double * yf)
-{
-    object * bal = (object *) balloon;
-    Geometry ballonGeo = bal->attributes.balloon->geo;
-    double middleAnchor[2];
-    double r, d, h;
-
-    r = getEntRadius (balloon);
-    d = getEntDepth  (balloon);
-    h = getEntHeight (balloon);
-    switch (getGeoAnchor(ballonGeo))
-    {
-        case 'i':
-        {
-            middleAnchor[0] = getGeoCords(ballonGeo)[0]; // é preciso de uma constante para ajusat o centro do balão
-            middleAnchor[1] = getGeoCords(ballonGeo)[1];
-            break;
-        }
-        case 'm':
-        {
-            middleAnchor[0] = getGeoCords(ballonGeo)[0];
-            middleAnchor[1] = getGeoCords(ballonGeo)[1];
-            break;
-        }
-        case 'f':
-        {
-            middleAnchor[0] = getGeoCords(ballonGeo)[0]; // é preciso de uma constante para ajusat o centro do balão
-            middleAnchor[1] = getGeoCords(ballonGeo)[1];
-            break;
-        }
-    }
-    
-    *xi = middleAnchor[0] - r;
-    *yi = middleAnchor[1] + d;
-
-    *xf = middleAnchor[0] + r;
-    *yf = middleAnchor[1] + d + h;
-}
-bool isEntinFrame(Entity ent, Entity balloon)
-{
-    object * e   = (object *) ent;
-    Geometry eGeo = e->attributes.common->geo;
-    double xi, yi, xf, yf;
-    defineFrame(balloon, &xi, &yi, &xf, &yf);
-    
-    // Analisar se geometria está dentro do quadro da foto
-    switch (getEntType(ent))
-    {
-        case 'c':
-        {
-            if (isCircleInsideRectangle(getGeoCords(eGeo)[0], getGeoCords(eGeo)[1], getGeoRadius(eGeo), xi, yi, xf, yf))
-            {
-                // Ajustar as coordenadas da forma geométrica para posição relativa da foto
-                return true;
-            }
-            else
-                return false;
-            break;
-        }
-        case 'r':
-        {
-            if (isRectangleInsideRectangle(
-                getGeoCords(eGeo)[0], getGeoCords(eGeo)[1], 
-                getGeoCords(eGeo)[0] + getGeoWidth(eGeo), getGeoCords(eGeo)[1] + getGeoHeight(eGeo),
-                xi, yi, xf, yf)) // Coordenadas do retângulo da foto
-            {
-                return true;
-            } 
-            else
-                return false;
-            break;
-        }
-        case 'l':
-        {
-            if (isLineInsideRectangle(
-                getGeoAnchor_1(eGeo)[0], getGeoAnchor_1(eGeo)[1],
-                getGeoAnchor_2(eGeo)[0], getGeoAnchor_2(eGeo)[1],
-                xi, yi, xf, yf)) // Coordenadas do retângulo da foto
-            {
-                // Ajustar as coordenadas da forma geométrica para posição relativa da foto
-                return true;
-            }
-            else
-                return false;
-            break;
-        }
-        case 'b':
-        case 'd':
-        case 't':
-        {   
-            if (getGeoCords(eGeo)[0] >= xi && getGeoCords(eGeo)[0] <= xf && getGeoCords(eGeo)[1] >= yi && getGeoCords(eGeo)[1] <= yf)
-            {
-                // Ajustar as coordenadas da forma geométrica para posição relativa da foto
-                return true;
-            }    
-            else
-                return false;
-            break;
-        }
-    }
-}
 //
 Picture createPicture (double radius, double height, double depth, void * optional_list_of_elements)
 {
@@ -465,7 +393,6 @@ void removeBomb (Bomb bomb)
 bool throwBomb (Entity ent, Bomb bomb)
 {
     object * e = (object *) ent;
-    Lista lst = e->attributes.warplane->targets;
     explosive * bb = (explosive *) bomb;
     Geometry geo = getEntGeo(ent);
     double Cx = bb->targetCords[0];
@@ -513,6 +440,12 @@ void incrementEntShots (Entity ent)
     e->attributes.warplane->shots++;
 }
 //
+int getEntShots (Entity ent)
+{
+    object * e = (object *) ent;
+    return e->attributes.warplane->shots;
+}
+//
 void addEntTargetID (Entity ent, Entity warplane)
 {
     object * e = (object *) warplane;
@@ -529,25 +462,21 @@ int * popEntTargetID (Entity ent)
         return NULL;
     else
     {
-        static int targetID;
-        targetID = *((int *) getLst(lst, getFirstLst(lst)));
+        int * targetID = malloc(sizeof(int));
+        *targetID = *((int *) getLst(lst, getFirstLst(lst)));
 
+        free((int *) getLst(lst, getFirstLst(lst)));
         removeLst(lst, getFirstLst(lst));
-        return &targetID;
+        return targetID;
     }
 }
 //
-void removeEntbyIDinLst (Entity ent, Lista L)
+Lista getEntTargetsID (Entity ent)
 {
-    int id = getEntID(ent);
-
-    Iterador it = createIterador(L, false);
-    for (setIteratorPosition(L, it, getFirstLst(L)); getEntID(getIteratorItem(L, it)) != id; getIteratorNext(L, it))
-    {} // Ao sair do for, it aponta para o elemento com o id desejado.
-    Posic pos = getIteratorPosic(L, it);
-    killIterator(L, it);
-    removeLst(L, pos);
+    object * e = (object *) ent;
+    return e->attributes.warplane->targets;
 }
+
 /////////////////////////////////////////////
 
 

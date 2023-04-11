@@ -7,14 +7,15 @@
 ///////////////////////////////////////////
 // .QRY FUNCTIONS
 //
-bool ReadQryFile(Lista L, char * qryPath, char * outputPath, char * geo_qryCombination, Style style)
+bool ReadQryFile(Lista L, char * qryPath, char * outputPath, char * geo_qryCombination, Style style, Lista Decos)
 {
     ArqCmds QryFile = abreArquivoCmd(qryPath);
     if (QryFile == NULL)
     {
         printf("ERRO: nao foi possivel abrir arquivo '%s'\n", qryPath);
         return false;
-    } else
+    }
+    else
     {
         char buffer[DEFAULT_BUFFER_SIZE];
         char parameter[SIMPLE_PARAMETER_SIZE];
@@ -26,39 +27,14 @@ bool ReadQryFile(Lista L, char * qryPath, char * outputPath, char * geo_qryCombi
         {
             getParametroI(QryFile, buffer, 0, parameter, SIMPLE_PARAMETER_SIZE);
 
-            if (strcmp(parameter, "mv") == 0) moveEntity       (QryFile, L, buffer, TXTFile); else
-            if (strcmp(parameter, "g" ) == 0) rotateEntity     (QryFile, L, buffer, TXTFile); else
-            if (strcmp(parameter, "ff") == 0) setPictureFocus  (QryFile, L, buffer); else
-            if (strcmp(parameter, "tf") == 0) {takePicture      (QryFile, L, buffer, TXTFile);
-                // Entity balloon = searchEntbyIDinLst(L, 7);
-                // Entity b2      = copyEntity(balloon);
-                // Picture pic    = popPictureInFila(balloon, 0);
-                // Lista elements = getPictureElements(pic);
-                
-                
-                
-                // char * teste = malloc(sizeof(char) * (strlen(outputPath) + 1 + strlen("foto.svg") + 1));
-                // sprintf(teste, "%s/foto.svg", outputPath);
-                // ArqSvg Test = abreEscritaSvg(teste);
-                // free(teste);
-                // //WriteEntListInSvg(Test, elements, style, 0, 0);
-                // //printf("oi\n");
-                // //printf("len: %d\n", lengthLst(elements));
-                // /*
-                // for (Entity ent; lengthLst(elements) > 0;)
-                // {
-                //     ent = popLst(elements);
-                //     printf("id: %d\n", getEntID(ent));
-                // }
-                // */
-                // WriteEntListInSvg(Test, elements, style, 0, 0);
-                // fechaSvg(Test);
-            
-            } else
-            if (strcmp(parameter, "df") == 0) downloadPictures (QryFile, L, buffer, outputPath, geo_qryCombination, style, TXTFile); else
-            if (strcmp(parameter, "d" ) == 0) detonateBomb     (QryFile, L, buffer, TXTFile); else
-            if (strcmp(parameter, "b?") == 0) {} else
-            if (strcmp(parameter, "c?") == 0) {} else
+            if (strcmp(parameter, "mv") == 0) moveEntity          (QryFile, L, buffer, TXTFile); else
+            if (strcmp(parameter, "g" ) == 0) rotateEntity        (QryFile, L, buffer, TXTFile); else
+            if (strcmp(parameter, "ff") == 0) setPictureFocus     (QryFile, L, buffer); else
+            if (strcmp(parameter, "tf") == 0) takePicture         (QryFile, L, buffer, TXTFile, Decos); else
+            if (strcmp(parameter, "df") == 0) downloadPictures    (QryFile, L, buffer, outputPath, geo_qryCombination, style, TXTFile); else
+            if (strcmp(parameter, "d" ) == 0) detonateBomb        (QryFile, L, buffer, TXTFile, Decos); else
+            if (strcmp(parameter, "b?") == 0) reportBalloonsData  (QryFile, L, buffer, TXTFile); else
+            if (strcmp(parameter, "c?") == 0) reportWarplanesData (QryFile, L, buffer, TXTFile); else
             {
                 printf("ERRO: comando '%s' nao reconhecido em '%s'\n", parameter, qryPath);
                 fechaArquivoCmd(QryFile);
@@ -263,49 +239,7 @@ void setPictureFocus(ArqCmds QryFile, Lista L, char * lineBuffer)
     setEntHeight (entity, height);
 }
 //
-void ajustEntInFrame(Entity ent, Clausura c)
-{
-    void ** clausures =  (void **  ) c;
-    Entity  balloon   =  (Entity   ) clausures[0];
-    double  xi        = *((double *) clausures[1]);
-    double  yi        = *((double *) clausures[2]);
-    double  xf        = *((double *) clausures[3]);
-    double  yf        = *((double *) clausures[4]);
-    
-    Geometry eGeo = getEntGeo(ent);
-    switch(getGeoClass(eGeo))
-    {
-        case 'c':
-        {
-            getGeoCords(eGeo)[0] -= xi;
-            getGeoCords(eGeo)[1] -= yi;
-            break;
-        }
-        case 'r':
-        {
-            getGeoCords(eGeo)[0] -= xi;
-            getGeoCords(eGeo)[1] -= yi;
-            break;
-        }
-        case 'l':
-        {
-            getGeoAnchor_1(eGeo)[0] -= xi;
-            getGeoAnchor_1(eGeo)[1] -= yi;
-            getGeoAnchor_2(eGeo)[0] -= xi;
-            getGeoAnchor_2(eGeo)[1] -= yi;
-            break;
-        }
-        case 't':
-        {
-            getGeoCords(eGeo)[0] -= xi;
-            getGeoCords(eGeo)[1] -= yi;
-            break;
-        }
-    }
-    
-}
-//
-void takePicture(ArqCmds QryFile, Lista L, char * lineBuffer, FILE * TXTFile)
+void takePicture(ArqCmds QryFile, Lista L, char * lineBuffer, FILE * TXTFile, Lista Decos)
 {
     char parameter[SIMPLE_PARAMETER_SIZE];
 
@@ -323,16 +257,9 @@ void takePicture(ArqCmds QryFile, Lista L, char * lineBuffer, FILE * TXTFile)
     // (são apenas ponteiros para os elementos da lista original)
     Lista AuxiliarLst2 = map(AuxiliarLst, copyEntity);
     
-    // Ajuste das coordenadas das entidades para posição relativa ao frame da foto
+    // Ajusta os elementos para que fiquem relativos à posição da foto
     double xi, yi, xf, yf;
     defineFrame(balloon, &xi, &yi, &xf, &yf);
-    void * clausures[5];
-    clausures[0] = (void *) balloon;
-    clausures[1] = (void *) &xi;
-    clausures[2] = (void *) &yi;
-    clausures[3] = (void *) &xf;
-    clausures[4] = (void *) &yf;
-    fold (AuxiliarLst2, ajustEntInFrame, (Clausura) clausures);
 
 
     Picture pic = createPicture(getEntRadius(balloon), getEntHeight(balloon), getEntDepth(balloon), AuxiliarLst2);
@@ -340,31 +267,37 @@ void takePicture(ArqCmds QryFile, Lista L, char * lineBuffer, FILE * TXTFile)
     
     killLst(AuxiliarLst);
 
-    //WriteInSvg("picture.svg", (Lista) popEntPicture(balloon, index), style);
+    // Inserção do frame da foto como uma entidade decorativa na lista Decos
+    Geometry frame = createRectangle(-1, xi, yi, getPictureRadius(pic) * 2, getPictureHeight(pic), "red;stroke-dasharray:2 3", "none");
+    insertLst(Decos, (Item) frame);
 
+    //
+    // ESCRITA DOS ATRIBUTOS NO TXT
+    //
     /*
-    // Vizualicao DA foto
-    Style style = createTextStyle("arial", "normal", 16);
-    ArqSvg arq = abreEscritaSvg("picture.svg");
-    printf("lenAuxiliar = %d\n", lengthLst(AuxiliarLst2));
-    WriteEntListInSvg(arq, AuxiliarLst2, style, 0, 0);
-    fechaSvg(arq);
+        [*] tf ...
+        balao: id
+        raio da foto: radius
+        profundidade da foto: depth
+        altura da foto: height
+        IDENTIFICADORES DOS ELEMENTOS FOTOGRAFADOS
+        id [id]: (x, y)
+        ...
     */
-
-    /*
-    // Vizualização da area da foto
-    Geometry element = getEntGeo(balloon);
-    double radius = getEntRadius(balloon);
-    double x = getGeoCords(element)[0];
-    double y = getGeoCords(element)[1];
-    double width = radius * 2;
-    double depth = getEntDepth(balloon);
-    double height = getEntHeight(balloon);
-
-    Geometry rectangle = createRectangle(500, x - radius, y + depth, width, height, "black", "none");
-    Entity entity = createCommon(rectangle, 500);
-    insertBeforeLst(L, getFirstLst(L) ,(Item) entity); 
-    */
+    fprintf(TXTFile, "[*] %s\n", lineBuffer);
+    fprintf(TXTFile, "balao: %d\n", id);
+    fprintf(TXTFile, "raio da foto: %lf\n", getPictureRadius(pic));
+    fprintf(TXTFile, "profundidade da foto: %lf\n", getPictureDepth(pic));
+    fprintf(TXTFile, "altura da foto: %lf\n", getPictureHeight(pic));
+    fprintf(TXTFile, "IDENTIFICADOR(ES) DO(S) ELEMENTO(S) FOTOGRAFADO(S)\n");
+    Lista elements = getPictureElements(pic);
+    Entity ent;
+    for (Posic p = getFirstLst(elements); getNextLst(elements, p) != NIL p = getNextLst(elements, p))
+    {
+        ent = (Entity) getLst(elements, p);
+        fprintf(TXTFile, "id [%d]: (%lf, %lf)\n", getEntID(ent), getGeoCords(getEntGeo(ent))[0], getGeoCords(getEntGeo(ent))[0]);
+    }
+    fprintf(TXTFile, "\n");
 }
 //
 void downloadPictures(ArqCmds QryFile, Lista L, char * lineBuffer, char * outputPath, char * geo_qryCombination, Style style, FILE * TXTFile)
@@ -381,52 +314,127 @@ void downloadPictures(ArqCmds QryFile, Lista L, char * lineBuffer, char * output
 
     Entity balloon = searchEntbyIDinLst(L, id);
     Fila   F       = getFilaOfPictures(balloon, index);
-    double radius  = getEntRadius(balloon);
-    double height  = getEntHeight(balloon);
-    double depth   = getEntDepth (balloon);
     
-    // pontuar cada foto
-    double pontuação, dx = 0, dy = 0;
     char * svgFileName = (char *) malloc(sizeof(char) * (strlen(outputPath) + 1 + strlen(geo_qryCombination) + 1 + strlen(suffix) + strlen(".svg") + 1));
     sprintf(svgFileName, "%s/%s-%s.svg", outputPath, geo_qryCombination, suffix);
     ArqSvg PicturesSVG = abreEscritaSvg(svgFileName);
     Picture pic;
-    Entity entity;
-
-    Lista Decorations = createLst(-1);
     Lista elements;
-    Geometry frame, baloonID, pont, raio, altura, prof;
-    char deco[DEFAULT_BUFFER_SIZE];
 
+    // Escrita dos atributos da foto
+    Lista Decorations = createLst(-1);
+    Geometry frame, balloonID, pont, raio, altura, prof;
+    Style writeStyle = createTextStyle("serif", "normal", 25);
+    char * strokeColor = "none";
+    char * fillColor   = "black";
+    char textBuffer[DEFAULT_BUFFER_SIZE];
 
+    fprintf(TXTFile, "[*] %s\n", lineBuffer);
+    fprintf(TXTFile, "balao: %d\n", id);
+    fprintf(TXTFile, "FILA [%d]:\n", index);
+
+    //
     // Percorrer cada foto da fila de fotos F e processa uma pontuação para cada foto
-    //printf("len fila: %d\n", countFila(F));
-    //printf("len elements: %d\n", lengthLst(elements));
+    //
+    double pontuacao, width, height, dx = 0, dy = 0;
+    double textInitX = 0, textInitY = 0;
+    double spacing = 20;
+    double * limits;
+    double minimumSpace = 5;
 
+    int count = 1;
     while (countFila(F) > 0)
     {
         pic      = (Picture) popFila(F);
         elements = getPictureElements(pic);
-        // pic = (Picture) popPictureInFila(balloon, index);
-        // elements = getPictureElements(pic);
-        // pontuação = scorePicture(pic);
-        WriteEntListInSvg(PicturesSVG, elements, style, dx, dy);
+        ajustElementsToRelativePicPos(balloon, elements);
+        pontuacao = scorePicture(pic);
+        width = getPictureRadius(pic) * 2;
+        height = getPictureHeight(pic);
+
+        /*
+            limits[0] = leftBound
+            limits[1] = rightBound
+            limits[2] = topBound
+            limits[3] = bottomBound
+        */
+        limits = PictureBoundingBox(pic);
 
 
         // Escrever foto no svg
+        dx -= limits[0];
+        dy = -limits[2];
+        WriteEntListInSvg(PicturesSVG, elements, style, dx, dy);
         
         
 
-        // Escrever rodapé de cada foto
-        //frame = createRectangle(0, dx, dy, getPictureRadius(pic) * 2, getPictureHeight(pic), "black", "none");
-        preparaDecoracao(PicturesSVG, deco, DEFAULT_BUFFER_SIZE, "black", "none", "4", 1, 1, 1);
-        escreveRetanguloSvg(PicturesSVG, dx, dy, getPictureRadius(pic) * 2, getPictureHeight(pic), deco);
         //
-        dx += getPictureRadius(pic) * 2; //// PRECISA AJUSTAR O EXTRAPOLAMENTO DE FORMAS!!!!!!!
+        // ESCRITA DOS ATRIBUTOS DA FOTO (RODAPÉ)
+        //
+        frame = createRectangle(0, dx, dy, getPictureRadius(pic) * 2, getPictureHeight(pic), "black", "none");
+        insertLst(Decorations, (Item) frame);
+
+        textInitX = dx; // Arumar espacamento (?)
+        textInitY = dy + spacing + limits[3];
+        /*
+            balao: id
+            pont: pontuacao
+            raio: radius
+            altura: height
+            prof: depth
+        */
+        sprintf(textBuffer, "balao: %d", id);
+
+        balloonID = createText(-1, textInitX, textInitY, strokeColor, fillColor, 'i', textBuffer);
+        setGeoStyle(balloonID, writeStyle);
+        insertLst(Decorations, (Item) balloonID);
+
+        textInitY += spacing;
+        sprintf(textBuffer, "pont: %.2lf", pontuacao);
+        pont = createText(-1, textInitX, textInitY, strokeColor, fillColor, 'i', textBuffer);
+        setGeoStyle(pont, writeStyle);
+        insertLst(Decorations, (Item) pont);
+
+        textInitY += spacing;
+        sprintf(textBuffer, "raio: %.2lf", getPictureRadius(pic));
+        raio = createText(-1, textInitX, textInitY, strokeColor, fillColor, 'i', textBuffer);
+        setGeoStyle(raio, writeStyle);
+        insertLst(Decorations, (Item) raio);
+
+        textInitY += spacing;
+        sprintf(textBuffer, "altura: %.2lf", getPictureHeight(pic));
+        altura = createText(-1, textInitX, textInitY, strokeColor, fillColor, 'i', textBuffer);
+        setGeoStyle(altura, writeStyle);
+        insertLst(Decorations, (Item) altura);
+
+        textInitY += spacing;
+        sprintf(textBuffer, "prof: %.2lf", getPictureDepth(pic));
+        prof = createText(-1, textInitX, textInitY, strokeColor, fillColor, 'i', textBuffer);
+        setGeoStyle(prof, writeStyle);
+        insertLst(Decorations, (Item) prof);
+
+        dx += limits[1] + minimumSpace;
+        
+        //
+        // ESCREVE ATRIBUTOS das fotos no TXT
+        //
+        /*
+            [*] df ...
+            balao: id
+            FOTO [1] - pont: pontuacao (%.2lf), raio: radius (%.2lf), altura: height (%.2lf), prof: depth (%.2lf)
+            ...
+            FOTO [n] - pont: pontuacao (%.2lf), raio: radius (%.2lf), altura: height (%.2lf), prof: depth (%.2lf)
+        */
+        fprintf(TXTFile, "\tFOTO [%d] - pont: %.2lf, raio: %.2lf, altura: %.2lf, prof: %.2lf\n", count, pontuacao, getPictureRadius(pic), getPictureHeight(pic), getPictureDepth(pic));
+        count++;
     }
+    WriteGeoListInSvg(PicturesSVG, Decorations, style, 0, 0);
+    killLst(Decorations);
     fechaSvg(PicturesSVG);
+    free(limits);
+    fprintf(TXTFile, "\n");
 }
-void detonateBomb(ArqCmds QryFile, Lista L, char * lineBuffer, FILE * TXTFile)
+void detonateBomb(ArqCmds QryFile, Lista L, char * lineBuffer, FILE * TXTFile, Lista Decos)
 {
     char parameter[SIMPLE_PARAMETER_SIZE];
 
@@ -445,6 +453,7 @@ void detonateBomb(ArqCmds QryFile, Lista L, char * lineBuffer, FILE * TXTFile)
     double x = getGeoCords(getEntGeo(warplane))[0];
     double y = getGeoCords(getEntGeo(warplane))[1];
     double theta = getGeoAngle(getEntGeo(warplane));
+    incrementEntShots(warplane);
 
     // Define como a bomba será lançada
     Bomb bomb = defineBomb(capacityType, x, y, distance, theta);
@@ -461,9 +470,105 @@ void detonateBomb(ArqCmds QryFile, Lista L, char * lineBuffer, FILE * TXTFile)
         printf("ID: %d\n", *test);
     */
 
+    // Percorre a lista de elementos atingidos e busca por baloes atingidos
+    Entity ent, target, clone;
+    Geometry geo, X;
+    Fila F;
+    Lista elements;
+    Posic p, q;
+    Picture pic;
+    double x1, y1;
+    char stroke[COLOR_STRING_SIZE], fill[COLOR_STRING_SIZE];
+    Style style = getGeoStyle(getEntGeo(warplane));
+    int i;
+    
+    for (p = getFirstLst(AuxiliarLst); p != NIL p = getNextLst(AuxiliarLst, p))
+    {
+        ent = (Entity) getLst(AuxiliarLst, p);
+        geo = getEntGeo(ent);
+        
+        /* SVG: colocar um X vermelho (FF0000) na âncora das figuras atingidas. */
+        switch (getEntType(ent))
+        {
+            case 'c':
+            case 'r':
+            case 't':
+            {
+                x1 = getGeoCords(geo)[0];
+                y1 = getGeoCords(geo)[1];
+                break;
+            }
+            case 'l':
+            {
+                x1 = getGeoAnchor_1(geo)[0];
+                y1 = getGeoAnchor_1(geo)[1];
+                break;
+            }
+            case 'b':
+            {
+                x1 = getGeoCords(geo)[0];
+                y1 = getGeoCords(geo)[1];
+                // Fazer clone elementos de TODAS as fotos que não foram enviadas para a 'base'
+                // Percorrer as filas de fotos do balão onde há fotos
+                for (i = 0; i < FILAS_AMOUNT; i++)
+                {
+                    // Para cada fila, percorrer as fotos
+                    F = getFilaOfPictures(ent, i);
+                    for (; countFila(F) > 0;)
+                    {
+                        // Para cada elemento da foto, percorrer a lista de elementos
+                        pic = popFila(F); // Retira a foto da fila do balao que SERÁ destruído ainda
+                        elements = getPictureElements(pic);
+                        for (q = getFirstLst(elements); q != NIL q = getNextLst(elements, q))
+                        {
+                            target = (Entity) getLst(elements, q);
+                            clone = copyEntity(target);
+                            setEntID(clone, index);
+                            index++;
+                            geo = getEntGeo(clone);
 
+                            Dislocate_Geo(geo, dx, 0);
+                            //printf("id target: %d\nid clone: %d\n", getEntID(target), getEntID(clone));
+
+                            // Inverter as cores de borda com preenchimento (stroke <-> fill) (Somente quando é possível)
+                            switch (getGeoClass(geo))
+                            {
+                                case 'c':
+                                case 'r':
+                                case 't':
+                                {
+                                    strcpy(stroke, getGeoBorder_color(geo));
+                                    strcpy(fill, getGeoFill_color(geo));
+                                    setGeoBorder_color(geo, fill);
+                                    setGeoFill_color(geo, stroke);
+                                    break;
+                                }
+                                case 'l':
+                                {
+                                    // Não fazer nada, pois linha só tem uma cor
+                                    break;
+                                }
+                            }
+                            insertLst(L, (Item) clone);
+                        }
+                    }
+                }
+                break;
+            }
+            case 'd':
+            {
+                x1 = getGeoCords(geo)[0];
+                y1 = getGeoCords(geo)[1];
+                break;
+            }
+        }
+        X = createText(-1, x1, y1, "#FF0000", "#FF0000", 'm', "X");
+        setGeoStyle(X, style);
+        insertLst(Decos, (Item) X);
+    }
     // Remove os elementos de Auxiliar presentes no Banco de Dados
     fold(AuxiliarLst, removeEntbyIDinLst, (Clausura) L);
+    
 
 
     // Libera a lista auxiliar
@@ -476,5 +581,99 @@ void detonateBomb(ArqCmds QryFile, Lista L, char * lineBuffer, FILE * TXTFile)
     */
 
     removeBomb(bomb);
+}
+
+
+void reportBalloonsData (ArqCmds QryFile, Lista L, char * lineBuffer, FILE * TXTFile)
+{
+    /* 
+        Reporta os dados de todos os balões
+        existentes, incluindo seus atributos e o número
+        de fotos por fila e a rotação corrente do
+        balão.
+    */
+   /*
+        [*] b?
+        BALAO    [id_i] - rotacao: <rotacao>, raio: <raio>, prof: <prof>, altura: <altura>
+            FILA [j] - qtd de fotos: <qtd de fotos>
+            ...
+            FILA [m] - qtd de fotos: <qtd de fotos>
+        ...
+        BALAO    [id_n] - rotacao: <rotacao>, raio: <raio>, prof: <prof>, altura: <altura>
+
+   */
+
+
+    Entity ent;
+    Geometry geo;
+    Fila F;
+    int i, qtd;
+    fprintf(TXTFile, "[*] %s\n", lineBuffer);
+    // Percorre toda a lista L procurando por baloes    
+    for (Posic p = getFirstLst(L); p != NIL p = getNextLst(L, p))
+    {
+        ent = (Entity) getLst(L, p);
+        if (getEntType(ent) == 'b')
+        {
+            geo = getEntGeo(ent);
+            fprintf(TXTFile, "BALAO [id: %d] - posicao: (%.2lf, %.2lf), rotacao (graus): %.2lf, raio: %.2lf, prof: %.2lf, altura: %.2lf\n", getEntID(ent), getGeoCords(geo)[0], getGeoCords(geo)[1], getGeoAngle(geo), getEntRadius(ent), getEntDepth(ent), getEntHeight(ent));
+            // Percorrer as FILAS de fotos dentro do balao e contar quantas fotos tem em cada fila.
+            // Obs.: mostrar apenas as filas que possuem fotos.
+            for (i = 0; i < FILAS_AMOUNT; i++)
+            {
+                F = getFilaOfPictures(ent, i);
+                qtd = countFila(F);
+                if (qtd > 0)
+                    fprintf(TXTFile, "\tFILA [%d] - qtd de fotos: %d\n", i, qtd);
+            }
+        }
+    }
+    fprintf(TXTFile, "\n");
+}
+void reportWarplanesData (ArqCmds QryFile, Lista L, char * lineBuffer, FILE * TXTFile)
+{
+    /*
+        Reporta os dados de todos as caças
+        existentes: seus atributos, a rotação corrente,
+        quantos disparos já efetuou e os
+        identificadores dos elementos que acertou até
+        o momento.
+    */
+    /*
+        [*] c?
+        CACA   [id_i] - rotacao: <rotacao>, disparos realizados: <disparos>, alvos atingidos: <alvos>
+            ALVOS:
+            id: id_n
+            ...
+            id: id_m
+        ...
+        CACA   [id_j] - rotacao: <rotacao>, raio: <raio>, prof: <prof>, altura: <altura>, disparos: <disparos>
+            ALVOS:
+            id: id_p
+            ...
+            id: id_q
+    */
+
+    Entity ent;
+    Geometry geo;
+    Lista targets;
+    Posic p, q;
+    fprintf(TXTFile, "[*] %s\n", lineBuffer);
+    // Percorre toda a lista L procurando por baloes    
+    for (p = getFirstLst(L); p != NIL p = getNextLst(L, p))
+    {
+        ent = (Entity) getLst(L, p);
+        if (getEntType(ent) == 'd')
+        {
+            geo = getEntGeo(ent);
+            targets = getEntTargetsID(ent);
+            fprintf(TXTFile, "CACA [id: %d] - posicao: (%.2lf, %.2lf), rotacao (graus): %.2lf, disparos realizados: %d\n", getEntID(ent), getGeoCords(geo)[0], getGeoCords(geo)[1], getGeoAngle(geo), getEntShots(ent));
+            fprintf(TXTFile, "ALVO(S) ATINGIDO(S) - total: %d\n", lengthLst(targets)); 
+            for (q = getFirstLst(targets); q != NIL q = getNextLst(targets, q))
+                fprintf(TXTFile, "\t[id: %d]\n", *((int *) getLst(targets, q)));
+                
+        }
+    }
+    fprintf(TXTFile, "\n");
 }
 ///////////////////////////////////////////

@@ -7,6 +7,26 @@ altura: 30.000000
 preenchimento: yellow
 borda: cyan
 
+[*] mv 7 -60 0
+texto
+ancora originalmente     em (250.000000, 0.000000)
+ancora apos deslocamento em (190.000000, 0.000000)
+rotacao: 0.000000
+tipo de ancora: m
+texto: v_O_v
+preenchimento: black
+borda: black
+
+[*] mv 7 60 0
+texto
+ancora originalmente     em (190.000000, 0.000000)
+ancora apos deslocamento em (250.000000, 0.000000)
+rotacao: 0.000000
+tipo de ancora: m
+texto: v_O_v
+preenchimento: black
+borda: black
+
 [*] g 7 00
 texto
 ancora em (250.000000, 0.000000)
@@ -37,6 +57,23 @@ texto: |-T-|
 preenchimento: black
 borda: black
 
+[*] g 11 -30
+texto
+ancora em (250.000000, 200.000000)
+rotacao original: 125.000000
+rotacao final:    95.000000
+tipo de ancora: m
+texto: |-T-|
+preenchimento: black
+borda: black
+
+[*] tf 7 0
+balao: 7
+raio da foto: 100.000000
+profundidade da foto: 5.000000
+altura da foto: 300.000000
+IDENTIFICADOR(ES) DO(S) ELEMENTO(S) FOTOGRAFADO(S)
+
 [*] mv 7 -270 120
 texto
 ancora originalmente     em (500.000000, 0.000000)
@@ -46,4 +83,55 @@ tipo de ancora: m
 texto: v_O_v
 preenchimento: black
 borda: black
+
+[*] mv 11 150 0
+texto
+ancora originalmente     em (250.000000, 200.000000)
+ancora apos deslocamento em (400.000000, 200.000000)
+rotacao: 95.000000
+tipo de ancora: m
+texto: |-T-|
+preenchimento: black
+borda: black
+
+[*] g 11 15
+texto
+ancora em (400.000000, 200.000000)
+rotacao original: 95.000000
+rotacao final:    110.000000
+tipo de ancora: m
+texto: |-T-|
+preenchimento: black
+borda: black
+
+[*] b?
+BALAO [id: 7] - posicao: (230.00, 120.00), rotacao (graus): 0.00, raio: 100.00, prof: 0.00, altura: 100.00
+	FILA [0] - qtd de fotos: 1
+
+[*] c?
+CACA [id: 11] - posicao: (400.00, 200.00), rotacao (graus): 110.00, disparos realizados: 2
+ALVO(S) ATINGIDO(S) - total: 2
+	[id: 3]
+	[id: 4]
+
+[*] mv 11 -70 0
+texto
+ancora originalmente     em (400.000000, 200.000000)
+ancora apos deslocamento em (330.000000, 200.000000)
+rotacao: 110.000000
+tipo de ancora: m
+texto: |-T-|
+preenchimento: black
+borda: black
+
+[*] b?
+
+[*] c?
+CACA [id: 11] - posicao: (330.00, 200.00), rotacao (graus): 110.00, disparos realizados: 3
+ALVO(S) ATINGIDO(S) - total: 5
+	[id: 3]
+	[id: 4]
+	[id: 5]
+	[id: 9]
+	[id: 7]
 

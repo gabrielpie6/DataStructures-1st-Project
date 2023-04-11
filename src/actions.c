@@ -1,5 +1,7 @@
 #include "actions.h"
 
+#include "analyticGeometry.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -8,7 +10,12 @@
 ///////////////////////////////
 // OUTPUT ACTIONS
 //
-void writeGeoInSVG(Entity ent, Clausura c)
+void writeEntInSVG(Entity ent, Clausura c)
+{
+    Geometry element = getEntGeo(ent);
+    writeGeoInSVG(element, c);
+}
+void writeGeoInSVG(Geometry element, Clausura c)
 {
     void ** clausure =  (void   **) c;
     ArqSvg  SVG      =  (ArqSvg   ) clausure[0];
@@ -16,7 +23,6 @@ void writeGeoInSVG(Entity ent, Clausura c)
     double  dx       = *((double *) clausure[2]);
     double  dy       = *((double *) clausure[3]);
 
-    Geometry element = getEntGeo(ent);
     char deco[DEFAULT_BUFFER_SIZE];
     char font_size[SHORT_PARAMETER_SIZE];
     char text_anchor[20];
@@ -73,8 +79,16 @@ void writeGeoInSVG(Entity ent, Clausura c)
         };
     }
 }
-
 void WriteEntListInSvg(ArqSvg SVG, Lista L, Style style, double dx, double dy)
+{
+    void * clausure[4];
+    clausure[0] = (void *) SVG;
+    clausure[1] = (void *) style;
+    clausure[2] = (void *) &dx;
+    clausure[3] = (void *) &dy;
+    fold(L, writeEntInSVG, clausure);
+}
+void WriteGeoListInSvg (ArqSvg SVG, Lista L, Style style, double dx, double dy)
 {
     void * clausure[4];
     clausure[0] = (void *) SVG;
@@ -200,7 +214,7 @@ double scoreEnt(Entity ent)
 
             // Falta um dígito em 80080?
             pontuacao += area / 4;
-            if (strcmp(borderColor, "80080") == 0) pontuacao += 10; else
+            if (strcmp(borderColor, "800080") == 0) pontuacao += 10; else
             if (strcmp(borderColor, "AA0088") == 0) pontuacao += 15; else
             if (strcmp(fillColor,   "008033") == 0) pontuacao += 20; else
             if (strcmp(fillColor,   "FFCC00") == 0) pontuacao += 30;
@@ -242,15 +256,264 @@ double scoreEnt(Entity ent)
 }
 
 
+void aux_scorePicture(Entity ent, Clausura clausura)
+{
+    double * pontuacao = (double *) clausura;
+    *pontuacao += scoreEnt(ent);
+}
 double scorePicture(Picture pic)
 {
     double pontuacao = 0;
-    Entity ent = popEntPicture(pic);
-    while (ent != NULL)
-    {
-        pontuacao += scoreEnt(ent);
-        ent = popEntPicture(pic);
-    }
+    Lista elements = getPictureElements(pic);
+    fold(elements, aux_scorePicture, (Clausura) &pontuacao);
     return pontuacao;
+}
+
+
+double * PictureBoundingBox (Picture pic)
+{
+    double leftLimit = 0;
+    double rightLimit = getPictureRadius(pic) * 2;
+    double topLimit = 0;
+    double bottomLimit = getPictureHeight(pic);
+
+    Lista elements = getPictureElements(pic);
+    Posic p = getFirstLst(elements);
+    Entity ent;
+    Geometry geo;
+    double value;
+
+    for (int i = 0; i < lengthLst(elements); i++)
+    {
+        ent = getLst(elements, p);
+        geo = getEntGeo(ent);
+        switch(getGeoClass(geo))
+        {
+            case 'c':
+            {
+                value = getGeoCords(geo)[0] - getGeoRadius(geo);
+                if (value < leftLimit) leftLimit = value;
+                value = getGeoCords(geo)[0] + getGeoRadius(geo);
+                if (value > rightLimit) rightLimit = value;
+                value = getGeoCords(geo)[1] - getGeoRadius(geo);
+                if (value < topLimit) topLimit = value;
+                value = getGeoCords(geo)[1] + getGeoRadius(geo);
+                if (value > bottomLimit) bottomLimit = value;
+                break;
+            }
+            case 'r':
+            {
+                value = getGeoCords(geo)[0];
+                if (value < leftLimit) leftLimit = value;
+                value = getGeoCords(geo)[0] + getGeoWidth(geo);
+                if (value > rightLimit) rightLimit = value;
+                value = getGeoCords(geo)[1];
+                if (value < topLimit) topLimit = value;
+                value = getGeoCords(geo)[1] + getGeoHeight(geo);
+                if (value > bottomLimit) bottomLimit = value;
+                break;
+            }
+            case 'l':
+            {
+                if (getGeoAnchor_1(geo)[0] < getGeoAnchor_2(geo)[0])
+                {
+                    value = getGeoAnchor_1(geo)[0];
+                    if (value < leftLimit) leftLimit = value;
+                    value = getGeoAnchor_2(geo)[0];
+                    if (value > rightLimit) rightLimit = value;
+                }
+                else
+                {
+                    value = getGeoAnchor_2(geo)[0];
+                    if (value < leftLimit) leftLimit = value;
+                    value = getGeoAnchor_1(geo)[0];
+                    if (value > rightLimit) rightLimit = value;
+                }
+                break;
+            }
+            case 't':
+            {
+                // Não é preciso fazer nada
+                break;
+            }
+        }
+        p = getNextLst(elements, p);
+    }
+    double * limits = malloc(sizeof(double) * 4);
+    limits[0] = leftLimit;
+    limits[1] = rightLimit;
+    limits[2] = topLimit;
+    limits[3] = bottomLimit;
+    return limits;
+}
+//
+void ajustEntInFrame(Entity ent, Clausura c)
+{
+    void ** clausures =  (void **  ) c;
+    Entity  balloon   =  (Entity   ) clausures[0];
+    double  xi        = *((double *) clausures[1]);
+    double  yi        = *((double *) clausures[2]);
+    double  xf        = *((double *) clausures[3]);
+    double  yf        = *((double *) clausures[4]);
+    
+    Geometry eGeo = getEntGeo(ent);
+    switch(getGeoClass(eGeo))
+    {
+        case 'c':
+        {
+            getGeoCords(eGeo)[0] -= xi;
+            getGeoCords(eGeo)[1] -= yi;
+            break;
+        }
+        case 'r':
+        {
+            getGeoCords(eGeo)[0] -= xi;
+            getGeoCords(eGeo)[1] -= yi;
+            break;
+        }
+        case 'l':
+        {
+            getGeoAnchor_1(eGeo)[0] -= xi;
+            getGeoAnchor_1(eGeo)[1] -= yi;
+            getGeoAnchor_2(eGeo)[0] -= xi;
+            getGeoAnchor_2(eGeo)[1] -= yi;
+            break;
+        }
+        case 't':
+        {
+            getGeoCords(eGeo)[0] -= xi;
+            getGeoCords(eGeo)[1] -= yi;
+            break;
+        }
+    }
+    
+}
+//
+void ajustElementsToRelativePicPos (Entity balloon, Lista elements)
+{
+    // Ajuste das coordenadas das entidades para posição relativa ao frame da foto
+    double xi, yi, xf, yf;
+    defineFrame(balloon, &xi, &yi, &xf, &yf);
+    void * clausures[5];
+    clausures[0] = (void *) balloon;
+    clausures[1] = (void *) &xi;
+    clausures[2] = (void *) &yi;
+    clausures[3] = (void *) &xf;
+    clausures[4] = (void *) &yf;
+    fold(elements, ajustEntInFrame, (Clausura) clausures);
+}
+void defineFrame (Entity balloon, double * xi, double * yi, double * xf, double * yf)
+{
+    Geometry ballonGeo = getEntGeo(balloon);
+    double middleAnchor[2];
+    double r, d, h;
+
+    r = getEntRadius (balloon);
+    d = getEntDepth  (balloon);
+    h = getEntHeight (balloon);
+    switch (getGeoAnchor(ballonGeo))
+    {
+        case 'i':
+        {
+            middleAnchor[0] = getGeoCords(ballonGeo)[0]; // é preciso de uma constante para ajusat o centro do balão
+            middleAnchor[1] = getGeoCords(ballonGeo)[1];
+            break;
+        }
+        case 'm':
+        {
+            middleAnchor[0] = getGeoCords(ballonGeo)[0];
+            middleAnchor[1] = getGeoCords(ballonGeo)[1];
+            break;
+        }
+        case 'f':
+        {
+            middleAnchor[0] = getGeoCords(ballonGeo)[0]; // é preciso de uma constante para ajusat o centro do balão
+            middleAnchor[1] = getGeoCords(ballonGeo)[1];
+            break;
+        }
+    }
+    
+    *xi = middleAnchor[0] - r;
+    *yi = middleAnchor[1] + d;
+
+    *xf = middleAnchor[0] + r;
+    *yf = middleAnchor[1] + d + h;
+}
+bool isEntinFrame(Entity ent, Entity balloon)
+{
+    Geometry eGeo = getEntGeo(ent);
+    double xi, yi, xf, yf;
+    defineFrame(balloon, &xi, &yi, &xf, &yf);
+    
+    // Analisar se geometria está dentro do quadro da foto
+    switch (getEntType(ent))
+    {
+        case 'c':
+        {
+            if (isCircleInsideRectangle(getGeoCords(eGeo)[0], getGeoCords(eGeo)[1], getGeoRadius(eGeo), xi, yi, xf, yf))
+            {
+                // Ajustar as coordenadas da forma geométrica para posição relativa da foto
+                return true;
+            }
+            else
+                return false;
+            break;
+        }
+        case 'r':
+        {
+            if (isRectangleInsideRectangle(
+                getGeoCords(eGeo)[0], getGeoCords(eGeo)[1], 
+                getGeoCords(eGeo)[0] + getGeoWidth(eGeo), getGeoCords(eGeo)[1] + getGeoHeight(eGeo),
+                xi, yi, xf, yf)) // Coordenadas do retângulo da foto
+            {
+                return true;
+            } 
+            else
+                return false;
+            break;
+        }
+        case 'l':
+        {
+            if (isLineInsideRectangle(
+                getGeoAnchor_1(eGeo)[0], getGeoAnchor_1(eGeo)[1],
+                getGeoAnchor_2(eGeo)[0], getGeoAnchor_2(eGeo)[1],
+                xi, yi, xf, yf)) // Coordenadas do retângulo da foto
+            {
+                // Ajustar as coordenadas da forma geométrica para posição relativa da foto
+                return true;
+            }
+            else
+                return false;
+            break;
+        }
+        case 'b':
+        case 'd':
+        case 't':
+        {   
+            if (getGeoCords(eGeo)[0] >= xi && getGeoCords(eGeo)[0] <= xf && getGeoCords(eGeo)[1] >= yi && getGeoCords(eGeo)[1] <= yf)
+            {
+                // Ajustar as coordenadas da forma geométrica para posição relativa da foto
+                return true;
+            }    
+            else
+                return false;
+            break;
+        }
+    }
+}
+
+
+
+
+void removeEntbyIDinLst (Entity ent, Lista L)
+{
+    int id = getEntID(ent);
+
+    Iterador it = createIterador(L, false);
+    for (setIteratorPosition(L, it, getFirstLst(L)); getEntID(getIteratorItem(L, it)) != id; getIteratorNext(L, it))
+    {} // Ao sair do for, it aponta para o elemento com o id desejado.
+    Posic pos = getIteratorPosic(L, it);
+    killIterator(L, it);
+    removeLst(L, pos);
 }
 ///////////////////////////////

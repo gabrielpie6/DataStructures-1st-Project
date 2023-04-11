@@ -1,5 +1,7 @@
 #include "actions.h"
 #include "path.h"
+#include "qryFile.h"
+#include "geoFile.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -182,23 +184,18 @@ void main(int argc, char * argv[])
     /////////////////////////////////////////////
     //       LEITURA DO ARQUIVO .qry           //
     /////////////////////////////////////////////
+    Lista Decos = createLst(-1);
     if (qryArg != NULL)
-        if (ReadQryFile(BD_Lst, qryFile, outputPath, geo_qry, style) == false)
+        if (ReadQryFile(BD_Lst, qryFile, outputPath, geo_qry, style, Decos) == false)
         {
             printf("ERRO: [in main]: nao foi possivel ler arquivo .qry\n");
             return;
         }
     
 
-
     ArqSvg FinalSVG = abreEscritaSvg(finalSvgFile);
     WriteEntListInSvg(MainSVG, BD_Lst, style, 0, 0);
+    WriteGeoListInSvg(MainSVG, Decos,  style, 0, 0);
     fechaSvg(MainSVG);
     printf("Executado com sucesso\n");
-    
-    //// Teste de score das fotos
-    // Entity ent = searchEntbyIDinLst(BD_Lst, 7);
-    // Picture pic = popEntPicture(ent, 0);
-    // fold((Lista) pic, f, NULL);
-    
 }
