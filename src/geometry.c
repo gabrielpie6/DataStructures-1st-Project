@@ -58,8 +58,18 @@ typedef struct Object {
 void Dislocate_Geo (Geometry geo, double dx, double dy)
 {
     object * obj = (object *) geo;
-    obj->cords[0] += dx;
-    obj->cords[1] += dy; 
+    if (obj->class == 'l')
+    {
+        obj->attributes.line->anchor_1[0] += dx;
+        obj->attributes.line->anchor_1[1] += dy;
+        obj->attributes.line->anchor_2[0] += dx;
+        obj->attributes.line->anchor_2[1] += dy;
+    }
+    else
+    {
+        obj->cords[0] += dx;
+        obj->cords[1] += dy; 
+    }
 }
 //
 void Rotate_Geo (Geometry geo, double angle)

@@ -6,6 +6,7 @@
 #include "cmdsFiles.h"
 #include "drawSvg.h"
 
+#include <stdio.h>
 
 #define DEFAULT_BUFFER_SIZE 500
 #define SHORT_PARAMETER_SIZE 50
@@ -21,6 +22,7 @@ void     WriteEntListInSvg             (ArqSvg SVG, Lista L, Style style, double
 void     WriteGeoListInSvg             (ArqSvg SVG, Lista L, Style style, double dx, double dy);
 void     writeEntInSVG                 (Entity ent, Clausura c);
 void     writeGeoInSVG                 (Geometry element, Clausura c);
+void     writeEntAttributesInTXT       (FILE * TXTFile, Entity ent);
 ///////////////////////////////
 
 ///////////////////////////////
@@ -31,7 +33,7 @@ double   scoreEnt                      (Entity ent);
 double   scorePicture                  (Picture pic);
 
 double * PictureBoundingBox            (Picture pic);
-void     ajustElementsToRelativePicPos (Entity balloon, Lista elements);
+void     ajustElementsToRelativePicPos (Picture pic);
 void     defineFrame                   (Entity balloon, double * xi, double * yi, double * xf, double * yf);
 bool     isEntinFrame                  (Entity ent, Entity balloon);
 

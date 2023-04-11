@@ -97,6 +97,51 @@ void WriteGeoListInSvg (ArqSvg SVG, Lista L, Style style, double dx, double dy)
     clausure[3] = (void *) &dy;
     fold(L, writeGeoInSVG, clausure);
 }
+//
+void writeEntAttributesInTXT (FILE * TXTFile, Entity ent)
+{
+    Geometry geo;
+    geo = getEntGeo(ent);
+    switch(getEntType(ent))
+    {
+        case 'c':
+        {
+            // id, centro, raio, cor de borda, cor de preenchimento
+            fprintf(TXTFile, "\t[id: %d] - tipo: circulo, centro: (%.2lf, %.2lf), cor de borda: %s, cor de preenchimento: %s\n", getEntID(ent), getGeoCords(geo)[0], getGeoCords(geo)[1], getGeoBorder_color(geo), getGeoFill_color(geo));
+            break;
+        }
+        case 'r':
+        {
+            // id, ancora, largura, altura, cor de borda, cor de preenchimento
+            fprintf(TXTFile, "\t[id: %d] - tipo: retangulo, ancora: (%.2lf, %.2lf), largura: %.2lf, altura: %.2lf, cor de borda: %s, cor de preenchimento: %s\n", getEntID(ent), getGeoCords(geo)[0], getGeoCords(geo)[1], getGeoWidth(geo), getGeoHeight(geo), getGeoBorder_color(geo), getGeoFill_color(geo));
+            break;
+        }
+        case 'l':
+        {
+            // id, ancoras, cor de borda
+            fprintf(TXTFile, "\t[id: %d] - tipo: linha, ancoras: [(%.2lf, %.2lf), (%.2lf, %.2lf)], cor de borda: %s\n", getEntID(ent), getGeoAnchor_1(geo)[0], getGeoAnchor_1(geo)[1], getGeoAnchor_2(geo)[0], getGeoAnchor_2(geo)[1], getGeoBorder_color(geo));
+            break;
+        }
+        case 't':
+        {
+            // id, ancora, pos. da ancora, cor de borda, cor de preenchimento
+            fprintf(TXTFile, "\t[id: %d] - tipo: texto, ancora: (%.2lf, %.2lf), pos. da ancora: %c, cor de borda: %s, cor de preenchimento: %s\n", getEntID(ent), getGeoCords(geo)[0], getGeoCords(geo)[1], getGeoAnchor(geo), getGeoBorder_color(geo), getGeoFill_color(geo));
+            break;
+        }
+        case 'b':
+        {
+            // id, ancora, cor de borda, cor de preenchimento
+            fprintf(TXTFile, "\t[id: %d] - tipo: balao, ancora: (%.2lf, %.2lf), cor de borda: %s, cor de preenchimento: %s\n", getEntID(ent), getGeoCords(geo)[0], getGeoCords(geo)[1], getGeoBorder_color(geo), getGeoFill_color(geo));
+            break;
+        }
+        case 'd':
+        {
+            // id, ancora, disparos realizados, alvos atingidos, cor de borda, cor de preenchimento
+            fprintf(TXTFile, "\t[id: %d] - tipo: caca, ancora: (%.2lf, %.2lf), disparos realizados: %d, alvos atingidos: %d, cor de borda: %s, cor de preenchimento: %s\n", getEntID(ent), getGeoCords(geo)[0], getGeoCords(geo)[1], getEntShots(ent), lengthLst(getEntTargetsID(ent)), getGeoBorder_color(geo), getGeoFill_color(geo));
+            break;
+        }
+    }
+}
 ///////////////////////////////
 
 
@@ -158,6 +203,7 @@ Entity copyEntity (Entity ent)
             setGeoStyle(eGeo, style);
             setGeoAngle(eGeo, theta);
             newEnt = createBalloon(eGeo, getEntID(ent));
+            break;
         }
         case 'd':
         {
@@ -168,6 +214,11 @@ Entity copyEntity (Entity ent)
             setGeoStyle(eGeo, style);
             setGeoAngle(eGeo, theta);
             newEnt = createWarplane(eGeo, getEntID(ent));
+            for (int i = 0; i < getEntShots(ent); i++)
+                incrementEntShots(newEnt);
+            // copia a lista de ids dos alvos atingidos
+            setEntTargetsID(newEnt, getEntTargetsID(ent));
+            break;
         }
     }
     return newEnt;
@@ -190,16 +241,16 @@ double scoreEnt(Entity ent)
             area = circleArea(getGeoRadius(geo));
             borderColor = getGeoBorder_color(geo);
             fillColor = getGeoFill_color(geo);
-            if (strcmp(borderColor, "FFFFFF") == 0 && strcmp(fillColor, "FFFF00") == 0)
+            if (strcmp(borderColor, "#FFFFFF") == 0 && strcmp(fillColor, "#FFFF00") == 0)
                 pontuacao += (area/2) * 8;
             else
-            if (strcmp(borderColor, "D45500") == 0 && strcmp(fillColor, "FF7F2A") == 0)
+            if (strcmp(borderColor, "#D45500") == 0 && strcmp(fillColor, "#FF7F2A") == 0)
                 pontuacao += (area/2) * 2;
             else
-            if (strcmp(borderColor, "AA0000") == 0 && strcmp(fillColor, "DE8787") == 0)
+            if (strcmp(borderColor, "#AA0000") == 0 && strcmp(fillColor, "#DE8787") == 0)
                 pontuacao += (area/2) * 4;
             else
-            if (strcmp(borderColor, "AA0000") == 0 && strcmp(fillColor, "DE8787") == 0)
+            if (strcmp(borderColor, "#AA0000") == 0 && strcmp(fillColor, "#DE8787") == 0)
                 pontuacao += (area/2) * 0;
             else
                 pontuacao += (area/2);
@@ -213,11 +264,12 @@ double scoreEnt(Entity ent)
             fillColor = getGeoFill_color(geo);
 
             // Falta um dígito em 80080?
+            // 11/04/2023 - foi definido que é 800080
             pontuacao += area / 4;
-            if (strcmp(borderColor, "800080") == 0) pontuacao += 10; else
-            if (strcmp(borderColor, "AA0088") == 0) pontuacao += 15; else
-            if (strcmp(fillColor,   "008033") == 0) pontuacao += 20; else
-            if (strcmp(fillColor,   "FFCC00") == 0) pontuacao += 30;
+            if (strcmp(borderColor, "#800080") == 0) pontuacao += 10; else
+            if (strcmp(borderColor, "#AA0088") == 0) pontuacao += 15; else
+            if (strcmp(fillColor,   "#008033") == 0) pontuacao += 20; else
+            if (strcmp(fillColor,   "#FFCC00") == 0) pontuacao += 30;
             break;
         }
         case 'l':
@@ -231,9 +283,9 @@ double scoreEnt(Entity ent)
             length = distance(x1, y1, x2, y2);
             borderColor = getGeoBorder_color(geo);
 
-            if (strcmp(borderColor, "FFFF00") == 0) pontuacao += length * 3; else
-            if (strcmp(borderColor, "DDFF55") == 0) pontuacao += length * 2; else
-            if (strcmp(borderColor, "0000FF") == 0) pontuacao += length * 4; else
+            if (strcmp(borderColor, "#FFFF00") == 0) pontuacao += length * 3; else
+            if (strcmp(borderColor, "#DDFF55") == 0) pontuacao += length * 2; else
+            if (strcmp(borderColor, "#0000FF") == 0) pontuacao += length * 4; else
             pontuacao += length;
             
             break;
@@ -350,11 +402,10 @@ double * PictureBoundingBox (Picture pic)
 void ajustEntInFrame(Entity ent, Clausura c)
 {
     void ** clausures =  (void **  ) c;
-    Entity  balloon   =  (Entity   ) clausures[0];
-    double  xi        = *((double *) clausures[1]);
-    double  yi        = *((double *) clausures[2]);
-    double  xf        = *((double *) clausures[3]);
-    double  yf        = *((double *) clausures[4]);
+    double  xi        = *((double *) clausures[0]);
+    double  yi        = *((double *) clausures[1]);
+    double  xf        = *((double *) clausures[2]);
+    double  yf        = *((double *) clausures[3]);
     
     Geometry eGeo = getEntGeo(ent);
     switch(getGeoClass(eGeo))
@@ -389,17 +440,20 @@ void ajustEntInFrame(Entity ent, Clausura c)
     
 }
 //
-void ajustElementsToRelativePicPos (Entity balloon, Lista elements)
+void ajustElementsToRelativePicPos (Picture pic)
 {
     // Ajuste das coordenadas das entidades para posição relativa ao frame da foto
     double xi, yi, xf, yf;
-    defineFrame(balloon, &xi, &yi, &xf, &yf);
-    void * clausures[5];
-    clausures[0] = (void *) balloon;
-    clausures[1] = (void *) &xi;
-    clausures[2] = (void *) &yi;
-    clausures[3] = (void *) &xf;
-    clausures[4] = (void *) &yf;
+    xi = getPictureCords(pic)[0];
+    yi = getPictureCords(pic)[1];
+    xf = getPictureCords(pic)[0] + getPictureRadius(pic) * 2;
+    yf = getPictureCords(pic)[1] + getPictureHeight(pic);
+    void * clausures[4];
+    clausures[0] = (void *) &xi;
+    clausures[1] = (void *) &yi;
+    clausures[2] = (void *) &xf;
+    clausures[3] = (void *) &yf;
+    Lista elements = getPictureElements(pic);
     fold(elements, ajustEntInFrame, (Clausura) clausures);
 }
 void defineFrame (Entity balloon, double * xi, double * yi, double * xf, double * yf)
@@ -415,7 +469,7 @@ void defineFrame (Entity balloon, double * xi, double * yi, double * xf, double 
     {
         case 'i':
         {
-            middleAnchor[0] = getGeoCords(ballonGeo)[0]; // é preciso de uma constante para ajusat o centro do balão
+            middleAnchor[0] = getGeoCords(ballonGeo)[0]; // é preciso de alguma variável para ajustar o centro do balão
             middleAnchor[1] = getGeoCords(ballonGeo)[1];
             break;
         }
@@ -427,7 +481,7 @@ void defineFrame (Entity balloon, double * xi, double * yi, double * xf, double 
         }
         case 'f':
         {
-            middleAnchor[0] = getGeoCords(ballonGeo)[0]; // é preciso de uma constante para ajusat o centro do balão
+            middleAnchor[0] = getGeoCords(ballonGeo)[0]; // é preciso de alguma variável para ajustar o centro do balão
             middleAnchor[1] = getGeoCords(ballonGeo)[1];
             break;
         }

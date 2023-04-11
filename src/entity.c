@@ -21,6 +21,7 @@ typedef struct Photo {
     double radius;
     double height;
     double depth;
+    double originCords[2];
     Lista elements;
 } photo;
 
@@ -103,7 +104,26 @@ Entity createWarplane(Geometry geo, int id)
     e->attributes.warplane->targets = createLst(-1);
     return (Entity) e;
 }
+//
+Picture createPicture (double radius, double height, double depth, double x0, double y0, void * optional_list_of_elements)
+{
+    photo * pic = malloc(sizeof(photo));
+    if (optional_list_of_elements != NULL)
+    {
+        // Atribui à nova lista os elementos da lista opcional
+        Lista opc = (Lista) optional_list_of_elements;
+        pic->elements = opc;
+    }
+    else
+        pic->elements = createLst(-1);
+    pic->radius = radius;
+    pic->height = height;
+    pic->depth  = depth;
+    pic->originCords[0] = x0;
+    pic->originCords[1] = y0;
 
+    return (Picture) pic;
+}
 
 
 /////////////////////////////////////////////
@@ -264,23 +284,6 @@ double getEntRadius (Entity ent)
 //
 // Balloon's pictures
 //
-Picture createPicture (double radius, double height, double depth, void * optional_list_of_elements)
-{
-    photo * pic = malloc(sizeof(photo));
-    if (optional_list_of_elements != NULL)
-    {
-        // Atribui à nova lista os elementos da lista opcional
-        Lista opc = (Lista) optional_list_of_elements;
-        pic->elements = opc;
-    }
-    else
-        pic->elements = createLst(-1);
-    pic->radius = radius;
-    pic->height = height;
-    pic->depth  = depth;
-
-    return (Picture) pic;
-}
 void removePicture (Picture pic)
 {
     photo * p = (photo *) pic;
@@ -301,6 +304,11 @@ double getPictureDepth (Picture pic)
 {
     photo * p = (photo *) pic;
     return p->depth;
+}
+double * getPictureCords (Picture pic)
+{
+    photo * p = (photo *) pic;
+    return &p->originCords[0];
 }
 
 Lista getPictureElements (Picture pic)
@@ -475,6 +483,20 @@ Lista getEntTargetsID (Entity ent)
 {
     object * e = (object *) ent;
     return e->attributes.warplane->targets;
+}
+//
+void setEntTargetsID (Entity warplane, Lista L)
+{
+    object * e = (object *) warplane;
+    Lista lstCopy = createLst(-1);
+    int * id;
+    e->attributes.warplane->targets = lstCopy;
+    for (Posic p = getFirstLst(L); p != NIL p = getNextLst(L, p))
+    {
+        id = (int *) malloc(sizeof(int));
+        *id = *((int *) getLst(L, p));
+        insertLst(lstCopy, (Item) id);
+    }
 }
 
 /////////////////////////////////////////////

@@ -262,7 +262,7 @@ void takePicture(ArqCmds QryFile, Lista L, char * lineBuffer, FILE * TXTFile, Li
     defineFrame(balloon, &xi, &yi, &xf, &yf);
 
 
-    Picture pic = createPicture(getEntRadius(balloon), getEntHeight(balloon), getEntDepth(balloon), AuxiliarLst2);
+    Picture pic = createPicture(getEntRadius(balloon), getEntHeight(balloon), getEntDepth(balloon), xi, yi, AuxiliarLst2);
     addPictureInFila(balloon, pic, index);
     
     killLst(AuxiliarLst);
@@ -346,8 +346,8 @@ void downloadPictures(ArqCmds QryFile, Lista L, char * lineBuffer, char * output
     while (countFila(F) > 0)
     {
         pic      = (Picture) popFila(F);
+        ajustElementsToRelativePicPos(pic);
         elements = getPictureElements(pic);
-        ajustElementsToRelativePicPos(balloon, elements);
         pontuacao = scorePicture(pic);
         width = getPictureRadius(pic) * 2;
         height = getPictureHeight(pic);
@@ -482,6 +482,24 @@ void detonateBomb(ArqCmds QryFile, Lista L, char * lineBuffer, FILE * TXTFile, L
     Style style = getGeoStyle(getEntGeo(warplane));
     int i;
     
+    /*
+        [*] d ...
+        ELEMENTO(S) ATINGIDO(S):
+            [id: id] - tipo: <tipo>, coordenadas: (x, y), cor de borda: <cor de borda>, cor de preenchimento: <cor de preenchimento>
+            ...
+        CLONE(S) GERADO(S):
+            [id: id] - tipo: <tipo>, coordenadas: (x, y), cor de borda: <cor de borda>, cor de preenchimento: <cor de preenchimento>
+            ...
+    */
+
+    fprintf(TXTFile, "[*] %s\n", lineBuffer);
+    fprintf(TXTFile, "ELEMENTO(S) ATINGIDO(S):\n");
+    for (p = getFirstLst(AuxiliarLst); p != NIL p = getNextLst(AuxiliarLst, p))
+        writeEntAttributesInTXT(TXTFile, getLst(AuxiliarLst, p));
+
+
+
+    fprintf(TXTFile, "CLONE(S) GERADO(S):\n");
     for (p = getFirstLst(AuxiliarLst); p != NIL p = getNextLst(AuxiliarLst, p))
     {
         ent = (Entity) getLst(AuxiliarLst, p);
@@ -528,7 +546,6 @@ void detonateBomb(ArqCmds QryFile, Lista L, char * lineBuffer, FILE * TXTFile, L
                             geo = getEntGeo(clone);
 
                             Dislocate_Geo(geo, dx, 0);
-                            //printf("id target: %d\nid clone: %d\n", getEntID(target), getEntID(clone));
 
                             // Inverter as cores de borda com preenchimento (stroke <-> fill) (Somente quando é possível)
                             switch (getGeoClass(geo))
@@ -550,6 +567,7 @@ void detonateBomb(ArqCmds QryFile, Lista L, char * lineBuffer, FILE * TXTFile, L
                                 }
                             }
                             insertLst(L, (Item) clone);
+                            writeEntAttributesInTXT(TXTFile, clone);
                         }
                     }
                 }
@@ -566,6 +584,7 @@ void detonateBomb(ArqCmds QryFile, Lista L, char * lineBuffer, FILE * TXTFile, L
         setGeoStyle(X, style);
         insertLst(Decos, (Item) X);
     }
+    fprintf(TXTFile, "\n");
     // Remove os elementos de Auxiliar presentes no Banco de Dados
     fold(AuxiliarLst, removeEntbyIDinLst, (Clausura) L);
     

@@ -20,7 +20,7 @@ typedef void * Bomb;
 Entity    createCommon          (Geometry geo, int id);
 Entity    createBalloon         (Geometry geo, int id);
 Entity    createWarplane        (Geometry geo, int id);
-Picture   createPicture         (double radius, double height, double depth, void * optional_list_of_elements);
+Picture   createPicture         (double radius, double height, double depth, double x0, double y0, void * optional_list_of_elements);
 Bomb      defineBomb            (char capacityType, double Ox, double Oy, double distance, double theta);
 
 // PROCESSING FUNCTIONS
@@ -48,6 +48,7 @@ double    getEntRadius          (Entity ent);
 double    getPictureRadius      (Picture pic);
 double    getPictureHeight      (Picture pic);
 double    getPictureDepth       (Picture pic);
+double  * getPictureCords       (Picture pic);
 Lista     getPictureElements    (Picture pic);
 void      addEntPicture         (Entity ent, Picture pic);
 Entity    popEntPicture         (Picture pic);
@@ -65,6 +66,7 @@ int       getEntShots           (Entity ent);
 void      addEntTargetID        (Entity ent, Entity warplane);
 int     * popEntTargetID        (Entity ent);
 Lista     getEntTargetsID       (Entity ent);
+void      setEntTargetsID       (Entity warplane, Lista L);
 
 
 // BOMB FUNCTIONS
