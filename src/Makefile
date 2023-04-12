@@ -38,5 +38,5 @@ $(PROJ_NAME): $(OBJETOS)
 pack: $(PROJ_NAME)
 	rm -f ../$(ALUNO).zip
 	echo $(ALUNO)
-	date >> .entrega
+	cd ..; date >> .entrega
 	cd ..; zip $(ALUNO).zip -r src/*.c src/*.h src/Makefile LEIA-ME.txt .entrega

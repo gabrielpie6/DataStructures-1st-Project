@@ -18,11 +18,8 @@ Lista ReadGeoFile (char * geoPath, Style defaultStyle)
     char parameter [SIMPLE_PARAMETER_SIZE];
     
 
-    if (GeoFile == NULL)
-    {
-        printf("ERRO: [in: ReadGeoFile]: nao foi possivel abrir arquivo '%s'\n", geoFileName);
-        return NULL;
-    } else
+    if (GeoFile == NULL) {printf("ERRO: [in: ReadGeoFile]: nao foi possivel abrir arquivo '%s'\n", geoFileName); return NULL;}
+    else
     {
         Lista BD_Lst = createLst(-1);
         Entity entity;
@@ -31,40 +28,12 @@ Lista ReadGeoFile (char * geoPath, Style defaultStyle)
         {
             getParametroI(GeoFile, buffer, 0, parameter, SIMPLE_PARAMETER_SIZE);
 
-            if (strcmp(parameter, "ts") == 0)
-            {
-                readActTextStyle(GeoFile, buffer, style);
-            }
-            else
-            if (strcmp(parameter, "c") == 0)
-            {
-                entity = readActCircle(GeoFile, buffer);
-                insertLst(BD_Lst, (Item) entity);
-            }
-            else
-            if (strcmp(parameter, "r") == 0)
-            {
-                entity = readActRectangle(GeoFile, buffer);
-                insertLst(BD_Lst, (Item) entity);   
-            }
-            else
-            if (strcmp(parameter, "l") == 0)
-            {
-                entity = readActLine(GeoFile, buffer);
-                insertLst(BD_Lst, (Item) entity);
-            }
-            else
-            if (strcmp(parameter, "t") == 0)
-            {
-                entity = readActText(GeoFile, buffer, style);
-                insertLst(BD_Lst, (Item) entity);
-            }
-            else
-            {
-                printf("ERRO: [in: ReadGeoFile]: comando '%s' nao reconhecido em '%s'\n", parameter, geoFileName);
-                fechaArquivoCmd(GeoFile);
-                return NULL;
-            }
+                 if (strcmp(parameter, "ts") == 0)           readActTextStyle (GeoFile, buffer, style);
+            else if (strcmp(parameter, "c" ) == 0) {entity = readActCircle    (GeoFile, buffer); insertLst(BD_Lst, (Item) entity);}
+            else if (strcmp(parameter, "r" ) == 0) {entity = readActRectangle (GeoFile, buffer); insertLst(BD_Lst, (Item) entity);}
+            else if (strcmp(parameter, "l" ) == 0) {entity = readActLine      (GeoFile, buffer); insertLst(BD_Lst, (Item) entity);}
+            else if (strcmp(parameter, "t" ) == 0) {entity = readActText      (GeoFile, buffer, style); insertLst(BD_Lst, (Item) entity);}
+            else     printf("ERRO: [in: ReadGeoFile]: comando '%s' nao reconhecido em '%s'\n", parameter, geoFileName);
         }
         fechaArquivoCmd(GeoFile);
         return BD_Lst;
@@ -164,8 +133,9 @@ Entity readActText (ArqCmds GeoFile, char * lineBuffer, Style style)
     getParametroI(GeoFile, lineBuffer, 6, attributes, SIMPLE_PARAMETER_SIZE);
     char anchor = attributes[0];
     getParametroDepoisI(GeoFile, lineBuffer, 7, text_buffer, DEFAULT_BUFFER_SIZE);
-    // Remove o '\n' do final da string devido à leitura do arquivo
-    text_buffer[strlen(text_buffer) - 1] = '\0';
+
+    // Remove o caractere de fim de linha EOL (13) do final da string (se houver)
+    if (text_buffer[strlen(text_buffer) - 1] == 13) text_buffer[strlen(text_buffer) - 1] = '\0';
 
 
     Geometry text = createText(id, x, y, border_color, fill_color, anchor, text_buffer);
