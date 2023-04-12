@@ -160,11 +160,16 @@ void removeEntity(Entity ent)
 Entity searchEntbyIDinLst(Lista L, int id)
 {
     Iterador it = createIterador(L, false);
-    for (setIteratorPosition(L, it, getFirstLst(L)); getEntID(getIteratorItem(L, it)) != id; getIteratorNext(L, it))
+    for (setIteratorPosition(L, it, getFirstLst(L)); isIteratorEmpty(L, it) == false && getEntID(getIteratorItem(L, it)) != id; getIteratorNext(L, it))
     {} // Ao sair do for, it aponta para o elemento com o id desejado.
-    Entity element = getIteratorItem(L, it);
-    killIterator(L, it);
-    return element;
+    if (isIteratorEmpty(L, it))
+        return NULL;
+    else
+    {
+        Entity element = getIteratorItem(L, it);
+        killIterator(L, it);
+        return element;
+    }
 }
 //
 /*

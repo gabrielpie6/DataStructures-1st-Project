@@ -17,6 +17,13 @@ texto: v_O_v
 preenchimento: black
 borda: black
 
+[*] tf 13 9
+balao: 13
+raio da foto: 50.000000
+profundidade da foto: 5.000000
+altura da foto: 100.000000
+IDENTIFICADOR(ES) DO(S) ELEMENTO(S) FOTOGRAFADO(S)
+
 [*] mv 7 60 0
 texto
 ancora originalmente     em (190.000000, 0.000000)
@@ -118,7 +125,8 @@ borda: black
 [*] b?
 BALAO [id: 7] - posicao: (230.00, 120.00), rotacao (graus): 0.00, raio: 50.00, prof: 20.00, altura: 70.00
 	FILA [0] - qtd de fotos: 1
-BALAO [id: 13] - posicao: (620.00, 180.00), rotacao (graus): 0.00, raio: 0.00, prof: 0.00, altura: 0.00
+BALAO [id: 13] - posicao: (620.00, 180.00), rotacao (graus): 0.00, raio: 50.00, prof: 5.00, altura: 100.00
+	FILA [9] - qtd de fotos: 1
 
 [*] c?
 CACA [id: 11] - posicao: (400.00, 200.00), rotacao (graus): 125.00, disparos realizados: 2
@@ -206,7 +214,8 @@ borda: black
 [*] df 13 9 cac
 balao: 13
 FILA [9]:
-	FOTO [1] - pont: 7100.00, raio: 50.00, altura: 100.00, prof: 5.00
+	FOTO [1] - pont: 0.00, raio: 50.00, altura: 100.00, prof: 5.00
+	FOTO [2] - pont: 7100.00, raio: 50.00, altura: 100.00, prof: 5.00
 
 [*] d 11 c 50 100 20
 ELEMENTO(S) ATINGIDO(S):

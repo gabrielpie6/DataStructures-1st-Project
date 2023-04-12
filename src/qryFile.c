@@ -257,6 +257,7 @@ void takePicture(ArqCmds QryFile, Lista L, char * lineBuffer, FILE * TXTFile, Li
     // (são apenas ponteiros para os elementos da lista original)
     Lista AuxiliarLst2 = map(AuxiliarLst, copyEntity);
     
+    
     // Ajusta os elementos para que fiquem relativos à posição da foto
     double xi, yi, xf, yf;
     defineFrame(balloon, &xi, &yi, &xf, &yf);
@@ -312,127 +313,138 @@ void downloadPictures(ArqCmds QryFile, Lista L, char * lineBuffer, char * output
     getParametroI(QryFile, lineBuffer, 3, parameter, SIMPLE_PARAMETER_SIZE);
     strcpy(suffix, parameter);
 
-    Entity balloon = searchEntbyIDinLst(L, id);
-    Fila   F       = getFilaOfPictures(balloon, index);
-    
-    char * svgFileName = (char *) malloc(sizeof(char) * (strlen(outputPath) + 1 + strlen(geo_qryCombination) + 1 + strlen(suffix) + strlen(".svg") + 1));
-    sprintf(svgFileName, "%s/%s-%s.svg", outputPath, geo_qryCombination, suffix);
-    ArqSvg PicturesSVG = abreEscritaSvg(svgFileName);
-    Picture pic;
-    Lista elements;
-
-    // Escrita dos atributos da foto
-    Lista Decorations = createLst(-1);
-    Geometry frame, balloonID, pont, raio, altura, prof;
-    Style writeStyle = createTextStyle("serif", "normal", 25);
-    char * strokeColor = "none";
-    char * fillColor   = "black";
-    char textBuffer[DEFAULT_BUFFER_SIZE];
-
-    fprintf(TXTFile, "[*] %s\n", lineBuffer);
-    fprintf(TXTFile, "balao: %d\n", id);
-    fprintf(TXTFile, "FILA [%d]:\n", index);
-
-    //
-    // Percorrer cada foto da fila de fotos F e processa uma pontuação para cada foto
-    //
-    double pontuacao, width, height, dx = 0, dy = 0;
-    double textInitX = 0, textInitY = 0;
-    double spacing = 20;
-    double * limits;
-    double minimumSpace = 5;
-
-    int count = 1;
-    while (countFila(F) > 0)
+    if (index < 0 || 9 < index)
     {
-        pic      = (Picture) popFila(F);
-        ajustElementsToRelativePicPos(pic);
-        elements = getPictureElements(pic);
-        pontuacao = scorePicture(pic);
-        width = getPictureRadius(pic) * 2;
-        height = getPictureHeight(pic);
-
-        /*
-            limits[0] = leftBound
-            limits[1] = rightBound
-            limits[2] = topBound
-            limits[3] = bottomBound
-        */
-        limits = PictureBoundingBox(pic);
-
-
-        // Escrever foto no svg
-        dx -= limits[0];
-        dy = -limits[2];
-        WriteEntListInSvg(PicturesSVG, elements, style, dx, dy);
-        
-        
-
-        //
-        // ESCRITA DOS ATRIBUTOS DA FOTO (RODAPÉ)
-        //
-        frame = createRectangle(0, dx, dy, getPictureRadius(pic) * 2, getPictureHeight(pic), "black", "none");
-        insertLst(Decorations, (Item) frame);
-
-        textInitX = dx; // Arumar espacamento (?)
-        textInitY = dy + spacing + limits[3];
-        /*
-            balao: id
-            pont: pontuacao
-            raio: radius
-            altura: height
-            prof: depth
-        */
-        sprintf(textBuffer, "balao: %d", id);
-
-        balloonID = createText(-1, textInitX, textInitY, strokeColor, fillColor, 'i', textBuffer);
-        setGeoStyle(balloonID, writeStyle);
-        insertLst(Decorations, (Item) balloonID);
-
-        textInitY += spacing;
-        sprintf(textBuffer, "pont: %.2lf", pontuacao);
-        pont = createText(-1, textInitX, textInitY, strokeColor, fillColor, 'i', textBuffer);
-        setGeoStyle(pont, writeStyle);
-        insertLst(Decorations, (Item) pont);
-
-        textInitY += spacing;
-        sprintf(textBuffer, "raio: %.2lf", getPictureRadius(pic));
-        raio = createText(-1, textInitX, textInitY, strokeColor, fillColor, 'i', textBuffer);
-        setGeoStyle(raio, writeStyle);
-        insertLst(Decorations, (Item) raio);
-
-        textInitY += spacing;
-        sprintf(textBuffer, "altura: %.2lf", getPictureHeight(pic));
-        altura = createText(-1, textInitX, textInitY, strokeColor, fillColor, 'i', textBuffer);
-        setGeoStyle(altura, writeStyle);
-        insertLst(Decorations, (Item) altura);
-
-        textInitY += spacing;
-        sprintf(textBuffer, "prof: %.2lf", getPictureDepth(pic));
-        prof = createText(-1, textInitX, textInitY, strokeColor, fillColor, 'i', textBuffer);
-        setGeoStyle(prof, writeStyle);
-        insertLst(Decorations, (Item) prof);
-
-        dx += limits[1] + minimumSpace;
-        
-        //
-        // ESCREVE ATRIBUTOS das fotos no TXT
-        //
-        /*
-            [*] df ...
-            balao: id
-            FOTO [1] - pont: pontuacao (%.2lf), raio: radius (%.2lf), altura: height (%.2lf), prof: depth (%.2lf)
-            ...
-            FOTO [n] - pont: pontuacao (%.2lf), raio: radius (%.2lf), altura: height (%.2lf), prof: depth (%.2lf)
-        */
-        fprintf(TXTFile, "\tFOTO [%d] - pont: %.2lf, raio: %.2lf, altura: %.2lf, prof: %.2lf\n", count, pontuacao, getPictureRadius(pic), getPictureHeight(pic), getPictureDepth(pic));
-        count++;
+        printf("AVISO: [in downloadPictures]: Indice de fila de fotos [%d] fora do intervalo [0, 9] -> nenhuma operacao foi realizada.\n", index);
+        return;
     }
-    WriteGeoListInSvg(PicturesSVG, Decorations, style, 0, 0);
-    killLst(Decorations);
-    fechaSvg(PicturesSVG);
-    free(limits);
-    fprintf(TXTFile, "\n");
+
+    Entity balloon = searchEntbyIDinLst(L, id);
+    if (balloon != NULL)
+    {
+        Fila F = getFilaOfPictures(balloon, index);
+        if (countFila(F) > 0)
+        {
+            char * svgFileName = (char *) malloc(sizeof(char) * (strlen(outputPath) + 1 + strlen(geo_qryCombination) + 1 + strlen(suffix) + strlen(".svg") + 1));
+            sprintf(svgFileName, "%s/%s-%s.svg", outputPath, geo_qryCombination, suffix);
+            ArqSvg PicturesSVG = abreEscritaSvg(svgFileName);
+            Picture pic;
+            Lista elements;
+
+            // Escrita dos atributos da foto
+            Lista Decorations = createLst(-1);
+            Geometry frame, balloonID, pont, raio, altura, prof;
+            Style writeStyle = createTextStyle("serif", "normal", 25);
+            char * strokeColor = "none";
+            char * fillColor   = "black";
+            char textBuffer[DEFAULT_BUFFER_SIZE];
+
+            fprintf(TXTFile, "[*] %s\n", lineBuffer);
+            fprintf(TXTFile, "balao: %d\n", id);
+            fprintf(TXTFile, "FILA [%d]:\n", index);
+
+            //
+            // Percorrer cada foto da fila de fotos F e processa uma pontuação para cada foto
+            //
+            double pontuacao, width, height, dx = 0, dy = 0;
+            double textInitX = 0, textInitY = 0;
+            double spacing = 20;
+            double * limits;
+            double minimumSpace = 5;
+
+            int count = 1;
+            while (countFila(F) > 0)
+            {
+                pic      = (Picture) popFila(F);
+                ajustElementsToRelativePicPos(pic);
+                elements = getPictureElements(pic);
+                pontuacao = scorePicture(pic);
+                width = getPictureRadius(pic) * 2;
+                height = getPictureHeight(pic);
+
+                /*
+                    limits[0] = leftBound
+                    limits[1] = rightBound
+                    limits[2] = topBound
+                    limits[3] = bottomBound
+                */
+                limits = PictureBoundingBox(pic);
+
+
+                // Escrever foto no svg
+                dx -= limits[0];
+                dy = -limits[2];
+                WriteEntListInSvg(PicturesSVG, elements, style, dx, dy);
+                
+                
+
+                //
+                // ESCRITA DOS ATRIBUTOS DA FOTO (RODAPÉ)
+                //
+                frame = createRectangle(0, dx, dy, getPictureRadius(pic) * 2, getPictureHeight(pic), "black", "none");
+                insertLst(Decorations, (Item) frame);
+
+                textInitX = dx; // Arumar espacamento (?)
+                textInitY = dy + spacing + limits[3];
+                /*
+                    balao: id
+                    pont: pontuacao
+                    raio: radius
+                    altura: height
+                    prof: depth
+                */
+                sprintf(textBuffer, "balao: %d", id);
+
+                balloonID = createText(-1, textInitX, textInitY, strokeColor, fillColor, 'i', textBuffer);
+                setGeoStyle(balloonID, writeStyle);
+                insertLst(Decorations, (Item) balloonID);
+
+                textInitY += spacing;
+                sprintf(textBuffer, "pont: %.2lf", pontuacao);
+                pont = createText(-1, textInitX, textInitY, strokeColor, fillColor, 'i', textBuffer);
+                setGeoStyle(pont, writeStyle);
+                insertLst(Decorations, (Item) pont);
+
+                textInitY += spacing;
+                sprintf(textBuffer, "raio: %.2lf", getPictureRadius(pic));
+                raio = createText(-1, textInitX, textInitY, strokeColor, fillColor, 'i', textBuffer);
+                setGeoStyle(raio, writeStyle);
+                insertLst(Decorations, (Item) raio);
+
+                textInitY += spacing;
+                sprintf(textBuffer, "altura: %.2lf", getPictureHeight(pic));
+                altura = createText(-1, textInitX, textInitY, strokeColor, fillColor, 'i', textBuffer);
+                setGeoStyle(altura, writeStyle);
+                insertLst(Decorations, (Item) altura);
+
+                textInitY += spacing;
+                sprintf(textBuffer, "prof: %.2lf", getPictureDepth(pic));
+                prof = createText(-1, textInitX, textInitY, strokeColor, fillColor, 'i', textBuffer);
+                setGeoStyle(prof, writeStyle);
+                insertLst(Decorations, (Item) prof);
+
+                dx += limits[1] + minimumSpace;
+                
+                //
+                // ESCREVE ATRIBUTOS das fotos no TXT
+                //
+                /*
+                    [*] df ...
+                    balao: id
+                    FOTO [1] - pont: pontuacao (%.2lf), raio: radius (%.2lf), altura: height (%.2lf), prof: depth (%.2lf)
+                    ...
+                    FOTO [n] - pont: pontuacao (%.2lf), raio: radius (%.2lf), altura: height (%.2lf), prof: depth (%.2lf)
+                */
+                fprintf(TXTFile, "\tFOTO [%d] - pont: %.2lf, raio: %.2lf, altura: %.2lf, prof: %.2lf\n", count, pontuacao, getPictureRadius(pic), getPictureHeight(pic), getPictureDepth(pic));
+                count++;
+            }
+            WriteGeoListInSvg(PicturesSVG, Decorations, style, 0, 0);
+            killLst(Decorations);
+            fechaSvg(PicturesSVG);
+            free(limits);
+            fprintf(TXTFile, "\n");
+        } else printf("AVISO: [in downloadPictures]: Fila de fotos de indice [%d] esta vazia -> nao ha fotos para baixar (nenhuma operacao realizada).\n", index);
+    } else printf("AVISO: [in downloadPictures]: Balao de ID [%d] nao encontrado na lista -> nenhuma operacao realizada.\n", id);
 }
 void detonateBomb(ArqCmds QryFile, Lista L, char * lineBuffer, FILE * TXTFile, Lista Decos)
 {

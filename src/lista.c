@@ -212,7 +212,7 @@ Posic getPrevLst(Lista L, Posic p)
 void killLst(Lista L)
 {
     ListaImpl *lst = (ListaImpl *) L;
-    if (lst != NULL)
+    if (lst != NULL && !isEmptyLst(lst))
     {
         for (Node * node = lst->prim->prox; node != NULL; node = node->prox)
         {
