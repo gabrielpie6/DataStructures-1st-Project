@@ -1,0 +1,469 @@
+[*] mv 1 47.62 0.00
+texto
+ancora originalmente     em (5.00, 5.00)
+ancora apos deslocamento em (52.62, 5.00)
+rotacao: 0.00
+tipo de ancora: m
+texto: v_O_v
+preenchimento: #0000D4
+borda: #0000D4
+
+[*] tf 1 0
+balao: 1
+raio da foto: 19.05
+profundidade da foto: 35.37
+altura da foto: 14.15
+IDENTIFICADOR(ES) DO(S) ELEMENTO(S) FOTOGRAFADO(S)
+	[id: 21] - (-8.57, -12.37)
+	[id: 23] - (-8.57, -12.37)
+	[id: 25] - (-31.57, 17.63)
+
+[*] mv 1 47.62 0.00
+texto
+ancora originalmente     em (52.62, 5.00)
+ancora apos deslocamento em (100.24, 5.00)
+rotacao: 0.00
+tipo de ancora: m
+texto: v_O_v
+preenchimento: #0000D4
+borda: #0000D4
+
+[*] tf 1 1
+balao: 1
+raio da foto: 19.05
+profundidade da foto: 35.37
+altura da foto: 14.15
+IDENTIFICADOR(ES) DO(S) ELEMENTO(S) FOTOGRAFADO(S)
+	[id: 24] - (-31.19, 44.63)
+	[id: 240] - (37.08, 0.04)
+
+[*] mv 1 47.62 0.00
+texto
+ancora originalmente     em (100.24, 5.00)
+ancora apos deslocamento em (147.86, 5.00)
+rotacao: 0.00
+tipo de ancora: m
+texto: v_O_v
+preenchimento: #0000D4
+borda: #0000D4
+
+[*] tf 1 2
+balao: 1
+raio da foto: 19.05
+profundidade da foto: 35.37
+altura da foto: 14.15
+IDENTIFICADOR(ES) DO(S) ELEMENTO(S) FOTOGRAFADO(S)
+	[id: 6] - (13.96, 7.75)
+	[id: 17] - (28.19, -22.37)
+	[id: 201] - (30.07, 9.96)
+	[id: 218] - (29.41, 6.96)
+
+[*] mv 1 47.62 0.00
+texto
+ancora originalmente     em (147.86, 5.00)
+ancora apos deslocamento em (195.48, 5.00)
+rotacao: 0.00
+tipo de ancora: m
+texto: v_O_v
+preenchimento: #0000D4
+borda: #0000D4
+
+[*] tf 1 3
+balao: 1
+raio da foto: 19.05
+profundidade da foto: 35.37
+altura da foto: 14.15
+IDENTIFICADOR(ES) DO(S) ELEMENTO(S) FOTOGRAFADO(S)
+	[id: 179] - (19.88, 12.24)
+	[id: 180] - (14.20, 3.22)
+	[id: 193] - (28.80, 11.80)
+	[id: 197] - (-1.04, -0.85)
+	[id: 199] - (0.45, 6.64)
+	[id: 209] - (26.06, 1.98)
+	[id: 211] - (0.77, 5.69)
+	[id: 213] - (16.71, -0.93)
+	[id: 215] - (26.62, 3.87)
+
+[*] mv 1 47.62 0.00
+texto
+ancora originalmente     em (195.48, 5.00)
+ancora apos deslocamento em (243.10, 5.00)
+rotacao: 0.00
+tipo de ancora: m
+texto: v_O_v
+preenchimento: #0000D4
+borda: #0000D4
+
+[*] tf 1 4
+balao: 1
+raio da foto: 19.05
+profundidade da foto: 35.37
+altura da foto: 14.15
+IDENTIFICADOR(ES) DO(S) ELEMENTO(S) FOTOGRAFADO(S)
+
+[*] mv 1 -238.08 17.68
+texto
+ancora originalmente     em (243.10, 5.00)
+ancora apos deslocamento em (5.02, 22.68)
+rotacao: 0.00
+tipo de ancora: m
+texto: v_O_v
+preenchimento: #0000D4
+borda: #0000D4
+
+[*] mv 1 47.62 0.00
+texto
+ancora originalmente     em (5.02, 22.68)
+ancora apos deslocamento em (52.64, 22.68)
+rotacao: 0.00
+tipo de ancora: m
+texto: v_O_v
+preenchimento: #0000D4
+borda: #0000D4
+
+[*] tf 1 0
+balao: 1
+raio da foto: 19.05
+profundidade da foto: 35.37
+altura da foto: 14.15
+IDENTIFICADOR(ES) DO(S) ELEMENTO(S) FOTOGRAFADO(S)
+	[id: 21] - (-8.59, -30.05)
+	[id: 24] - (16.41, 26.95)
+
+[*] mv 1 47.62 0.00
+texto
+ancora originalmente     em (52.64, 22.68)
+ancora apos deslocamento em (100.26, 22.68)
+rotacao: 0.00
+tipo de ancora: m
+texto: v_O_v
+preenchimento: #0000D4
+borda: #0000D4
+
+[*] tf 1 1
+balao: 1
+raio da foto: 19.05
+profundidade da foto: 35.37
+altura da foto: 14.15
+IDENTIFICADOR(ES) DO(S) ELEMENTO(S) FOTOGRAFADO(S)
+	[id: 19] - (8.79, 55.95)
+	[id: 23] - (-56.21, -30.05)
+	[id: 24] - (-31.21, 26.95)
+	[id: 26] - (-4.21, -28.05)
+
+[*] mv 1 47.62 0.00
+texto
+ancora originalmente     em (100.26, 22.68)
+ancora apos deslocamento em (147.88, 22.68)
+rotacao: 0.00
+tipo de ancora: m
+texto: v_O_v
+preenchimento: #0000D4
+borda: #0000D4
+
+[*] tf 1 2
+balao: 1
+raio da foto: 19.05
+profundidade da foto: 35.37
+altura da foto: 14.15
+IDENTIFICADOR(ES) DO(S) ELEMENTO(S) FOTOGRAFADO(S)
+	[id: 17] - (28.17, -40.05)
+	[id: 188] - (32.29, 6.27)
+	[id: 190] - (37.92, -0.50)
+	[id: 207] - (32.38, 5.36)
+
+[*] mv 1 47.62 0.00
+texto
+ancora originalmente     em (147.88, 22.68)
+ancora apos deslocamento em (195.50, 22.68)
+rotacao: 0.00
+tipo de ancora: m
+texto: v_O_v
+preenchimento: #0000D4
+borda: #0000D4
+
+[*] tf 1 3
+balao: 1
+raio da foto: 19.05
+profundidade da foto: 35.37
+altura da foto: 14.15
+IDENTIFICADOR(ES) DO(S) ELEMENTO(S) FOTOGRAFADO(S)
+	[id: 28] - (13.55, 32.95)
+	[id: 183] - (34.73, 4.59)
+	[id: 185] - (16.08, 13.97)
+	[id: 196] - (18.63, 14.14)
+	[id: 205] - (-0.99, 12.15)
+	[id: 206] - (5.65, 10.04)
+	[id: 216] - (14.97, 2.97)
+
+[*] mv 1 47.62 0.00
+texto
+ancora originalmente     em (195.50, 22.68)
+ancora apos deslocamento em (243.12, 22.68)
+rotacao: 0.00
+tipo de ancora: m
+texto: v_O_v
+preenchimento: #0000D4
+borda: #0000D4
+
+[*] tf 1 4
+balao: 1
+raio da foto: 19.05
+profundidade da foto: 35.37
+altura da foto: 14.15
+IDENTIFICADOR(ES) DO(S) ELEMENTO(S) FOTOGRAFADO(S)
+	[id: 138] - (16.08, 13.37)
+	[id: 198] - (-1.74, 1.70)
+	[id: 253] - (28.76, -0.18)
+
+[*] mv 1 -238.08 17.68
+texto
+ancora originalmente     em (243.12, 22.68)
+ancora apos deslocamento em (5.04, 40.36)
+rotacao: 0.00
+tipo de ancora: m
+texto: v_O_v
+preenchimento: #0000D4
+borda: #0000D4
+
+[*] mv 1 47.62 0.00
+texto
+ancora originalmente     em (5.04, 40.36)
+ancora apos deslocamento em (52.66, 40.36)
+rotacao: 0.00
+tipo de ancora: m
+texto: v_O_v
+preenchimento: #0000D4
+borda: #0000D4
+
+[*] tf 1 0
+balao: 1
+raio da foto: 19.05
+profundidade da foto: 35.37
+altura da foto: 14.15
+IDENTIFICADOR(ES) DO(S) ELEMENTO(S) FOTOGRAFADO(S)
+	[id: 13] - (16.39, 9.27)
+	[id: 21] - (-8.61, -47.73)
+	[id: 24] - (16.39, 9.27)
+	[id: 250] - (14.09, 1.22)
+	[id: 257] - (18.43, 3.44)
+
+[*] mv 1 47.62 0.00
+texto
+ancora originalmente     em (52.66, 40.36)
+ancora apos deslocamento em (100.28, 40.36)
+rotacao: 0.00
+tipo de ancora: m
+texto: v_O_v
+preenchimento: #0000D4
+borda: #0000D4
+
+[*] tf 1 1
+balao: 1
+raio da foto: 19.05
+profundidade da foto: 35.37
+altura da foto: 14.15
+IDENTIFICADOR(ES) DO(S) ELEMENTO(S) FOTOGRAFADO(S)
+	[id: 19] - (8.77, 38.27)
+	[id: 23] - (-56.23, -47.73)
+	[id: 26] - (-4.23, -45.73)
+	[id: 124] - (29.54, 2.98)
+
+[*] mv 1 47.62 0.00
+texto
+ancora originalmente     em (100.28, 40.36)
+ancora apos deslocamento em (147.90, 40.36)
+rotacao: 0.00
+tipo de ancora: m
+texto: v_O_v
+preenchimento: #0000D4
+borda: #0000D4
+
+[*] tf 1 2
+balao: 1
+raio da foto: 19.05
+profundidade da foto: 35.37
+altura da foto: 14.15
+IDENTIFICADOR(ES) DO(S) ELEMENTO(S) FOTOGRAFADO(S)
+	[id: 17] - (28.15, -57.73)
+	[id: 99] - (3.45, 7.52)
+	[id: 100] - (17.04, 7.09)
+	[id: 121] - (27.72, 1.05)
+	[id: 132] - (35.13, 3.31)
+	[id: 210] - (34.92, -0.39)
+
+[*] mv 1 47.62 0.00
+texto
+ancora originalmente     em (147.90, 40.36)
+ancora apos deslocamento em (195.52, 40.36)
+rotacao: 0.00
+tipo de ancora: m
+texto: v_O_v
+preenchimento: #0000D4
+borda: #0000D4
+
+[*] tf 1 3
+balao: 1
+raio da foto: 19.05
+profundidade da foto: 35.37
+altura da foto: 14.15
+IDENTIFICADOR(ES) DO(S) ELEMENTO(S) FOTOGRAFADO(S)
+	[id: 11] - (13.53, 15.27)
+	[id: 28] - (13.53, 15.27)
+	[id: 102] - (26.86, 11.72)
+	[id: 113] - (22.74, -0.66)
+	[id: 184] - (34.18, 2.81)
+
+[*] mv 1 47.62 0.00
+texto
+ancora originalmente     em (195.52, 40.36)
+ancora apos deslocamento em (243.14, 40.36)
+rotacao: 0.00
+tipo de ancora: m
+texto: v_O_v
+preenchimento: #0000D4
+borda: #0000D4
+
+[*] tf 1 4
+balao: 1
+raio da foto: 19.05
+profundidade da foto: 35.37
+altura da foto: 14.15
+IDENTIFICADOR(ES) DO(S) ELEMENTO(S) FOTOGRAFADO(S)
+	[id: 114] - (34.04, 11.06)
+	[id: 256] - (3.58, 2.17)
+
+[*] mv 1 -238.08 17.68
+texto
+ancora originalmente     em (243.14, 40.36)
+ancora apos deslocamento em (5.06, 58.04)
+rotacao: 0.00
+tipo de ancora: m
+texto: v_O_v
+preenchimento: #0000D4
+borda: #0000D4
+
+[*] mv 1 47.62 0.00
+texto
+ancora originalmente     em (5.06, 58.04)
+ancora apos deslocamento em (52.68, 58.04)
+rotacao: 0.00
+tipo de ancora: m
+texto: v_O_v
+preenchimento: #0000D4
+borda: #0000D4
+
+[*] tf 1 0
+balao: 1
+raio da foto: 19.05
+profundidade da foto: 35.37
+altura da foto: 14.15
+IDENTIFICADOR(ES) DO(S) ELEMENTO(S) FOTOGRAFADO(S)
+
+[*] mv 1 47.62 0.00
+texto
+ancora originalmente     em (52.68, 58.04)
+ancora apos deslocamento em (100.30, 58.04)
+rotacao: 0.00
+tipo de ancora: m
+texto: v_O_v
+preenchimento: #0000D4
+borda: #0000D4
+
+[*] tf 1 1
+balao: 1
+raio da foto: 19.05
+profundidade da foto: 35.37
+altura da foto: 14.15
+IDENTIFICADOR(ES) DO(S) ELEMENTO(S) FOTOGRAFADO(S)
+	[id: 10] - (8.75, 20.59)
+	[id: 19] - (8.75, 20.59)
+	[id: 26] - (-4.25, -63.41)
+	[id: 27] - (8.75, 20.59)
+	[id: 70] - (25.72, 15.43)
+	[id: 105] - (2.92, 11.94)
+	[id: 115] - (9.70, 9.44)
+	[id: 119] - (7.68, 13.22)
+	[id: 125] - (11.76, -0.85)
+	[id: 137] - (23.07, 2.33)
+	[id: 172] - (2.84, 10.24)
+	[id: 244] - (9.24, -0.63)
+
+[*] mv 1 47.62 0.00
+texto
+ancora originalmente     em (100.30, 58.04)
+ancora apos deslocamento em (147.92, 58.04)
+rotacao: 0.00
+tipo de ancora: m
+texto: v_O_v
+preenchimento: #0000D4
+borda: #0000D4
+
+[*] tf 1 2
+balao: 1
+raio da foto: 19.05
+profundidade da foto: 35.37
+altura da foto: 14.15
+IDENTIFICADOR(ES) DO(S) ELEMENTO(S) FOTOGRAFADO(S)
+	[id: 5] - (26.23, 0.37)
+	[id: 15] - (16.13, 8.59)
+	[id: 17] - (28.13, -75.41)
+	[id: 23] - (-103.87, -65.41)
+	[id: 27] - (-38.87, 20.59)
+	[id: 103] - (30.55, 5.99)
+	[id: 122] - (2.76, 2.36)
+	[id: 129] - (23.57, 12.25)
+	[id: 154] - (3.67, 7.49)
+	[id: 170] - (9.72, 9.12)
+	[id: 233] - (30.82, 6.94)
+	[id: 241] - (27.25, 1.28)
+
+[*] mv 1 47.62 0.00
+texto
+ancora originalmente     em (147.92, 58.04)
+ancora apos deslocamento em (195.54, 58.04)
+rotacao: 0.00
+tipo de ancora: m
+texto: v_O_v
+preenchimento: #0000D4
+borda: #0000D4
+
+[*] tf 1 3
+balao: 1
+raio da foto: 19.05
+profundidade da foto: 35.37
+altura da foto: 14.15
+IDENTIFICADOR(ES) DO(S) ELEMENTO(S) FOTOGRAFADO(S)
+	[id: 11] - (13.51, -2.41)
+	[id: 27] - (-86.49, 20.59)
+	[id: 120] - (26.49, 11.97)
+	[id: 126] - (-2.26, 6.64)
+	[id: 134] - (22.68, 3.75)
+
+[*] mv 1 47.62 0.00
+texto
+ancora originalmente     em (195.54, 58.04)
+ancora apos deslocamento em (243.16, 58.04)
+rotacao: 0.00
+tipo de ancora: m
+texto: v_O_v
+preenchimento: #0000D4
+borda: #0000D4
+
+[*] tf 1 4
+balao: 1
+raio da foto: 19.05
+profundidade da foto: 35.37
+altura da foto: 14.15
+IDENTIFICADOR(ES) DO(S) ELEMENTO(S) FOTOGRAFADO(S)
+
+[*] mv 1 -238.08 17.68
+texto
+ancora originalmente     em (243.16, 58.04)
+ancora apos deslocamento em (5.08, 75.72)
+rotacao: 0.00
+tipo de ancora: m
+texto: v_O_v
+preenchimento: #0000D4
+borda: #0000D4
+

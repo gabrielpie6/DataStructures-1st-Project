@@ -103,6 +103,180 @@ texto: v_O_v
 preenchimento: black
 borda: black
 
+[*] tf 7 0
+balao: 7
+raio da foto: 50.00
+profundidade da foto: 20.00
+altura da foto: 70.00
+IDENTIFICADOR(ES) DO(S) ELEMENTO(S) FOTOGRAFADO(S)
+	[id: 5] - (-10.00, 40.00)
+	[id: 9] - (20.00, 60.00)
+	[id: 11] - (70.00, 60.00)
+
+[*] tf 7 0
+balao: 7
+raio da foto: 50.00
+profundidade da foto: 20.00
+altura da foto: 70.00
+IDENTIFICADOR(ES) DO(S) ELEMENTO(S) FOTOGRAFADO(S)
+	[id: 5] - (-10.00, 40.00)
+	[id: 9] - (20.00, 60.00)
+	[id: 11] - (70.00, 60.00)
+
+[*] tf 7 0
+balao: 7
+raio da foto: 50.00
+profundidade da foto: 20.00
+altura da foto: 70.00
+IDENTIFICADOR(ES) DO(S) ELEMENTO(S) FOTOGRAFADO(S)
+	[id: 5] - (-10.00, 40.00)
+	[id: 9] - (20.00, 60.00)
+	[id: 11] - (70.00, 60.00)
+
+[*] tf 7 0
+balao: 7
+raio da foto: 50.00
+profundidade da foto: 20.00
+altura da foto: 70.00
+IDENTIFICADOR(ES) DO(S) ELEMENTO(S) FOTOGRAFADO(S)
+	[id: 5] - (-10.00, 40.00)
+	[id: 9] - (20.00, 60.00)
+	[id: 11] - (70.00, 60.00)
+
+[*] tf 7 0
+balao: 7
+raio da foto: 50.00
+profundidade da foto: 20.00
+altura da foto: 70.00
+IDENTIFICADOR(ES) DO(S) ELEMENTO(S) FOTOGRAFADO(S)
+	[id: 5] - (-10.00, 40.00)
+	[id: 9] - (20.00, 60.00)
+	[id: 11] - (70.00, 60.00)
+
+[*] tf 7 0
+balao: 7
+raio da foto: 50.00
+profundidade da foto: 20.00
+altura da foto: 70.00
+IDENTIFICADOR(ES) DO(S) ELEMENTO(S) FOTOGRAFADO(S)
+	[id: 5] - (-10.00, 40.00)
+	[id: 9] - (20.00, 60.00)
+	[id: 11] - (70.00, 60.00)
+
+[*] tf 7 0
+balao: 7
+raio da foto: 50.00
+profundidade da foto: 20.00
+altura da foto: 70.00
+IDENTIFICADOR(ES) DO(S) ELEMENTO(S) FOTOGRAFADO(S)
+	[id: 5] - (-10.00, 40.00)
+	[id: 9] - (20.00, 60.00)
+	[id: 11] - (70.00, 60.00)
+
+[*] tf 7 0
+balao: 7
+raio da foto: 50.00
+profundidade da foto: 20.00
+altura da foto: 70.00
+IDENTIFICADOR(ES) DO(S) ELEMENTO(S) FOTOGRAFADO(S)
+	[id: 5] - (-10.00, 40.00)
+	[id: 9] - (20.00, 60.00)
+	[id: 11] - (70.00, 60.00)
+
+[*] tf 7 0
+balao: 7
+raio da foto: 50.00
+profundidade da foto: 20.00
+altura da foto: 70.00
+IDENTIFICADOR(ES) DO(S) ELEMENTO(S) FOTOGRAFADO(S)
+	[id: 5] - (-10.00, 40.00)
+	[id: 9] - (20.00, 60.00)
+	[id: 11] - (70.00, 60.00)
+
+[*] tf 7 0
+balao: 7
+raio da foto: 50.00
+profundidade da foto: 20.00
+altura da foto: 70.00
+IDENTIFICADOR(ES) DO(S) ELEMENTO(S) FOTOGRAFADO(S)
+	[id: 5] - (-10.00, 40.00)
+	[id: 9] - (20.00, 60.00)
+	[id: 11] - (70.00, 60.00)
+
+[*] tf 7 0
+balao: 7
+raio da foto: 50.00
+profundidade da foto: 20.00
+altura da foto: 70.00
+IDENTIFICADOR(ES) DO(S) ELEMENTO(S) FOTOGRAFADO(S)
+	[id: 5] - (-10.00, 40.00)
+	[id: 9] - (20.00, 60.00)
+	[id: 11] - (70.00, 60.00)
+
+[*] tf 7 0
+balao: 7
+raio da foto: 50.00
+profundidade da foto: 20.00
+altura da foto: 70.00
+IDENTIFICADOR(ES) DO(S) ELEMENTO(S) FOTOGRAFADO(S)
+	[id: 5] - (-10.00, 40.00)
+	[id: 9] - (20.00, 60.00)
+	[id: 11] - (70.00, 60.00)
+
+[*] tf 7 0
+balao: 7
+raio da foto: 50.00
+profundidade da foto: 20.00
+altura da foto: 70.00
+IDENTIFICADOR(ES) DO(S) ELEMENTO(S) FOTOGRAFADO(S)
+	[id: 5] - (-10.00, 40.00)
+	[id: 9] - (20.00, 60.00)
+	[id: 11] - (70.00, 60.00)
+
+[*] tf 7 0
+balao: 7
+raio da foto: 50.00
+profundidade da foto: 20.00
+altura da foto: 70.00
+IDENTIFICADOR(ES) DO(S) ELEMENTO(S) FOTOGRAFADO(S)
+	[id: 5] - (-10.00, 40.00)
+	[id: 9] - (20.00, 60.00)
+	[id: 11] - (70.00, 60.00)
+
+[*] df 7 0 cetici
+balao: 7
+FILA [0]:
+	FOTO [1] - pont: 13553.10, raio: 100.00, altura: 300.00, prof: 5.00
+	FOTO [2] - pont: 7953.98, raio: 50.00, altura: 70.00, prof: 20.00
+	FOTO [3] - pont: 7953.98, raio: 50.00, altura: 70.00, prof: 20.00
+	FOTO [4] - pont: 7953.98, raio: 50.00, altura: 70.00, prof: 20.00
+	FOTO [5] - pont: 7953.98, raio: 50.00, altura: 70.00, prof: 20.00
+	FOTO [6] - pont: 7953.98, raio: 50.00, altura: 70.00, prof: 20.00
+	FOTO [7] - pont: 7953.98, raio: 50.00, altura: 70.00, prof: 20.00
+	FOTO [8] - pont: 7953.98, raio: 50.00, altura: 70.00, prof: 20.00
+	FOTO [9] - pont: 7953.98, raio: 50.00, altura: 70.00, prof: 20.00
+	FOTO [10] - pont: 7953.98, raio: 50.00, altura: 70.00, prof: 20.00
+	FOTO [11] - pont: 7953.98, raio: 50.00, altura: 70.00, prof: 20.00
+	FOTO [12] - pont: 7953.98, raio: 50.00, altura: 70.00, prof: 20.00
+	FOTO [13] - pont: 7953.98, raio: 50.00, altura: 70.00, prof: 20.00
+	FOTO [14] - pont: 7953.98, raio: 50.00, altura: 70.00, prof: 20.00
+	FOTO [15] - pont: 7953.98, raio: 50.00, altura: 70.00, prof: 20.00
+
+[*] tf 7 0
+balao: 7
+raio da foto: 50.00
+profundidade da foto: 20.00
+altura da foto: 70.00
+IDENTIFICADOR(ES) DO(S) ELEMENTO(S) FOTOGRAFADO(S)
+	[id: 5] - (-10.00, 40.00)
+	[id: 9] - (20.00, 60.00)
+	[id: 11] - (70.00, 60.00)
+
+[*] df 7 0 acola
+balao: 7
+FILA [0]:
+	FOTO [1] - pont: 7953.98, raio: 50.00, altura: 70.00, prof: 20.00
+
 [*] mv 11 150 0
 texto
 ancora originalmente     em (250.00, 200.00)
@@ -125,7 +299,6 @@ borda: black
 
 [*] b?
 BALAO [id: 7] - posicao: (230.00, 120.00), rotacao (graus): 0.00, raio: 50.00, prof: 20.00, altura: 70.00
-	FILA [0] - qtd de fotos: 1
 BALAO [id: 13] - posicao: (620.00, 180.00), rotacao (graus): 0.00, raio: 50.00, prof: 5.00, altura: 100.00
 	FILA [9] - qtd de fotos: 1
 
@@ -172,8 +345,6 @@ ELEMENTO(S) ATINGIDO(S):
 	[id: 9] - tipo: circulo, centro: (200.00, 200.00), cor de borda: black, cor de preenchimento: blue
 	[id: 7] - tipo: balao, ancora: (230.00, 120.00), cor de borda: black, cor de preenchimento: black
 CLONE(S) GERADO(S):
-	[id: 75] - tipo: retangulo, ancora: (245.00, 220.00), largura: 200.00, altura: 70.00, cor de borda: purple, cor de preenchimento: blue
-	[id: 76] - tipo: circulo, centro: (520.00, 80.00), cor de borda: #55FF55, cor de preenchimento: #AFAF1F
 
 [*] g 13 20
 texto
@@ -203,7 +374,6 @@ altura da foto: 100.00
 IDENTIFICADOR(ES) DO(S) ELEMENTO(S) FOTOGRAFADO(S)
 	[id: 10] - (-45.00, 65.00)
 	[id: 11] - (60.00, 45.00)
-	[id: 75] - (-25.00, 65.00)
 
 [*] mv 11 50 0
 texto
@@ -219,7 +389,7 @@ borda: black
 balao: 13
 FILA [9]:
 	FOTO [1] - pont: 0.00, raio: 50.00, altura: 100.00, prof: 5.00
-	FOTO [2] - pont: 7100.00, raio: 50.00, altura: 100.00, prof: 5.00
+	FOTO [2] - pont: 3600.00, raio: 50.00, altura: 100.00, prof: 5.00
 
 [*] d 11 c 50 100 20
 ELEMENTO(S) ATINGIDO(S):
