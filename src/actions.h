@@ -33,6 +33,7 @@ double   scoreEnt                      (Entity ent);
 double   scorePicture                  (Picture pic);
 
 double * PictureBoundingBox            (Picture pic);
+void     ajustEntInFrame               (Entity ent, Clausura c);
 void     ajustElementsToRelativePicPos (Picture pic);
 void     defineFrame                   (Entity balloon, double * xi, double * yi, double * xf, double * yf);
 bool     isEntinFrame                  (Entity ent, Entity balloon);

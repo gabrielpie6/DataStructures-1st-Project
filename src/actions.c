@@ -119,7 +119,7 @@ void writeEntAttributesInTXT (FILE * TXTFile, Entity ent)
         case 'l':
         {
             // id, ancoras, cor de borda
-            fprintf(TXTFile, "\t[id: %d] - tipo: linha, ancoras: [(%.2lf, %.2lf), (%.2lf, %.2lf)], cor de borda: %s\n", getEntID(ent), getGeoAnchor_1(geo)[0], getGeoAnchor_1(geo)[1], getGeoAnchor_2(geo)[0], getGeoAnchor_2(geo)[1], getGeoBorder_color(geo));
+            fprintf(TXTFile, "\t[id: %d] - tipo: linha, ancoras: [(%.2lf, %.2lf), (%.2lf, %.2lf)], cor: %s\n", getEntID(ent), getGeoAnchor_1(geo)[0], getGeoAnchor_1(geo)[1], getGeoAnchor_2(geo)[0], getGeoAnchor_2(geo)[1], getGeoBorder_color(geo));
             break;
         }
         case 't':
@@ -568,6 +568,8 @@ void removeEntbyIDinLst (Entity ent, Lista L)
     {} // Ao sair do for, it aponta para o elemento com o id desejado.
     Posic pos = getIteratorPosic(L, it);
     killIterator(L, it);
+
+    removeEntity(ent);
     removeLst(L, pos);
 }
 ///////////////////////////////

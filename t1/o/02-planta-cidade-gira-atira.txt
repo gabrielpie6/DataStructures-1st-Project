@@ -1,0 +1,623 @@
+[*] d 5 A 46.89 268 232.65
+ELEMENTO(S) ATINGIDO(S):
+	[id: 31] - tipo: circulo, centro: (165.77, 145.36), cor de borda: #00FF00, cor de preenchimento: #00AA00
+	[id: 72] - tipo: circulo, centro: (152.60, 142.89), cor de borda: #FFFFFF, cor de preenchimento: #B3B3B3
+	[id: 92] - tipo: circulo, centro: (153.94, 149.58), cor de borda: #FFFFFF, cor de preenchimento: #B3B3B3
+	[id: 178] - tipo: retangulo, ancora: (151.67, 138.05), largura: 2.32, altura: 2.54, cor de borda: #AA0088, cor de preenchimento: #FFCC00
+	[id: 235] - tipo: retangulo, ancora: (157.82, 149.80), largura: 3.79, altura: 3.92, cor de borda: #AA0088, cor de preenchimento: #FFCC00
+CLONE(S) GERADO(S):
+
+[*] d 5 B 46.89 368 232.65
+ELEMENTO(S) ATINGIDO(S):
+	[id: 151] - tipo: retangulo, ancora: (143.93, 152.69), largura: 3.71, altura: 3.29, cor de borda: #AA0088, cor de preenchimento: #FFCC00
+	[id: 177] - tipo: retangulo, ancora: (142.66, 125.91), largura: 3.21, altura: 3.28, cor de borda: #AA0088, cor de preenchimento: #FFCC00
+CLONE(S) GERADO(S):
+
+[*] d 5 C 46.89 468 232.65
+ELEMENTO(S) ATINGIDO(S):
+	[id: 4] - tipo: caca, ancora: (161.64, 167.32), disparos realizados: 0, alvos atingidos: 0, cor de borda: #00AA00, cor de preenchimento: #002B22
+	[id: 29] - tipo: circulo, centro: (175.88, 154.16), cor de borda: #00FF00, cor de preenchimento: #00AA00
+	[id: 38] - tipo: circulo, centro: (178.76, 150.05), cor de borda: #00FF00, cor de preenchimento: #00AA00
+	[id: 40] - tipo: circulo, centro: (153.48, 158.89), cor de borda: #00FF00, cor de preenchimento: #00AA00
+	[id: 44] - tipo: circulo, centro: (178.07, 162.13), cor de borda: #00FF00, cor de preenchimento: #00AA00
+	[id: 47] - tipo: circulo, centro: (137.72, 151.04), cor de borda: #00FF00, cor de preenchimento: #00AA00
+	[id: 48] - tipo: circulo, centro: (171.95, 158.65), cor de borda: #00FF00, cor de preenchimento: #00AA00
+	[id: 53] - tipo: circulo, centro: (134.61, 160.21), cor de borda: #00FF00, cor de preenchimento: #00AA00
+	[id: 57] - tipo: circulo, centro: (133.19, 156.13), cor de borda: #00FF00, cor de preenchimento: #00AA00
+	[id: 65] - tipo: circulo, centro: (157.33, 115.02), cor de borda: #FFFFFF, cor de preenchimento: #B3B3B3
+	[id: 71] - tipo: circulo, centro: (172.29, 114.95), cor de borda: #FFFFFF, cor de preenchimento: #B3B3B3
+	[id: 77] - tipo: circulo, centro: (137.62, 130.15), cor de borda: #FFFFFF, cor de preenchimento: #B3B3B3
+	[id: 80] - tipo: circulo, centro: (171.34, 117.00), cor de borda: #FFFFFF, cor de preenchimento: #B3B3B3
+	[id: 86] - tipo: circulo, centro: (179.39, 137.47), cor de borda: #FFFFFF, cor de preenchimento: #B3B3B3
+	[id: 107] - tipo: retangulo, ancora: (137.97, 120.32), largura: 3.90, altura: 1.06, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 108] - tipo: retangulo, ancora: (140.30, 129.07), largura: 2.06, altura: 2.27, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 135] - tipo: retangulo, ancora: (170.61, 112.15), largura: 1.04, altura: 3.86, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 139] - tipo: retangulo, ancora: (169.71, 131.81), largura: 3.46, altura: 2.54, cor de borda: #AA0088, cor de preenchimento: #FFCC00
+	[id: 142] - tipo: retangulo, ancora: (165.76, 163.11), largura: 2.58, altura: 3.37, cor de borda: #AA0088, cor de preenchimento: #FFCC00
+	[id: 146] - tipo: retangulo, ancora: (131.66, 147.73), largura: 3.30, altura: 2.37, cor de borda: #AA0088, cor de preenchimento: #FFCC00
+	[id: 148] - tipo: retangulo, ancora: (149.66, 118.27), largura: 2.04, altura: 1.78, cor de borda: #AA0088, cor de preenchimento: #FFCC00
+	[id: 152] - tipo: retangulo, ancora: (162.85, 112.48), largura: 2.47, altura: 3.88, cor de borda: #AA0088, cor de preenchimento: #FFCC00
+	[id: 165] - tipo: retangulo, ancora: (164.08, 112.22), largura: 3.63, altura: 2.35, cor de borda: #AA0088, cor de preenchimento: #FFCC00
+	[id: 176] - tipo: retangulo, ancora: (168.72, 157.58), largura: 2.84, altura: 2.42, cor de borda: #AA0088, cor de preenchimento: #FFCC00
+	[id: 219] - tipo: retangulo, ancora: (175.30, 143.48), largura: 2.38, altura: 1.95, cor de borda: #AA0088, cor de preenchimento: #FFCC00
+	[id: 221] - tipo: retangulo, ancora: (182.55, 150.15), largura: 1.93, altura: 1.91, cor de borda: #AA0088, cor de preenchimento: #FFCC00
+	[id: 225] - tipo: retangulo, ancora: (176.80, 147.34), largura: 3.15, altura: 3.64, cor de borda: #AA0088, cor de preenchimento: #FFCC00
+	[id: 229] - tipo: retangulo, ancora: (172.08, 138.71), largura: 3.30, altura: 3.34, cor de borda: #AA0088, cor de preenchimento: #FFCC00
+	[id: 230] - tipo: retangulo, ancora: (165.98, 117.74), largura: 3.43, altura: 3.27, cor de borda: #AA0088, cor de preenchimento: #FFCC00
+	[id: 232] - tipo: retangulo, ancora: (167.31, 127.35), largura: 2.45, altura: 3.52, cor de borda: #AA0088, cor de preenchimento: #FFCC00
+	[id: 234] - tipo: retangulo, ancora: (168.55, 127.10), largura: 2.22, altura: 2.17, cor de borda: #AA0088, cor de preenchimento: #FFCC00
+	[id: 247] - tipo: retangulo, ancora: (176.22, 129.28), largura: 1.56, altura: 3.87, cor de borda: #C837AB, cor de preenchimento: #D387CD
+	[id: 251] - tipo: retangulo, ancora: (153.01, 117.55), largura: 2.00, altura: 2.20, cor de borda: #C837AB, cor de preenchimento: #D387CD
+CLONE(S) GERADO(S):
+
+[*] d 5 A 46.89 568 232.65
+ELEMENTO(S) ATINGIDO(S):
+CLONE(S) GERADO(S):
+
+[*] g 5 36.00
+texto
+ancora em (155.10, 93.78)
+rotacao original: 0.00
+rotacao final:    36.00
+tipo de ancora: m
+texto: |-T-|
+preenchimento: #002B22
+borda: #00AA00
+
+[*] d 5 A 46.89 668 232.65
+ELEMENTO(S) ATINGIDO(S):
+	[id: 155] - tipo: retangulo, ancora: (126.17, 120.97), largura: 1.85, altura: 3.76, cor de borda: #AA0088, cor de preenchimento: #FFCC00
+CLONE(S) GERADO(S):
+
+[*] d 5 B 46.89 768 232.65
+ELEMENTO(S) ATINGIDO(S):
+	[id: 63] - tipo: circulo, centro: (115.07, 130.57), cor de borda: #FFFFFF, cor de preenchimento: #B3B3B3
+	[id: 97] - tipo: circulo, centro: (111.17, 135.63), cor de borda: #FFFFFF, cor de preenchimento: #B3B3B3
+	[id: 145] - tipo: retangulo, ancora: (122.03, 146.22), largura: 2.52, altura: 2.34, cor de borda: #AA0088, cor de preenchimento: #FFCC00
+	[id: 159] - tipo: retangulo, ancora: (112.41, 134.75), largura: 2.87, altura: 2.23, cor de borda: #AA0088, cor de preenchimento: #FFCC00
+	[id: 168] - tipo: retangulo, ancora: (112.52, 131.34), largura: 2.51, altura: 1.91, cor de borda: #AA0088, cor de preenchimento: #FFCC00
+	[id: 171] - tipo: retangulo, ancora: (110.90, 130.64), largura: 1.82, altura: 2.42, cor de borda: #AA0088, cor de preenchimento: #FFCC00
+CLONE(S) GERADO(S):
+
+[*] d 5 C 46.89 868 232.65
+ELEMENTO(S) ATINGIDO(S):
+	[id: 15] - tipo: circulo, centro: (145.00, 102.00), cor de borda: #D45500, cor de preenchimento: #FF7F2A
+	[id: 37] - tipo: circulo, centro: (107.90, 151.48), cor de borda: #00FF00, cor de preenchimento: #00AA00
+	[id: 42] - tipo: circulo, centro: (112.16, 149.23), cor de borda: #00FF00, cor de preenchimento: #00AA00
+	[id: 43] - tipo: circulo, centro: (109.67, 150.78), cor de borda: #00FF00, cor de preenchimento: #00AA00
+	[id: 45] - tipo: circulo, centro: (119.31, 150.64), cor de borda: #00FF00, cor de preenchimento: #00AA00
+	[id: 51] - tipo: circulo, centro: (99.77, 148.36), cor de borda: #00FF00, cor de preenchimento: #00AA00
+	[id: 54] - tipo: circulo, centro: (124.07, 157.82), cor de borda: #00FF00, cor de preenchimento: #00AA00
+	[id: 70] - tipo: circulo, centro: (106.97, 108.84), cor de borda: #FFFFFF, cor de preenchimento: #B3B3B3
+	[id: 74] - tipo: circulo, centro: (106.05, 145.34), cor de borda: #FFFFFF, cor de preenchimento: #B3B3B3
+	[id: 81] - tipo: circulo, centro: (122.87, 113.38), cor de borda: #FFFFFF, cor de preenchimento: #B3B3B3
+	[id: 83] - tipo: circulo, centro: (103.35, 120.21), cor de borda: #FFFFFF, cor de preenchimento: #B3B3B3
+	[id: 84] - tipo: circulo, centro: (125.84, 110.97), cor de borda: #FFFFFF, cor de preenchimento: #B3B3B3
+	[id: 88] - tipo: circulo, centro: (105.26, 130.87), cor de borda: #FFFFFF, cor de preenchimento: #B3B3B3
+	[id: 131] - tipo: retangulo, ancora: (117.35, 112.48), largura: 3.90, altura: 3.70, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 140] - tipo: retangulo, ancora: (113.90, 114.44), largura: 3.43, altura: 3.12, cor de borda: #AA0088, cor de preenchimento: #FFCC00
+	[id: 154] - tipo: retangulo, ancora: (132.54, 100.90), largura: 3.05, altura: 2.93, cor de borda: #AA0088, cor de preenchimento: #FFCC00
+	[id: 166] - tipo: retangulo, ancora: (125.35, 101.63), largura: 2.96, altura: 3.80, cor de borda: #AA0088, cor de preenchimento: #FFCC00
+	[id: 170] - tipo: retangulo, ancora: (138.59, 102.53), largura: 2.35, altura: 3.21, cor de borda: #AA0088, cor de preenchimento: #FFCC00
+	[id: 173] - tipo: retangulo, ancora: (106.62, 139.75), largura: 1.51, altura: 2.01, cor de borda: #AA0088, cor de preenchimento: #FFCC00
+	[id: 174] - tipo: retangulo, ancora: (96.37, 138.59), largura: 2.90, altura: 3.31, cor de borda: #AA0088, cor de preenchimento: #FFCC00
+	[id: 175] - tipo: retangulo, ancora: (97.19, 121.87), largura: 3.60, altura: 1.89, cor de borda: #AA0088, cor de preenchimento: #FFCC00
+	[id: 252] - tipo: retangulo, ancora: (111.12, 109.93), largura: 1.63, altura: 2.06, cor de borda: #C837AB, cor de preenchimento: #D387CD
+	[id: 255] - tipo: retangulo, ancora: (108.96, 115.98), largura: 2.23, altura: 2.00, cor de borda: #C837AB, cor de preenchimento: #D387CD
+CLONE(S) GERADO(S):
+
+[*] d 5 A 46.89 968 232.65
+ELEMENTO(S) ATINGIDO(S):
+CLONE(S) GERADO(S):
+
+[*] g 5 36.00
+texto
+ancora em (155.10, 93.78)
+rotacao original: 36.00
+rotacao final:    72.00
+tipo de ancora: m
+texto: |-T-|
+preenchimento: #002B22
+borda: #00AA00
+
+[*] d 5 A 46.89 1068 232.65
+ELEMENTO(S) ATINGIDO(S):
+	[id: 27] - tipo: linha, ancoras: [(90.00, 114.00), (190.00, 91.00)], cor: #0000FF
+	[id: 137] - tipo: retangulo, ancora: (104.32, 95.74), largura: 3.18, altura: 3.12, cor de borda: #80080, cor de preenchimento: #008033
+CLONE(S) GERADO(S):
+
+[*] d 5 B 46.89 1168 232.65
+ELEMENTO(S) ATINGIDO(S):
+	[id: 10] - tipo: circulo, centro: (90.00, 114.00), cor de borda: #AA0000, cor de preenchimento: #DE8787
+	[id: 59] - tipo: circulo, centro: (95.94, 109.60), cor de borda: #FFFFFF, cor de preenchimento: #B3B3B3
+CLONE(S) GERADO(S):
+
+[*] d 5 C 46.89 1268 232.65
+ELEMENTO(S) ATINGIDO(S):
+	[id: 19] - tipo: linha, ancoras: [(90.00, 114.00), (90.00, 58.00)], cor: #DDFF55
+	[id: 26] - tipo: linha, ancoras: [(77.00, 30.00), (90.00, 114.00)], cor: #0000FF
+	[id: 87] - tipo: circulo, centro: (81.43, 117.18), cor de borda: #FFFFFF, cor de preenchimento: #B3B3B3
+	[id: 93] - tipo: circulo, centro: (95.44, 126.78), cor de borda: #FFFFFF, cor de preenchimento: #B3B3B3
+	[id: 95] - tipo: circulo, centro: (87.20, 128.83), cor de borda: #FFFFFF, cor de preenchimento: #B3B3B3
+	[id: 105] - tipo: retangulo, ancora: (84.17, 105.35), largura: 2.74, altura: 1.87, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 115] - tipo: retangulo, ancora: (90.95, 102.85), largura: 1.68, altura: 2.61, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 117] - tipo: retangulo, ancora: (92.43, 127.59), largura: 2.54, altura: 2.64, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 119] - tipo: retangulo, ancora: (88.93, 106.63), largura: 2.20, altura: 2.95, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 122] - tipo: retangulo, ancora: (131.63, 95.77), largura: 3.65, altura: 1.40, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 124] - tipo: retangulo, ancora: (110.77, 78.71), largura: 1.21, altura: 2.98, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 125] - tipo: retangulo, ancora: (93.01, 92.56), largura: 1.85, altura: 2.46, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 128] - tipo: retangulo, ancora: (90.30, 110.96), largura: 2.70, altura: 1.22, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 172] - tipo: retangulo, ancora: (84.09, 103.65), largura: 2.78, altura: 3.81, cor de borda: #AA0088, cor de preenchimento: #FFCC00
+	[id: 243] - tipo: retangulo, ancora: (89.16, 128.19), largura: 3.70, altura: 3.90, cor de borda: #C837AB, cor de preenchimento: #D387CD
+	[id: 244] - tipo: retangulo, ancora: (90.49, 92.78), largura: 2.25, altura: 3.38, cor de borda: #C837AB, cor de preenchimento: #D387CD
+CLONE(S) GERADO(S):
+
+[*] d 5 A 46.89 1368 232.65
+ELEMENTO(S) ATINGIDO(S):
+CLONE(S) GERADO(S):
+
+[*] g 5 36.00
+texto
+ancora em (155.10, 93.78)
+rotacao original: 72.00
+rotacao final:    108.00
+tipo de ancora: m
+texto: |-T-|
+preenchimento: #002B22
+borda: #00AA00
+
+[*] d 5 A 46.89 1468 232.65
+ELEMENTO(S) ATINGIDO(S):
+CLONE(S) GERADO(S):
+
+[*] d 5 B 46.89 1568 232.65
+ELEMENTO(S) ATINGIDO(S):
+	[id: 249] - tipo: retangulo, ancora: (120.97, 66.98), largura: 1.84, altura: 3.99, cor de borda: #C837AB, cor de preenchimento: #D387CD
+CLONE(S) GERADO(S):
+
+[*] d 5 C 46.89 1668 232.65
+ELEMENTO(S) ATINGIDO(S):
+	[id: 16] - tipo: linha, ancoras: [(2.00, 58.00), (182.00, 58.00)], cor: #FFFF00
+	[id: 99] - tipo: retangulo, ancora: (132.30, 83.25), largura: 2.97, altura: 3.06, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 116] - tipo: retangulo, ancora: (125.91, 73.62), largura: 1.06, altura: 3.41, cor de borda: #80080, cor de preenchimento: #008033
+CLONE(S) GERADO(S):
+
+[*] d 5 A 46.89 1768 232.65
+ELEMENTO(S) ATINGIDO(S):
+CLONE(S) GERADO(S):
+
+[*] g 5 36.00
+texto
+ancora em (155.10, 93.78)
+rotacao original: 108.00
+rotacao final:    144.00
+tipo de ancora: m
+texto: |-T-|
+preenchimento: #002B22
+borda: #00AA00
+
+[*] d 5 A 46.89 1868 232.65
+ELEMENTO(S) ATINGIDO(S):
+CLONE(S) GERADO(S):
+
+[*] d 5 B 46.89 1968 232.65
+ELEMENTO(S) ATINGIDO(S):
+	[id: 240] - tipo: retangulo, ancora: (118.27, 40.41), largura: 3.82, altura: 3.62, cor de borda: #C837AB, cor de preenchimento: #D387CD
+CLONE(S) GERADO(S):
+
+[*] d 5 C 46.89 2068 232.65
+ELEMENTO(S) ATINGIDO(S):
+	[id: 6] - tipo: caca, ancora: (142.77, 48.12), disparos realizados: 0, alvos atingidos: 0, cor de borda: #00AA00, cor de preenchimento: #002B22
+	[id: 14] - tipo: circulo, centro: (120.00, 25.00), cor de borda: #D45500, cor de preenchimento: #FF7F2A
+	[id: 24] - tipo: linha, ancoras: [(50.00, 85.00), (120.00, 25.00)], cor: #0000FF
+CLONE(S) GERADO(S):
+
+[*] d 5 A 46.89 2168 232.65
+ELEMENTO(S) ATINGIDO(S):
+CLONE(S) GERADO(S):
+
+[*] g 5 36.00
+texto
+ancora em (155.10, 93.78)
+rotacao original: 144.00
+rotacao final:    180.00
+tipo de ancora: m
+texto: |-T-|
+preenchimento: #002B22
+borda: #00AA00
+
+[*] d 5 A 46.89 2268 232.65
+ELEMENTO(S) ATINGIDO(S):
+	[id: 17] - tipo: linha, ancoras: [(157.00, 18.00), (162.00, 108.00)], cor: #FFFF00
+	[id: 201] - tipo: retangulo, ancora: (158.88, 50.33), largura: 3.84, altura: 3.64, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 218] - tipo: retangulo, ancora: (158.22, 47.33), largura: 2.76, altura: 3.32, cor de borda: #80080, cor de preenchimento: #008033
+CLONE(S) GERADO(S):
+
+[*] d 5 B 46.89 2368 232.65
+ELEMENTO(S) ATINGIDO(S):
+	[id: 28] - tipo: linha, ancoras: [(190.00, 91.00), (157.00, 18.00)], cor: #0000FF
+	[id: 217] - tipo: retangulo, ancora: (169.01, 47.49), largura: 1.57, altura: 1.91, cor de borda: #80080, cor de preenchimento: #008033
+CLONE(S) GERADO(S):
+
+[*] d 5 C 46.89 2468 232.65
+ELEMENTO(S) ATINGIDO(S):
+	[id: 8] - tipo: circulo, centro: (157.00, 18.00), cor de borda: #FFFFFF, cor de preenchimento: #FFFF00
+	[id: 121] - tipo: retangulo, ancora: (156.57, 76.78), largura: 2.73, altura: 1.77, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 182] - tipo: retangulo, ancora: (180.85, 34.84), largura: 2.94, altura: 2.11, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 187] - tipo: retangulo, ancora: (171.30, 60.65), largura: 2.57, altura: 1.78, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 188] - tipo: retangulo, ancora: (161.12, 64.32), largura: 2.64, altura: 3.42, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 189] - tipo: retangulo, ancora: (170.79, 70.45), largura: 2.58, altura: 2.07, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 190] - tipo: retangulo, ancora: (166.75, 57.55), largura: 2.90, altura: 3.45, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 192] - tipo: retangulo, ancora: (177.09, 34.68), largura: 3.07, altura: 2.39, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 194] - tipo: retangulo, ancora: (175.20, 37.70), largura: 2.26, altura: 1.69, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 195] - tipo: retangulo, ancora: (172.27, 37.40), largura: 3.59, altura: 1.53, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 197] - tipo: retangulo, ancora: (175.39, 39.52), largura: 3.42, altura: 3.40, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 199] - tipo: retangulo, ancora: (176.88, 47.01), largura: 2.34, altura: 3.18, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 204] - tipo: retangulo, ancora: (171.49, 55.39), largura: 2.66, altura: 2.02, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 207] - tipo: retangulo, ancora: (161.21, 63.41), largura: 2.70, altura: 1.62, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 210] - tipo: retangulo, ancora: (163.77, 75.34), largura: 1.83, altura: 1.51, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 211] - tipo: retangulo, ancora: (177.20, 46.06), largura: 1.97, altura: 1.54, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 212] - tipo: retangulo, ancora: (176.30, 35.22), largura: 3.89, altura: 2.90, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 246] - tipo: retangulo, ancora: (154.67, 72.78), largura: 2.22, altura: 1.65, cor de borda: #C837AB, cor de preenchimento: #D387CD
+CLONE(S) GERADO(S):
+
+[*] d 5 A 46.89 2568 232.65
+ELEMENTO(S) ATINGIDO(S):
+CLONE(S) GERADO(S):
+
+[*] g 5 36.00
+texto
+ancora em (155.10, 93.78)
+rotacao original: 180.00
+rotacao final:    216.00
+tipo de ancora: m
+texto: |-T-|
+preenchimento: #002B22
+borda: #00AA00
+
+[*] d 5 A 46.89 2668 232.65
+ELEMENTO(S) ATINGIDO(S):
+CLONE(S) GERADO(S):
+
+[*] d 5 B 46.89 2768 232.65
+ELEMENTO(S) ATINGIDO(S):
+	[id: 179] - tipo: retangulo, ancora: (196.31, 52.61), largura: 3.55, altura: 3.97, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 180] - tipo: retangulo, ancora: (190.63, 43.59), largura: 2.80, altura: 1.71, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 206] - tipo: retangulo, ancora: (182.10, 68.09), largura: 1.81, altura: 3.19, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 216] - tipo: retangulo, ancora: (191.42, 61.02), largura: 1.70, altura: 3.98, cor de borda: #80080, cor de preenchimento: #008033
+CLONE(S) GERADO(S):
+
+[*] d 5 C 46.89 2868 232.65
+ELEMENTO(S) ATINGIDO(S):
+	[id: 11] - tipo: circulo, centro: (190.00, 91.00), cor de borda: #AA0000, cor de preenchimento: #DE8787
+	[id: 113] - tipo: retangulo, ancora: (199.21, 75.07), largura: 2.44, altura: 3.08, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 123] - tipo: retangulo, ancora: (171.06, 80.41), largura: 3.15, altura: 1.45, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 132] - tipo: retangulo, ancora: (163.98, 79.04), largura: 3.26, altura: 3.30, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 183] - tipo: retangulo, ancora: (211.18, 62.64), largura: 2.87, altura: 3.17, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 185] - tipo: retangulo, ancora: (192.53, 72.02), largura: 2.94, altura: 2.84, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 193] - tipo: retangulo, ancora: (205.23, 52.17), largura: 2.05, altura: 3.88, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 196] - tipo: retangulo, ancora: (195.08, 72.19), largura: 2.18, altura: 2.59, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 202] - tipo: retangulo, ancora: (182.67, 73.18), largura: 3.25, altura: 1.96, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 203] - tipo: retangulo, ancora: (172.65, 77.23), largura: 2.67, altura: 2.77, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 205] - tipo: retangulo, ancora: (175.46, 70.20), largura: 2.41, altura: 2.07, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 208] - tipo: retangulo, ancora: (167.44, 78.02), largura: 3.66, altura: 2.09, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 209] - tipo: retangulo, ancora: (202.49, 42.35), largura: 3.96, altura: 3.56, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 213] - tipo: retangulo, ancora: (193.14, 39.44), largura: 2.21, altura: 1.70, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 215] - tipo: retangulo, ancora: (203.05, 44.24), largura: 2.97, altura: 2.83, cor de borda: #80080, cor de preenchimento: #008033
+CLONE(S) GERADO(S):
+
+[*] d 5 A 46.89 2968 232.65
+ELEMENTO(S) ATINGIDO(S):
+CLONE(S) GERADO(S):
+
+[*] g 5 36.00
+texto
+ancora em (155.10, 93.78)
+rotacao original: 216.00
+rotacao final:    252.00
+tipo de ancora: m
+texto: |-T-|
+preenchimento: #002B22
+borda: #00AA00
+
+[*] d 5 A 46.89 3068 232.65
+ELEMENTO(S) ATINGIDO(S):
+	[id: 102] - tipo: retangulo, ancora: (203.33, 87.45), largura: 2.94, altura: 2.89, cor de borda: #80080, cor de preenchimento: #008033
+CLONE(S) GERADO(S):
+
+[*] d 5 B 46.89 3168 232.65
+ELEMENTO(S) ATINGIDO(S):
+	[id: 184] - tipo: retangulo, ancora: (210.65, 78.54), largura: 1.73, altura: 2.65, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 200] - tipo: retangulo, ancora: (214.66, 78.00), largura: 2.77, altura: 1.93, cor de borda: #80080, cor de preenchimento: #008033
+CLONE(S) GERADO(S):
+
+[*] d 5 C 46.89 3268 232.65
+ELEMENTO(S) ATINGIDO(S):
+	[id: 20] - tipo: linha, ancoras: [(190.00, 91.00), (157.00, 91.00)], cor: #DDFF55
+	[id: 120] - tipo: retangulo, ancora: (202.98, 105.38), largura: 3.09, altura: 2.07, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 134] - tipo: retangulo, ancora: (199.17, 97.16), largura: 1.39, altura: 3.96, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 186] - tipo: retangulo, ancora: (219.30, 77.38), largura: 1.79, altura: 1.82, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 198] - tipo: retangulo, ancora: (222.33, 59.75), largura: 3.82, altura: 3.99, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 214] - tipo: retangulo, ancora: (220.35, 79.80), largura: 2.97, altura: 3.55, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 256] - tipo: retangulo, ancora: (227.67, 77.90), largura: 2.51, altura: 2.22, cor de borda: #C837AB, cor de preenchimento: #D387CD
+CLONE(S) GERADO(S):
+
+[*] d 5 A 46.89 3368 232.65
+ELEMENTO(S) ATINGIDO(S):
+CLONE(S) GERADO(S):
+
+[*] g 5 36.00
+texto
+ancora em (155.10, 93.78)
+rotacao original: 252.00
+rotacao final:    288.00
+tipo de ancora: m
+texto: |-T-|
+preenchimento: #002B22
+borda: #00AA00
+
+[*] d 5 A 46.89 3468 232.65
+ELEMENTO(S) ATINGIDO(S):
+	[id: 62] - tipo: circulo, centro: (201.94, 112.54), cor de borda: #FFFFFF, cor de preenchimento: #B3B3B3
+	[id: 106] - tipo: retangulo, ancora: (198.81, 111.03), largura: 2.31, altura: 3.78, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 245] - tipo: retangulo, ancora: (203.83, 115.23), largura: 1.70, altura: 3.96, cor de borda: #C837AB, cor de preenchimento: #D387CD
+CLONE(S) GERADO(S):
+
+[*] d 5 B 46.89 3568 232.65
+ELEMENTO(S) ATINGIDO(S):
+	[id: 60] - tipo: circulo, centro: (193.56, 121.90), cor de borda: #FFFFFF, cor de preenchimento: #B3B3B3
+	[id: 96] - tipo: circulo, centro: (184.89, 110.37), cor de borda: #FFFFFF, cor de preenchimento: #B3B3B3
+	[id: 127] - tipo: retangulo, ancora: (189.20, 113.94), largura: 1.11, altura: 3.44, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 220] - tipo: retangulo, ancora: (210.86, 112.33), largura: 2.92, altura: 2.13, cor de borda: #AA0088, cor de preenchimento: #FFCC00
+	[id: 223] - tipo: retangulo, ancora: (197.41, 122.24), largura: 3.22, altura: 2.08, cor de borda: #AA0088, cor de preenchimento: #FFCC00
+	[id: 226] - tipo: retangulo, ancora: (188.23, 118.39), largura: 1.98, altura: 2.04, cor de borda: #AA0088, cor de preenchimento: #FFCC00
+	[id: 238] - tipo: retangulo, ancora: (194.07, 119.71), largura: 2.18, altura: 2.47, cor de borda: #AA0088, cor de preenchimento: #FFCC00
+CLONE(S) GERADO(S):
+
+[*] d 5 C 46.89 3668 232.65
+ELEMENTO(S) ATINGIDO(S):
+	[id: 69] - tipo: circulo, centro: (214.27, 124.82), cor de borda: #FFFFFF, cor de preenchimento: #B3B3B3
+	[id: 76] - tipo: circulo, centro: (191.80, 126.79), cor de borda: #FFFFFF, cor de preenchimento: #B3B3B3
+	[id: 91] - tipo: circulo, centro: (209.82, 125.00), cor de borda: #FFFFFF, cor de preenchimento: #B3B3B3
+	[id: 109] - tipo: retangulo, ancora: (218.86, 108.95), largura: 3.33, altura: 1.37, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 126] - tipo: retangulo, ancora: (174.23, 100.05), largura: 2.71, altura: 1.98, cor de borda: #80080, cor de preenchimento: #008033
+	[id: 227] - tipo: retangulo, ancora: (188.24, 135.64), largura: 3.22, altura: 2.20, cor de borda: #AA0088, cor de preenchimento: #FFCC00
+	[id: 228] - tipo: retangulo, ancora: (212.42, 120.46), largura: 3.82, altura: 2.50, cor de borda: #AA0088, cor de preenchimento: #FFCC00
+	[id: 236] - tipo: retangulo, ancora: (178.81, 114.71), largura: 2.73, altura: 3.14, cor de borda: #AA0088, cor de preenchimento: #FFCC00
+	[id: 237] - tipo: retangulo, ancora: (200.91, 127.06), largura: 2.52, altura: 2.31, cor de borda: #AA0088, cor de preenchimento: #FFCC00
+	[id: 258] - tipo: retangulo, ancora: (191.66, 128.02), largura: 1.96, altura: 2.00, cor de borda: #C837AB, cor de preenchimento: #D387CD
+CLONE(S) GERADO(S):
+
+[*] d 5 A 46.89 3768 232.65
+ELEMENTO(S) ATINGIDO(S):
+CLONE(S) GERADO(S):
+
+[*] g 5 36.00
+texto
+ancora em (155.10, 93.78)
+rotacao original: 288.00
+rotacao final:    324.00
+tipo de ancora: m
+texto: |-T-|
+preenchimento: #002B22
+borda: #00AA00
+
+[*] d 5 A 46.89 3868 232.65
+ELEMENTO(S) ATINGIDO(S):
+CLONE(S) GERADO(S):
+
+[*] d 5 B 46.89 3968 232.65
+ELEMENTO(S) ATINGIDO(S):
+	[id: 222] - tipo: retangulo, ancora: (186.18, 143.11), largura: 2.90, altura: 1.81, cor de borda: #AA0088, cor de preenchimento: #FFCC00
+	[id: 224] - tipo: retangulo, ancora: (189.31, 143.39), largura: 2.35, altura: 1.93, cor de borda: #AA0088, cor de preenchimento: #FFCC00
+	[id: 231] - tipo: retangulo, ancora: (190.37, 138.95), largura: 3.34, altura: 3.32, cor de borda: #AA0088, cor de preenchimento: #FFCC00
+CLONE(S) GERADO(S):
+
+[*] d 5 C 46.89 4068 232.65
+ELEMENTO(S) ATINGIDO(S):
+	[id: 46] - tipo: circulo, centro: (186.02, 161.82), cor de borda: #00FF00, cor de preenchimento: #00AA00
+	[id: 75] - tipo: circulo, centro: (202.70, 146.61), cor de borda: #FFFFFF, cor de preenchimento: #B3B3B3
+	[id: 144] - tipo: retangulo, ancora: (167.89, 106.56), largura: 1.63, altura: 2.50, cor de borda: #AA0088, cor de preenchimento: #FFCC00
+CLONE(S) GERADO(S):
+
+[*] d 5 A 46.89 4168 232.65
+ELEMENTO(S) ATINGIDO(S):
+CLONE(S) GERADO(S):
+
+[*] g 5 36.00
+texto
+ancora em (155.10, 93.78)
+rotacao original: 324.00
+rotacao final:    360.00
+tipo de ancora: m
+texto: |-T-|
+preenchimento: #002B22
+borda: #00AA00
+
+[*] c?
+CACA [id: 2] - posicao: (19.32, 126.36), rotacao (graus): 0.00, disparos realizados: 0
+ALVO(S) ATINGIDO(S) - total: 0
+CACA [id: 3] - posicao: (126.15, 178.95), rotacao (graus): 0.00, disparos realizados: 0
+ALVO(S) ATINGIDO(S) - total: 0
+CACA [id: 5] - posicao: (155.10, 93.78), rotacao (graus): 360.00, disparos realizados: 40
+ALVO(S) ATINGIDO(S) - total: 176
+	[id: 31]
+	[id: 72]
+	[id: 92]
+	[id: 178]
+	[id: 235]
+	[id: 151]
+	[id: 177]
+	[id: 4]
+	[id: 29]
+	[id: 38]
+	[id: 40]
+	[id: 44]
+	[id: 47]
+	[id: 48]
+	[id: 53]
+	[id: 57]
+	[id: 65]
+	[id: 71]
+	[id: 77]
+	[id: 80]
+	[id: 86]
+	[id: 107]
+	[id: 108]
+	[id: 135]
+	[id: 139]
+	[id: 142]
+	[id: 146]
+	[id: 148]
+	[id: 152]
+	[id: 165]
+	[id: 176]
+	[id: 219]
+	[id: 221]
+	[id: 225]
+	[id: 229]
+	[id: 230]
+	[id: 232]
+	[id: 234]
+	[id: 247]
+	[id: 251]
+	[id: 155]
+	[id: 63]
+	[id: 97]
+	[id: 145]
+	[id: 159]
+	[id: 168]
+	[id: 171]
+	[id: 15]
+	[id: 37]
+	[id: 42]
+	[id: 43]
+	[id: 45]
+	[id: 51]
+	[id: 54]
+	[id: 70]
+	[id: 74]
+	[id: 81]
+	[id: 83]
+	[id: 84]
+	[id: 88]
+	[id: 131]
+	[id: 140]
+	[id: 154]
+	[id: 166]
+	[id: 170]
+	[id: 173]
+	[id: 174]
+	[id: 175]
+	[id: 252]
+	[id: 255]
+	[id: 27]
+	[id: 137]
+	[id: 10]
+	[id: 59]
+	[id: 19]
+	[id: 26]
+	[id: 87]
+	[id: 93]
+	[id: 95]
+	[id: 105]
+	[id: 115]
+	[id: 117]
+	[id: 119]
+	[id: 122]
+	[id: 124]
+	[id: 125]
+	[id: 128]
+	[id: 172]
+	[id: 243]
+	[id: 244]
+	[id: 249]
+	[id: 16]
+	[id: 99]
+	[id: 116]
+	[id: 240]
+	[id: 6]
+	[id: 14]
+	[id: 24]
+	[id: 17]
+	[id: 201]
+	[id: 218]
+	[id: 28]
+	[id: 217]
+	[id: 8]
+	[id: 121]
+	[id: 182]
+	[id: 187]
+	[id: 188]
+	[id: 189]
+	[id: 190]
+	[id: 192]
+	[id: 194]
+	[id: 195]
+	[id: 197]
+	[id: 199]
+	[id: 204]
+	[id: 207]
+	[id: 210]
+	[id: 211]
+	[id: 212]
+	[id: 246]
+	[id: 179]
+	[id: 180]
+	[id: 206]
+	[id: 216]
+	[id: 11]
+	[id: 113]
+	[id: 123]
+	[id: 132]
+	[id: 183]
+	[id: 185]
+	[id: 193]
+	[id: 196]
+	[id: 202]
+	[id: 203]
+	[id: 205]
+	[id: 208]
+	[id: 209]
+	[id: 213]
+	[id: 215]
+	[id: 102]
+	[id: 184]
+	[id: 200]
+	[id: 20]
+	[id: 120]
+	[id: 134]
+	[id: 186]
+	[id: 198]
+	[id: 214]
+	[id: 256]
+	[id: 62]
+	[id: 106]
+	[id: 245]
+	[id: 60]
+	[id: 96]
+	[id: 127]
+	[id: 220]
+	[id: 223]
+	[id: 226]
+	[id: 238]
+	[id: 69]
+	[id: 76]
+	[id: 91]
+	[id: 109]
+	[id: 126]
+	[id: 227]
+	[id: 228]
+	[id: 236]
+	[id: 237]
+	[id: 258]
+	[id: 222]
+	[id: 224]
+	[id: 231]
+	[id: 46]
+	[id: 75]
+	[id: 144]
+
+[*] b?
+BALAO [id: 1] - posicao: (5.00, 5.00), rotacao (graus): 0.00, raio: 0.00, prof: 0.00, altura: 0.00
+

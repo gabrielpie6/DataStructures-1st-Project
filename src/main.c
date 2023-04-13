@@ -160,20 +160,12 @@ void main(int argc, char * argv[])
     getFileNameWithoutExt(geoFileName, geoFileNameWithoutExt, strlen(geoFileName) + 1);
     geoFileNameWithoutExt = realloc(geoFileNameWithoutExt, sizeof(char) * (strlen(geoFileNameWithoutExt) + 1));
     
-    char * qryFilenameWithoutExt = malloc(sizeof(char) * (strlen(qryFileName) + 1));
-    getFileNameWithoutExt(qryFileName, qryFilenameWithoutExt, strlen(qryFileName) + 1);
-    qryFilenameWithoutExt = realloc(qryFilenameWithoutExt, sizeof(char) * (strlen(qryFilenameWithoutExt) + 1));
     
     char * mainSvgFile = malloc(sizeof(char) * (strlen(outputPath) + 1 + strlen(geoFileNameWithoutExt) + strlen(".svg") + 1));
     sprintf(mainSvgFile, "%s/%s.svg", outputPath, geoFileNameWithoutExt);
 
-    char * finalSvgFile = malloc(sizeof(char) * (strlen(outputPath) + 1 + strlen(geoFileNameWithoutExt) + 1 + strlen(qryFilenameWithoutExt) + strlen(".svg") + 1));
-    sprintf(finalSvgFile, "%s/%s-%s.svg", outputPath, geoFileNameWithoutExt, qryFilenameWithoutExt);
 
-    char * geo_qry = malloc(sizeof(char) * (strlen(geoFileNameWithoutExt) + 1 + strlen(qryFilenameWithoutExt) + 1));
-    sprintf(geo_qry, "%s-%s", geoFileNameWithoutExt, qryFilenameWithoutExt);
     ////////////////////////////////////
-
 
     // Produção do arquivo .svg após leitura do .geo
     ArqSvg MainSVG = abreEscritaSvg(mainSvgFile);
@@ -186,16 +178,25 @@ void main(int argc, char * argv[])
     /////////////////////////////////////////////
     Lista Decos = createLst(-1);
     if (qryArg != NULL)
+    {
+        char * qryFilenameWithoutExt = malloc(sizeof(char) * (strlen(qryFileName) + 1));
+        getFileNameWithoutExt(qryFileName, qryFilenameWithoutExt, strlen(qryFileName) + 1);
+        qryFilenameWithoutExt = realloc(qryFilenameWithoutExt, sizeof(char) * (strlen(qryFilenameWithoutExt) + 1));
+
+        char * geo_qry = malloc(sizeof(char) * (strlen(geoFileNameWithoutExt) + 1 + strlen(qryFilenameWithoutExt) + 1));
+        sprintf(geo_qry, "%s-%s", geoFileNameWithoutExt, qryFilenameWithoutExt);
+        
+        char * finalSvgFile = malloc(sizeof(char) * (strlen(outputPath) + 1 + strlen(geoFileNameWithoutExt) + 1 + strlen(qryFilenameWithoutExt) + strlen(".svg") + 1));
+        sprintf(finalSvgFile, "%s/%s-%s.svg", outputPath, geoFileNameWithoutExt, qryFilenameWithoutExt);
         if (ReadQryFile(BD_Lst, qryFile, outputPath, geo_qry, style, Decos) == false)
         {
             printf("ERRO: [in main]: nao foi possivel ler arquivo .qry\n");
             return;
         }
-    
-
-    ArqSvg FinalSVG = abreEscritaSvg(finalSvgFile);
-    WriteEntListInSvg(MainSVG, BD_Lst, style, 0, 0);
-    WriteGeoListInSvg(MainSVG, Decos,  style, 0, 0);
-    fechaSvg(MainSVG);
+        ArqSvg FinalSVG = abreEscritaSvg(finalSvgFile);
+        WriteEntListInSvg(FinalSVG, BD_Lst, style, 0, 0);
+        WriteGeoListInSvg(FinalSVG, Decos,  style, 0, 0);
+        fechaSvg(FinalSVG);
+    }
     printf("Executado com sucesso\n");
 }

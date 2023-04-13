@@ -98,9 +98,9 @@ void moveEntity(ArqCmds QryFile, Lista L, char * lineBuffer, FILE * TXTFile)
             double xf = getGeoCords(element)[0];
             double yf = getGeoCords(element)[1];
             fprintf(TXTFile, "circulo\n");
-            fprintf(TXTFile, "ancora originalmente     em (%lf, %lf)\n", x0, y0);
-            fprintf(TXTFile, "ancora apos deslocamento em (%lf, %lf)\n", xf, yf);
-            fprintf(TXTFile, "raio: %lf\n", getGeoRadius(element));
+            fprintf(TXTFile, "ancora originalmente     em (%.2lf, %.2lf)\n", x0, y0);
+            fprintf(TXTFile, "ancora apos deslocamento em (%.2lf, %.2lf)\n", xf, yf);
+            fprintf(TXTFile, "raio: %.2lf\n", getGeoRadius(element));
             fprintf(TXTFile, "preenchimento: %s\n", getGeoFill_color(element));
             fprintf(TXTFile, "borda: %s\n", getGeoBorder_color(element));
             fprintf(TXTFile, "\n");
@@ -120,10 +120,10 @@ void moveEntity(ArqCmds QryFile, Lista L, char * lineBuffer, FILE * TXTFile)
             double xf = getGeoCords(element)[0];
             double yf = getGeoCords(element)[1];
             fprintf(TXTFile, "retangulo\n");
-            fprintf(TXTFile, "ancora originalmente     em (%lf, %lf)\n", x0, y0);
-            fprintf(TXTFile, "ancora apos deslocamento em (%lf, %lf)\n", xf, yf);
-            fprintf(TXTFile, "largura: %lf\n", getGeoWidth(element));
-            fprintf(TXTFile, "altura: %lf\n", getGeoHeight(element));
+            fprintf(TXTFile, "ancora originalmente     em (%.2lf, %.2lf)\n", x0, y0);
+            fprintf(TXTFile, "ancora apos deslocamento em (%.2lf, %.2lf)\n", xf, yf);
+            fprintf(TXTFile, "largura: %.2lf\n", getGeoWidth(element));
+            fprintf(TXTFile, "altura: %.2lf\n", getGeoHeight(element));
             fprintf(TXTFile, "preenchimento: %s\n", getGeoFill_color(element));
             fprintf(TXTFile, "borda: %s\n", getGeoBorder_color(element));
             fprintf(TXTFile, "\n");
@@ -144,10 +144,10 @@ void moveEntity(ArqCmds QryFile, Lista L, char * lineBuffer, FILE * TXTFile)
             double xfB = getGeoAnchor_2(element)[0];
             double yfB = getGeoAnchor_2(element)[1];
             fprintf(TXTFile, "linha\n");
-            fprintf(TXTFile, "ancora 1 originalmente     em (%lf, %lf)\n", x0A, y0A);
-            fprintf(TXTFile, "ancora 1 apos deslocamento em (%lf, %lf)\n", xfA, yfA);
-            fprintf(TXTFile, "ancora 2 originalmente     em (%lf, %lf)\n", x0B, y0B);
-            fprintf(TXTFile, "ancora 2 apos deslocamento em (%lf, %lf)\n", xfB, yfB);
+            fprintf(TXTFile, "ancora 1 originalmente     em (%.2lf, %.2lf)\n", x0A, y0A);
+            fprintf(TXTFile, "ancora 1 apos deslocamento em (%.2lf, %.2lf)\n", xfA, yfA);
+            fprintf(TXTFile, "ancora 2 originalmente     em (%.2lf, %.2lf)\n", x0B, y0B);
+            fprintf(TXTFile, "ancora 2 apos deslocamento em (%.2lf, %.2lf)\n", xfB, yfB);
             fprintf(TXTFile, "cor: %s\n", getGeoBorder_color(element));
             fprintf(TXTFile, "\n");
             break;
@@ -167,9 +167,9 @@ void moveEntity(ArqCmds QryFile, Lista L, char * lineBuffer, FILE * TXTFile)
             double xf = getGeoCords(element)[0];
             double yf = getGeoCords(element)[1];
             fprintf(TXTFile, "texto\n");
-            fprintf(TXTFile, "ancora originalmente     em (%lf, %lf)\n", x0, y0);
-            fprintf(TXTFile, "ancora apos deslocamento em (%lf, %lf)\n", xf, yf);
-            fprintf(TXTFile, "rotacao: %lf\n", getGeoAngle(element));
+            fprintf(TXTFile, "ancora originalmente     em (%.2lf, %.2lf)\n", x0, y0);
+            fprintf(TXTFile, "ancora apos deslocamento em (%.2lf, %.2lf)\n", xf, yf);
+            fprintf(TXTFile, "rotacao: %.2lf\n", getGeoAngle(element));
             fprintf(TXTFile, "tipo de ancora: %c\n", getGeoAnchor(element));
             fprintf(TXTFile, "texto: %s\n", getGeoText(element));
             fprintf(TXTFile, "preenchimento: %s\n", getGeoFill_color(element));
@@ -210,9 +210,9 @@ void rotateEntity(ArqCmds QryFile, Lista L, char * lineBuffer, FILE * TXTFile)
     */
     fprintf(TXTFile, "[*] %s\n", lineBuffer);
     fprintf(TXTFile, "texto\n");
-    fprintf(TXTFile, "ancora em (%lf, %lf)\n", getGeoCords(element)[0], getGeoCords(element)[1]);
-    fprintf(TXTFile, "rotacao original: %lf\n", theta0);
-    fprintf(TXTFile, "rotacao final:    %lf\n", thetaf);
+    fprintf(TXTFile, "ancora em (%.2lf, %.2lf)\n", getGeoCords(element)[0], getGeoCords(element)[1]);
+    fprintf(TXTFile, "rotacao original: %.2lf\n", theta0);
+    fprintf(TXTFile, "rotacao final:    %.2lf\n", thetaf);
     fprintf(TXTFile, "tipo de ancora: %c\n", getGeoAnchor(element));
     fprintf(TXTFile, "texto: %s\n", getGeoText(element));
     fprintf(TXTFile, "preenchimento: %s\n", getGeoFill_color(element));
@@ -287,16 +287,34 @@ void takePicture(ArqCmds QryFile, Lista L, char * lineBuffer, FILE * TXTFile, Li
     */
     fprintf(TXTFile, "[*] %s\n", lineBuffer);
     fprintf(TXTFile, "balao: %d\n", id);
-    fprintf(TXTFile, "raio da foto: %lf\n", getPictureRadius(pic));
-    fprintf(TXTFile, "profundidade da foto: %lf\n", getPictureDepth(pic));
-    fprintf(TXTFile, "altura da foto: %lf\n", getPictureHeight(pic));
+    fprintf(TXTFile, "raio da foto: %.2lf\n", getPictureRadius(pic));
+    fprintf(TXTFile, "profundidade da foto: %.2lf\n", getPictureDepth(pic));
+    fprintf(TXTFile, "altura da foto: %.2lf\n", getPictureHeight(pic));
     fprintf(TXTFile, "IDENTIFICADOR(ES) DO(S) ELEMENTO(S) FOTOGRAFADO(S)\n");
     Lista elements = getPictureElements(pic);
     Entity ent;
-    for (Posic p = getFirstLst(elements); getNextLst(elements, p) != NIL p = getNextLst(elements, p))
+
+
+    void * clausures[4];
+    xi = getPictureCords(pic)[0];
+    yi = getPictureCords(pic)[1];
+    xf = getPictureCords(pic)[0] + getPictureRadius(pic) * 2;
+    yf = getPictureCords(pic)[1] + getPictureHeight(pic);
+    clausures[0] = (void *) &xi;
+    clausures[1] = (void *) &yi;
+    clausures[2] = (void *) &xf;
+    clausures[3] = (void *) &yf;
+    Entity auxEnt;
+    for (Posic p = getFirstLst(elements); p != NIL p = getNextLst(elements, p))
     {
         ent = (Entity) getLst(elements, p);
-        fprintf(TXTFile, "id [%d]: (%lf, %lf)\n", getEntID(ent), getGeoCords(getEntGeo(ent))[0], getGeoCords(getEntGeo(ent))[0]);
+        auxEnt = copyEntity(ent);
+        ajustEntInFrame(auxEnt, clausures);
+        if (getEntType(auxEnt) == 'l')
+            fprintf(TXTFile, "\t[id: %d] - (%.2lf, %.2lf)\n", getEntID(auxEnt), getGeoAnchor_1(getEntGeo(auxEnt))[0], getGeoAnchor_1(getEntGeo(auxEnt))[1]);
+        else
+            fprintf(TXTFile, "\t[id: %d] - (%.2lf, %.2lf)\n", getEntID(ent), getGeoCords(getEntGeo(auxEnt))[0], getGeoCords(getEntGeo(auxEnt))[1]);
+        removeEntity(auxEnt);
     }
     fprintf(TXTFile, "\n");
 }
@@ -477,6 +495,7 @@ void detonateBomb(ArqCmds QryFile, Lista L, char * lineBuffer, FILE * TXTFile, L
     
     // Insere os IDs dos elementos em AuxiliarLst na lista de alvos da bomba
     fold(AuxiliarLst, addEntTargetID, (Clausura) warplane);
+    
     /* Vizualização dos IDs dos alvos
     for (int * test = popEntTargetID(warplane); test != NULL; test = popEntTargetID(warplane))
         printf("ID: %d\n", *test);
@@ -510,7 +529,7 @@ void detonateBomb(ArqCmds QryFile, Lista L, char * lineBuffer, FILE * TXTFile, L
         writeEntAttributesInTXT(TXTFile, getLst(AuxiliarLst, p));
 
 
-
+    
     fprintf(TXTFile, "CLONE(S) GERADO(S):\n");
     for (p = getFirstLst(AuxiliarLst); p != NIL p = getNextLst(AuxiliarLst, p))
     {
@@ -599,6 +618,7 @@ void detonateBomb(ArqCmds QryFile, Lista L, char * lineBuffer, FILE * TXTFile, L
     fprintf(TXTFile, "\n");
     // Remove os elementos de Auxiliar presentes no Banco de Dados
     fold(AuxiliarLst, removeEntbyIDinLst, (Clausura) L);
+    
     
 
 

@@ -1,17 +1,17 @@
 [*] mv 6 100 0
 retangulo
-ancora originalmente     em (121.000000, 46.000000)
-ancora apos deslocamento em (221.000000, 46.000000)
-largura: 100.000000
-altura: 30.000000
+ancora originalmente     em (121.00, 46.00)
+ancora apos deslocamento em (221.00, 46.00)
+largura: 100.00
+altura: 30.00
 preenchimento: yellow
 borda: cyan
 
 [*] mv 7 -60 0
 texto
-ancora originalmente     em (250.000000, 0.000000)
-ancora apos deslocamento em (190.000000, 0.000000)
-rotacao: 0.000000
+ancora originalmente     em (250.00, 0.00)
+ancora apos deslocamento em (190.00, 0.00)
+rotacao: 0.00
 tipo de ancora: m
 texto: v_O_v
 preenchimento: black
@@ -19,16 +19,16 @@ borda: black
 
 [*] tf 13 9
 balao: 13
-raio da foto: 50.000000
-profundidade da foto: 5.000000
-altura da foto: 100.000000
+raio da foto: 50.00
+profundidade da foto: 5.00
+altura da foto: 100.00
 IDENTIFICADOR(ES) DO(S) ELEMENTO(S) FOTOGRAFADO(S)
 
 [*] mv 7 60 0
 texto
-ancora originalmente     em (190.000000, 0.000000)
-ancora apos deslocamento em (250.000000, 0.000000)
-rotacao: 0.000000
+ancora originalmente     em (190.00, 0.00)
+ancora apos deslocamento em (250.00, 0.00)
+rotacao: 0.00
 tipo de ancora: m
 texto: v_O_v
 preenchimento: black
@@ -36,9 +36,9 @@ borda: black
 
 [*] g 7 00
 texto
-ancora em (250.000000, 0.000000)
-rotacao original: 0.000000
-rotacao final:    0.000000
+ancora em (250.00, 0.00)
+rotacao original: 0.00
+rotacao final:    0.00
 tipo de ancora: m
 texto: v_O_v
 preenchimento: black
@@ -46,9 +46,9 @@ borda: black
 
 [*] mv 7 250 0
 texto
-ancora originalmente     em (250.000000, 0.000000)
-ancora apos deslocamento em (500.000000, 0.000000)
-rotacao: 0.000000
+ancora originalmente     em (250.00, 0.00)
+ancora apos deslocamento em (500.00, 0.00)
+rotacao: 0.00
 tipo de ancora: m
 texto: v_O_v
 preenchimento: black
@@ -56,9 +56,9 @@ borda: black
 
 [*] g 11 125
 texto
-ancora em (250.000000, 200.000000)
-rotacao original: 0.000000
-rotacao final:    125.000000
+ancora em (250.00, 200.00)
+rotacao original: 0.00
+rotacao final:    125.00
 tipo de ancora: m
 texto: |-T-|
 preenchimento: black
@@ -66,14 +66,14 @@ borda: black
 
 [*] d 11 c 170 25 20
 ELEMENTO(S) ATINGIDO(S):
-	[id: 3] - tipo: linha, ancoras: [(65.50, 35.00), (100.70, 110.20)], cor de borda: cyan
+	[id: 3] - tipo: linha, ancoras: [(65.50, 35.00), (100.70, 110.20)], cor: cyan
 CLONE(S) GERADO(S):
 
 [*] g 11 -30
 texto
-ancora em (250.000000, 200.000000)
-rotacao original: 125.000000
-rotacao final:    95.000000
+ancora em (250.00, 200.00)
+rotacao original: 125.00
+rotacao final:    95.00
 tipo de ancora: m
 texto: |-T-|
 preenchimento: black
@@ -86,17 +86,18 @@ CLONE(S) GERADO(S):
 
 [*] tf 7 0
 balao: 7
-raio da foto: 100.000000
-profundidade da foto: 5.000000
-altura da foto: 300.000000
+raio da foto: 100.00
+profundidade da foto: 5.00
+altura da foto: 300.00
 IDENTIFICADOR(ES) DO(S) ELEMENTO(S) FOTOGRAFADO(S)
-id [10]: (225.000000, 225.000000)
+	[id: 10] - (-175.00, 215.00)
+	[id: 12] - (100.00, 75.00)
 
 [*] mv 7 -270 120
 texto
-ancora originalmente     em (500.000000, 0.000000)
-ancora apos deslocamento em (230.000000, 120.000000)
-rotacao: 0.000000
+ancora originalmente     em (500.00, 0.00)
+ancora apos deslocamento em (230.00, 120.00)
+rotacao: 0.00
 tipo de ancora: m
 texto: v_O_v
 preenchimento: black
@@ -104,9 +105,9 @@ borda: black
 
 [*] mv 11 150 0
 texto
-ancora originalmente     em (250.000000, 200.000000)
-ancora apos deslocamento em (400.000000, 200.000000)
-rotacao: 95.000000
+ancora originalmente     em (250.00, 200.00)
+ancora apos deslocamento em (400.00, 200.00)
+rotacao: 95.00
 tipo de ancora: m
 texto: |-T-|
 preenchimento: black
@@ -114,9 +115,9 @@ borda: black
 
 [*] g 11 30
 texto
-ancora em (400.000000, 200.000000)
-rotacao original: 95.000000
-rotacao final:    125.000000
+ancora em (400.00, 200.00)
+rotacao original: 95.00
+rotacao final:    125.00
 tipo de ancora: m
 texto: |-T-|
 preenchimento: black
@@ -133,12 +134,14 @@ CACA [id: 11] - posicao: (400.00, 200.00), rotacao (graus): 125.00, disparos rea
 ALVO(S) ATINGIDO(S) - total: 2
 	[id: 3]
 	[id: 4]
+CACA [id: 14] - posicao: (250.00, 250.00), rotacao (graus): 0.00, disparos realizados: 0
+ALVO(S) ATINGIDO(S) - total: 0
 
 [*] mv 11 -70 0
 texto
-ancora originalmente     em (400.000000, 200.000000)
-ancora apos deslocamento em (330.000000, 200.000000)
-rotacao: 125.000000
+ancora originalmente     em (400.00, 200.00)
+ancora apos deslocamento em (330.00, 200.00)
+rotacao: 125.00
 tipo de ancora: m
 texto: |-T-|
 preenchimento: black
@@ -146,9 +149,9 @@ borda: black
 
 [*] mv 7 100 0
 texto
-ancora originalmente     em (230.000000, 120.000000)
-ancora apos deslocamento em (330.000000, 120.000000)
-rotacao: 0.000000
+ancora originalmente     em (230.00, 120.00)
+ancora apos deslocamento em (330.00, 120.00)
+rotacao: 0.00
 tipo de ancora: m
 texto: v_O_v
 preenchimento: black
@@ -156,9 +159,9 @@ borda: black
 
 [*] mv 7 -100 0
 texto
-ancora originalmente     em (330.000000, 120.000000)
-ancora apos deslocamento em (230.000000, 120.000000)
-rotacao: 0.000000
+ancora originalmente     em (330.00, 120.00)
+ancora apos deslocamento em (230.00, 120.00)
+rotacao: 0.00
 tipo de ancora: m
 texto: v_O_v
 preenchimento: black
@@ -174,9 +177,9 @@ CLONE(S) GERADO(S):
 
 [*] g 13 20
 texto
-ancora em (620.000000, 180.000000)
-rotacao original: 0.000000
-rotacao final:    20.000000
+ancora em (620.00, 180.00)
+rotacao original: 0.00
+rotacao final:    20.00
 tipo de ancora: m
 texto: v_O_v
 preenchimento: black
@@ -184,9 +187,9 @@ borda: black
 
 [*] mv 13 -300 -30
 texto
-ancora originalmente     em (620.000000, 180.000000)
-ancora apos deslocamento em (320.000000, 150.000000)
-rotacao: 20.000000
+ancora originalmente     em (620.00, 180.00)
+ancora apos deslocamento em (320.00, 150.00)
+rotacao: 20.00
 tipo de ancora: m
 texto: v_O_v
 preenchimento: black
@@ -194,18 +197,19 @@ borda: black
 
 [*] tf 13 9
 balao: 13
-raio da foto: 50.000000
-profundidade da foto: 5.000000
-altura da foto: 100.000000
+raio da foto: 50.00
+profundidade da foto: 5.00
+altura da foto: 100.00
 IDENTIFICADOR(ES) DO(S) ELEMENTO(S) FOTOGRAFADO(S)
-id [10]: (225.000000, 225.000000)
-id [11]: (330.000000, 330.000000)
+	[id: 10] - (-45.00, 65.00)
+	[id: 11] - (60.00, 45.00)
+	[id: 75] - (-25.00, 65.00)
 
 [*] mv 11 50 0
 texto
-ancora originalmente     em (330.000000, 200.000000)
-ancora apos deslocamento em (380.000000, 200.000000)
-rotacao: 125.000000
+ancora originalmente     em (330.00, 200.00)
+ancora apos deslocamento em (380.00, 200.00)
+rotacao: 125.00
 tipo de ancora: m
 texto: |-T-|
 preenchimento: black
@@ -232,4 +236,11 @@ ALVO(S) ATINGIDO(S) - total: 5
 	[id: 9]
 	[id: 7]
 	[id: 13]
+CACA [id: 14] - posicao: (250.00, 250.00), rotacao (graus): 0.00, disparos realizados: 0
+ALVO(S) ATINGIDO(S) - total: 0
+
+[*] d 11 c 30 125 20
+ELEMENTO(S) ATINGIDO(S):
+	[id: 11] - tipo: caca, ancora: (380.00, 200.00), disparos realizados: 5, alvos atingidos: 6, cor de borda: black, cor de preenchimento: black
+CLONE(S) GERADO(S):
 
