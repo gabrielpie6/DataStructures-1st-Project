@@ -4,7 +4,12 @@
 #ifndef READ_COMMANDS_FILES_H
 #define READ_COMMANDS_FILES_H
 
-#include <stdbool.h> //
+#include <stdbool.h>
+
+/*
+    Módulo destinado a ler e operar comandos e parâmetros de um arquivo de texto organizado em linhas
+    Denomina-se este arquivo de "arquivo de comandos" (ArqCmds).
+*/
 
 typedef void *ArqCmds;
 

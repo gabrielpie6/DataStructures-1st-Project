@@ -163,7 +163,10 @@ Entity searchEntbyIDinLst(Lista L, int id)
     for (setIteratorPosition(L, it, getFirstLst(L)); isIteratorEmpty(L, it) == false && getEntID(getIteratorItem(L, it)) != id; getIteratorNext(L, it))
     {} // Ao sair do for, it aponta para o elemento com o id desejado.
     if (isIteratorEmpty(L, it))
+    {
+        printf("AVISO: [in searchEntbyIDinLst]: entidade com id [%d] nao existe no banco de dados\n", id);
         return NULL;
+    }
     else
     {
         Entity element = getIteratorItem(L, it);
@@ -179,7 +182,10 @@ Entity searchEntbyIDinLst(Lista L, int id)
 Geometry searchGeobyIDinLst (Lista L, int id)
 {
     Entity element = searchEntbyIDinLst(L, id);
-    return getEntGeo(element);
+    if (element == NULL)
+        return NULL;
+    else
+        return getEntGeo(element);
 };
 /////////////////////////////////////////////
 

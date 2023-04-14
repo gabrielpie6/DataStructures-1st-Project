@@ -5,7 +5,21 @@
 #include <stdbool.h>
 
 /*
-    Módulo para operar filas estáticas circulares.
+    Módulo para operar filas estáticas circulares. Possui funções básicas de operação,
+    contagem e validação. Cada fila possui um tamanho estático N, definido na criação,
+    pode-se inserir no máximo N elementos abstratos (Item) e também pode-se remover
+    estes elementos, desde que a fila não esteja vazia.
+    Ao atingir a capacidade máxima, a fila não pode mais receber novos elementos.
+
+    DEFINIÇÃO:
+        Uma fila é um conjunto de elementos ordenados que respeitam uma regra passa acesso, alteração e
+        remoção. Ao ser criada, possui um tamanho máximo fixo. Para operar uma fila, é necessário tê-la criada.
+        Para operar qualquer elemento de uma fila, é necessário que a fila não esteja vazia e também que o elemento
+        (Item) desejado seja retirado da fila (popFila), pois a fila não permite acesso direto a seus elementos
+        por índices. A fila é uma estrutura de dados do tipo FIFO (First In, First Out), ou seja, o primeiro
+        elemento a entrar na fila é o primeiro a sair dela.
+
+    (Item) referenciado em dataTypes.h
 */
 
 typedef void * Fila;
@@ -60,7 +74,7 @@ int getFilaFim(Fila fila);
 int getFilaLength(Fila fila);
 
 /*
-
+    Remove toda a memória alocada pela fila fornecida.
 */
 void removeFila(Fila fila);
 

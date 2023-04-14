@@ -36,7 +36,7 @@ bool ReadQryFile(Lista L, char * qryPath, char * outputPath, char * geo_qryCombi
             if (strcmp(parameter, "b?") == 0) reportBalloonsData  (QryFile, L, buffer, TXTFile); else
             if (strcmp(parameter, "c?") == 0) reportWarplanesData (QryFile, L, buffer, TXTFile); else
             {
-                printf("ERRO: comando '%s' nao reconhecido em '%s'\n", parameter, qryPath);
+                printf("ERRO: [in ReadQryFile]: comando '%s' nao reconhecido em '%s'\n", parameter, qryPath);
                 fechaArquivoCmd(QryFile);
                 fclose(TXTFile);
                 return false;
@@ -56,6 +56,12 @@ void moveEntity(ArqCmds QryFile, Lista L, char * lineBuffer, FILE * TXTFile)
     int id = atoi(parameter);
     // Encontra a forma geométrica a ser manipulada
     Geometry element = searchGeobyIDinLst(L, id);
+    if (element == NULL)
+    {
+        printf("AVISO: [in moveEntity]: entidade de ID [%d] nao existe no banco de dados -> operacao de movimentacao nao foi realizada\n", id);
+        printf("- Sugestao: verifique se entidade de ID [%d] foi inicializada em *.geo\n", id);
+        return;
+    }
 
     getParametroI(QryFile, lineBuffer, 2, parameter, SIMPLE_PARAMETER_SIZE);
     double dx = atof(parameter);
@@ -190,6 +196,12 @@ void rotateEntity(ArqCmds QryFile, Lista L, char * lineBuffer, FILE * TXTFile)
     double theta = atof(parameter);
 
     Geometry element = searchGeobyIDinLst(L, id);
+    if (element == NULL)
+    {
+        printf("AVISO: [in rotateEntity]: entidade de ID [%d] nao existe no banco de dados -> operacao de rotacao nao foi realizada\n", id);
+        printf("- Sugestao: verifique se entidade de ID [%d] foi inicializada em *.geo\n", id);
+        return;
+    }
     double theta0 = getGeoAngle(element);
 
     Rotate_Geo(element, theta);
@@ -234,6 +246,12 @@ void setPictureFocus(ArqCmds QryFile, Lista L, char * lineBuffer)
     double height = atof(parameter);
 
     Geometry entity = searchEntbyIDinLst(L, id);
+    if (entity == NULL)
+    {
+        printf("AVISO: [in setPictureFocus]: balao de ID [%d] nao existe no banco de dados -> operacao de focalizacao da foto nao foi realizada\n", id);
+        printf("- Sugestao: verifique se balao de ID [%d] foi inicializado em *.geo\n", id);
+        return;
+    }
     setEntDepth  (entity, depth);
     setEntRadius (entity, radius);
     setEntHeight (entity, height);
@@ -249,6 +267,12 @@ void takePicture(ArqCmds QryFile, Lista L, char * lineBuffer, FILE * TXTFile, Li
     int index = atoi(parameter);
 
     Entity balloon = searchEntbyIDinLst(L, id);
+    if (balloon == NULL)
+    {
+        printf("AVISO: [in takePicture]: balao de ID [%d] nao existe no banco de dados -> operacao de captura de foto nao foi realizada\n", id);
+        printf("- Sugestao: verifique se balao de ID [%d] foi inicializado em *.geo\n", id);
+        return;
+    }
 
     // Lista de elementos que estão dentro do frame da foto do balão
     Lista AuxiliarLst = filterClausure(L, isEntinFrame, (Clausura) balloon);
@@ -333,7 +357,7 @@ void downloadPictures(ArqCmds QryFile, Lista L, char * lineBuffer, char * output
 
     if (index < 0 || 9 < index)
     {
-        printf("AVISO: [in downloadPictures]: Indice de fila de fotos [%d] fora do intervalo [0, 9] -> nenhuma operacao foi realizada.\n", index);
+        printf("AVISO: [in downloadPictures]: indice de fila de fotos [%d] fora do intervalo [0, 9] -> operacao de baixar fotos nao foi realizada.\n", index);
         return;
     }
 
@@ -461,8 +485,12 @@ void downloadPictures(ArqCmds QryFile, Lista L, char * lineBuffer, char * output
             fechaSvg(PicturesSVG);
             free(limits);
             fprintf(TXTFile, "\n");
-        } else printf("AVISO: [in downloadPictures]: Fila de fotos de indice [%d] esta vazia -> nao ha fotos para baixar (nenhuma operacao realizada).\n", index);
-    } else printf("AVISO: [in downloadPictures]: Balao de ID [%d] nao encontrado na lista -> nenhuma operacao realizada.\n", id);
+        } else printf("AVISO: [in downloadPictures]: fila de fotos de indice [%d] esta vazia -> nao ha fotos para baixar (operacao de baixar fotos nao foi realizada).\n", index);
+    } else 
+    {
+        printf("AVISO: [in downloadPictures]: balao de ID [%d] nao encontrado na lista -> operacao de baixar fotos nao foi realizada.\n", id);
+        printf("- Sugestao: verifique se balao de ID [%d] foi inicializado em *.geo\n", id);
+    }
 }
 void detonateBomb(ArqCmds QryFile, Lista L, char * lineBuffer, FILE * TXTFile, Lista Decos)
 {
@@ -480,6 +508,12 @@ void detonateBomb(ArqCmds QryFile, Lista L, char * lineBuffer, FILE * TXTFile, L
     double dx = atof(parameter);
 
     Entity warplane = searchEntbyIDinLst(L, id);
+    if (warplane == NULL)
+    {
+        printf("AVISO: [in detonateBomb]: caca de ID [%d] nao existe no banco de dados -> operacao de detonacao nao foi realizada.\n", id);
+        printf("- Sugestao: verifique se caca de ID [%d] foi inicializado em *.geo\n", id);
+        return;
+    }
     double x = getGeoCords(getEntGeo(warplane))[0];
     double y = getGeoCords(getEntGeo(warplane))[1];
     double theta = getGeoAngle(getEntGeo(warplane));

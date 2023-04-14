@@ -6,6 +6,12 @@
 #define PI 3.14159265358979323846
 
 /*
+    Módulo destinado a realizar operações comuns da geometria analítica euclidiana no plano cartesiano.
+    O módulo contém funções para cálculo de distância, inclinação, área, comprimento, e funções de validação.
+    Por convenção, define-se o valor de pi como 3.14159265358979323846.
+*/
+
+/*
     Calcula a distância euclidiana entre dois pontos A = (x1, y1) e B = (x2, y2)
 
     pré-condição: nenhuma
